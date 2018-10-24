@@ -74,8 +74,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/jinm/pattern/factory/abs/MilkFactory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="20" column="26" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="26" />
+            <state relative-caret-position="323">
+              <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -210,6 +210,41 @@
               <item name="pattern-factory" type="b2602c69:ProjectViewProjectNode" />
               <item name="pattern-factory" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="pattern-factory" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pattern-factory" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pattern-factory" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pattern-factory" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pattern-factory" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pattern-factory" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="jinm" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pattern-factory" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pattern-factory" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="jinm" type="462c0819:PsiDirectoryNode" />
+              <item name="pattern" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pattern-factory" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pattern-factory" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="jinm" type="462c0819:PsiDirectoryNode" />
+              <item name="pattern" type="462c0819:PsiDirectoryNode" />
+              <item name="factory" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -318,12 +353,12 @@
       <workItem from="1533920459701" duration="4045000" />
       <workItem from="1540303553677" duration="3161000" />
       <workItem from="1540309152501" duration="4841000" />
-      <workItem from="1540342117081" duration="1479000" />
+      <workItem from="1540342117081" duration="2161000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22966000" />
+    <option name="totallyTimeSpent" value="23648000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1616" height="886" extended-state="6" />
@@ -508,8 +543,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jinm/pattern/factory/abs/MilkFactory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="20" column="26" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="26" />
+        <state relative-caret-position="323">
+          <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
         </state>
       </provider>
     </entry>
