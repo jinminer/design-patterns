@@ -5,12 +5,12 @@
 
 ### 六大原则
 
-* **单一职责原则 (single responsibility principle)**
-* **开闭原则 (open-closed principle)**
-* **里氏替换原则 (liskov substitution principle)**
-* **依赖倒置原则 (dependency inversion principle)**
-* **接口隔离原则 (interface segregation principle)**
-* **迪米特原则 (law of demeter)**
+* **[单一职责原则](https://github.com/jinminer/design-patterns/blob/master/design-pattern-principle/single-responsibility-principle/single-responsibility-principle.md) (single responsibility principle)**
+* **[开闭原则](https://github.com/jinminer/design-patterns/blob/master/design-pattern-principle/open-closed-principle/open-closed-principle.md) (open-closed principle)**
+* **[里氏替换原则](https://github.com/jinminer/design-patterns/blob/master/design-pattern-principle/liskov-substitution-principle/liskov-substitution-principle.md) (liskov substitution principle)**
+* **[依赖倒置原则](https://github.com/jinminer/design-patterns/blob/master/design-pattern-principle/dependency-inversion-principle/dependency-inversion-principle.md) (dependency inversion principle)**
+* **[接口隔离原则](https://github.com/jinminer/design-patterns/blob/master/design-pattern-principle/interface-segregation-principle/interface-segregation-principle.md) (interface segregation principle)**
+* **[迪米特原则](https://github.com/jinminer/design-patterns/blob/master/design-pattern-principle/demeter-principle/demeter-principle.md) (law of demeter)**
 
 
 
