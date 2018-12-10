@@ -1,5 +1,12 @@
 ## 设计模式之馋
 
+### 参考资料
+
+> * [**维基百科**](https://www.wikipedia.org/) 
+> * [**谷歌**](https://www.google.com/) 
+> * [**《敏捷软件开发，原则，模式和实践》**](http://www.butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod) 
+> * [**《Gang Of Four》**](http://c2.com/cgi/fullSearch?search=GangOfFour)
+
 
 
 ### 六大原则
