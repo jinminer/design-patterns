@@ -46,7 +46,7 @@ class GraphicalApplication{
  * 几何计算应用
  */
 class ComputationalGeometryApplication{
-    getArea(int length, int width);//只能进行矩形面积计算的工作
+    getArea(int length, int width){};//只能进行矩形面积计算的工作
 }
 ```
 
@@ -129,7 +129,7 @@ public class ComputationalGemotryRetangle{
  */
 public class ComputationalGemotryRetangle{
     //图形绘制
-    public draw(int area);
+    public draw(int area){};
 }
 
 ```
@@ -158,15 +158,17 @@ public class ComputationalGemotryRetangle{
   * 比如接口签名类的设计，我们可能不会把签名和验签方法分开放到两个不同的类中去。
 
      ``` java
-       class SignNature{
+     class SignNature{
+           
         private PrivateKey privKey;
         private PublicKey pubKey;
         
         //签名
-        public String sign(PrivateKey privKey, String content);
+        public String sign(PrivateKey privKey, String content){};
         //验签
-        public boolean checkSign(PublicKey pubKey, String content);
-        }
+        public boolean checkSign(PublicKey pubKey, String content){};
+         
+     }
      ```
   * 在一次api的远程调用过程中，签名和验签工作都需要进行，这个时候就不需要刻意的关注单一职责问题
 
