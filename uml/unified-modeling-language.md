@@ -8,13 +8,11 @@
 
 <a href="#classification">分类</a>
 
-<a href="#class-diagram">类图</a>
+<a href="#skills">记忆技巧</a>
 
 <a href="#sequence-diagram">时序图</a>
 
-<a href="#skills">记忆技巧</a>
-
-
+<a href="#class-diagram">类图</a>
 
 ## <a name="definition">定义</a>
 
@@ -34,7 +32,7 @@
 
 
 
-## <a href="classification">分类</a>
+## <a name="classification">分类</a>
 
 > version: `UML2.2`
 
@@ -69,7 +67,7 @@
 
 
 
-## <a href="skills">记忆技巧</a>
+## <a name="skills">记忆技巧</a>
 
 * `UML`箭头方向：从子类指向父类
 
@@ -155,7 +153,7 @@
 
 
 
-## `UML`时序图
+## <a name="sequence-diagram">`UML`时序图</a>
 
 * Sequence Diagram：是显示对象之间交互的图，这些对象是按照时间顺序排列的
 * 时序图中包括的建模元素主要有：
@@ -183,7 +181,7 @@
 
 
 
-
+## <a name="class-diagram">类图</a>
 
 
 
