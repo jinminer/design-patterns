@@ -2,7 +2,7 @@
 
 ## 概要
 
-定义
+<a href="definition">定义</a>
 
 特点
 
@@ -16,7 +16,7 @@
 
 
 
-## 定义
+## <a name="definition">定义</a>
 
 * 统一建模语言(`UML`: Unified Modeling Language)
 * 非专利的第三代建模和规约语言
