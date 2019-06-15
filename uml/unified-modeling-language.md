@@ -40,7 +40,7 @@
 
 ## 分类
 
-> version: UML2.2
+> version: `UML2.2`
 
 * 结构式图形：强调系统式的建模
 * 行为式图形：强调系统模型中触发的事件
@@ -88,7 +88,112 @@
 * 只有知道对方信息时才能指向对方
 * 所以箭头方向是从子类指向父类
 
-### 实线-继承|虚线-实现
+#### 实线-继承|虚线-实现
+
+
+
+![arrow-virtual-real](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/uml/1-arrow-virtual-real.png>)
+
+* 空心三角箭头：继承或实现
+  * 实线-继承：is a 关系，扩展的目的，不虚，很结实，有具体的内容，无实现细节
+  * 虚线-实现：虚线代表“虚”无实体，无具体的内容，无实现细节
+
+#### 实线-关联|虚线-依赖
+
+
+
+![line-virtual-real](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/uml/2-line-virtual-real.png>)
+
+
+
+![line-virtual-real](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/uml/3-line-virtual-real.png>)
+
+* 虚线-依赖关系：临时用一下，若即若离，虚无缥缈，若有若无
+  * 表示一种使用关系，一个类需要借助另一个类来实现功能
+  * 一般事一个类使用另一个类作为参数使用，或者作为返回值
+* 实线-关联关系：关系稳定，实打实的关系，铁哥们
+  * 表示一个类对象和另一个类对象有关联
+  * 通常事一个类中有一个类对象作为属性
+
+### 空心菱形-聚合|实心菱形-组合
+
+* 菱形就是一个盛放东西的器皿（例如盘子）
+  * 聚合：代表空器皿里可以放很多相同东西，聚在一起（箭头方向所指的类）
+  * 组合：代表满器皿里已经有实体结构的存在，生死与共；它们之间是强关系，组合关系中会带有数字
+
+
+
+![diamond-blank-polymerization](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/uml/4-diamond-blank-polymerization.png>)
+
+
+
+![diamond-real-combination](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/uml/5-diamond-real-combination.png>)
+
+
+
+#### 空心菱形-聚合
+
+* 整体和局部的关系，两者有独立的生命周期，是has a的关系
+* 弱关系
+* 消极的词：弱-空
+
+#### 实心菱形-组合
+
+* 整体与局部的关系，和聚合的关系相比，关系更加强烈，两者有相同的生命周期，是contains a的关系
+* 强关系
+* 积极的词：强-满
+
+##### 实心菱形-组合
+
+* 常见数字表达及含义，假设有A类和B类，数字标记在A类侧
+  * 0..1：0或1个实例
+    * 代表在系统的某一时刻，B的实例可以与0个或1个A类的实例相关
+  * `0..*`：0或多个实例
+    * 代表在系统的某一时刻，B的实例可以与0个或多个A类的实例相关
+  * `1..1`：1个实例
+    * 代表在系统的某一时刻，B的实例只能与1个A类的实例相关，有且只有一个
+  * `1`：只能有1个实例，等同于`1..1`
+    * 代表在系统的某一时刻，B的实例只能与1个A类的实例相关，有且只有一个
+  * `1..*`：至少有1个实例
+    * 代表在系统的某一时刻，B的实例可以与1个或多个A类的实例相关，至少有一个
+
+
+
+## `UML`时序图
+
+* Sequence Diagram：是显示对象之间交互的图，这些对象是按照时间顺序排列的
+* 时序图中包括的建模元素主要有：
+  * 对象（Actor）
+  * 生命线（Life Line）
+  * 控制焦点（Focus Of Control）
+  * 消息（Message）
+
+
+
+![sequence-diagram](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/uml/6-uml-sequence-diagram.png>)
+
+> 如图：左侧代码，右侧时序图
+>
+> * 顶部的矩形：类的实例，`c,s,d` 分别代表`Client,Server,Device`三个类的实例
+> * 由类实例向下延伸的虚线：该实例的生命线
+>   * 时间从上向下流逝，上面是过去，下面是未来
+>   * 生命线仅存在于实例的生命周期内
+> * 生命线上细长的矩形长条：实例处于某种活动中，如实例`c`处于`work`活动中
+>
+> * 实线箭头：方法调用
+> * 虚线箭头：方法调用返回
+>   * `c`的`work()`方法调用（实线箭头）`s`的`open()` 方法，`s`处于活动中；`oper()`方法调用完毕，返回给`wrok()`方法（虚线箭头），`s`的活动结束（矩形长条结束）
+> * 实线实心箭头-同步调用、虚线空心箭头-返回、实线空心箭头-异步调用
+
+
+
+
+
+
+
+
+
+
 
 
 
