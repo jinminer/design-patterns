@@ -151,7 +151,7 @@
 
 
 
-## <a name="sequence-diagram">`UML`时序图</a>
+## <a name="sequence-diagram">时序图</a>
 
 * `Sequence Diagram`：是显示对象之间交互的图，这些对象是按照时间顺序排列的
 * 时序图中包括的建模元素主要有：
@@ -183,6 +183,10 @@
 
 
 
+### class-diagram-single
+
+
+
 ![class-diagram-single](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/uml/7-class-diagram-single.png>)
 
 
@@ -204,6 +208,10 @@
 > * 方法名斜体：抽象方法，如 *`+study()`*  
 > * 方法后面`:` 再加一个类型：方法的返回类型
 > * 方法`()`中的内容为参数
+
+
+
+### class-diagram-multiple
 
 
 
