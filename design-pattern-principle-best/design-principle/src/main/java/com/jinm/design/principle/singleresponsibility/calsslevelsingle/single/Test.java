@@ -1,4 +1,4 @@
-package com.jinm.design.principle.singleresponsibility.single;
+package com.jinm.design.principle.singleresponsibility.calsslevelsingle.single;
 
 /**
  * test.

@@ -1,4 +1,4 @@
-package com.jinm.design.principle.singleresponsibility.general;
+package com.jinm.design.principle.singleresponsibility.calsslevelsingle.general;
 
 /**
  * bird.
