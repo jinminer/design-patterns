@@ -6,11 +6,13 @@
 
 ## 概述
 
-<a href="#simple-factory">简单工厂</a>
+<a href="#simple-factory">简单工厂模式</a>
 
 <a href="#factory-method">工厂方法模式</a>
 
+<a href="#product-race-level">产品族-产品等级</a>
 
+<a href="#abstract-factory">抽象工厂模式</a>
 
 
 
@@ -61,16 +63,6 @@
 * 缺点
   * 类的个数容易过多，增加复杂度
   * 增加了系统的抽象性和理解难度
-* 产品族-产品等级
-  * 产品族：产于同一厂商(工厂类)，但是每个产品完成的功能接口不同，并且产品之间相互联系，这个集合称之为**产品族**
-  * 产品等级：一系列具有相似功能(提供的接口功能相同)，来自于不同产地(工厂类)的产品，称它们处于同一个**产品等级**
-
-![product-race-level-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/factory-method/product-level-2.png>)
-
-注：`PythonVideo`、`JavaVideo`、`FEVideo`三者处于同一产品等级，Java视频教程和配套的Java文档形成Java教程产品族。
-
-![product-race-level-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/factory-method/product-race-level-1.png>)
-
 * 源码示例
 
  `java.util.Collection#iterator` 不同的工厂实现类提供不同的实现内容
@@ -79,13 +71,81 @@
 
 
 
+## <a name="product-race-level">产品族-产品等级</a>
+
+* 产品族：产于同一厂商(工厂类)，但是每个产品完成的功能接口不同，并且产品之间相互联系，这个集合称之为**产品族**
+* 产品等级：一系列具有相似功能(提供的接口功能相同)，来自于不同产地(工厂类)的产品，称它们处于同一个**产品等级**
+
+![product-race-level-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/factory-method/product-level-2.png>)
+
+注：`PythonVideo`、`JavaVideo`、`FEVideo`三者处于同一产品等级，Java视频教程和配套的Java文档形成Java教程产品族。
+
+![product-race-level-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/factory-method/product-race-level-1.png>)
 
 
 
+* 产品族、产品等级结构
+
+![product-race-level-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/factory-method/product-race-level-3.png)
 
 
 
+* 产品族
 
+![product-race-level-4](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/factory-method/product-race-level-4.png)
+
+
+
+* 一个产品族由同一个工厂生产
+
+![product-race-level-5](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/factory-method/product-race-level-5.png)
+
+
+
+* 生活实例-家电
+  * 美的品牌(工厂)，拥有美的电冰箱、空调等产品
+  * 格力品牌(工厂)，拥有格力电冰箱、空调等产品
+  * 格力旗下的电冰箱、空调等产品同属于一个产品族：格力产品族；
+  * 美的旗下的电冰箱、空调等产品同属于一个产品族：美的产品族；
+  * 格力电冰箱和美的电冰箱处于同一产品等级
+  * 格力空调和美的空调处于同一产品等级
+  * 从格力工厂生产的电冰箱一定是格力电冰箱；从美的工厂生产的空调一定是格力空调；
+
+> **工厂模式是适用于产品族、产品等级的一种抽象模型和解决方案**
+>
+> * 工厂方法模式关注于产品的等级结构
+> * 抽象工厂模式关注于产品族
+
+
+
+## <a name="abstract-factory">抽象工厂模式</a>
+
+* 定义
+  * 抽象工厂模式提供一个创建一系列相关或相互依赖对象的接口
+  * 无须指定他们具体的类
+* 类型
+  * 创建型
+* 适用场景
+  * 客户端(应用层)不依赖于产品类实例如何被创建、实现等细节
+  * 强调一系列相关产品对象(属于同一产品族)一起使用创建对象时，需要大量重复的代码
+  * 提供一个产品类库，所有的产品以同样的接口出现，从而使客户端不依赖于具体实现
+* 优点
+  * 具体产品在应用层代码隔离，无需关心创建细节
+  * 将一个系列的产品族统一到一起创建
+* 缺点
+  * 规定了所有可能被创建的产品集合，产品族中扩展新的产品较为困难，需要修改抽象工厂的接口
+  * 增加了系统的抽象性和理解难度
+  * 扩展产品等级时，需要修改原先代码的实现
+
+* 代码示例
+
+![product-race-level-code](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/factory-method/product-race-level-code.png)
+
+1. `Test`类作为客户端(应用层)，如果某个业务涉及到一个产品族产品的使用，只需要在该业务逻辑模块声明对应的工厂类、调用工厂类所提供的方法即可精准的获取相应产品；不用关心产品如何生产，生产的产品是否正确可用，比如调用 `JavaCourseFactory`工厂的方法，即可获取 `JavaVideo`、`JavaArticle`,不会有 `JavaCourseFactory`工厂生产 `Python`相关产品的风险
+2. 新增一个产品族，只需要声明对应的工厂类和具体的产品即可，不会对原有业务造成影响，扩展新功能方便，快捷
+3. 新增产品等级需要进行代码重构，比如在课程产品族中新增一个源码产品，所有代码都需要调整
+4. 产品等级变更较为困难，产品族变更较为容易
+5. 实际开发过程中，在需求分析阶段要尽可能详尽的做好业务模型的抽象，特别是在进行产品等级的定义时，要充分考虑到需求迭代变更的情况，使得程序更加健壮
 
 
 
