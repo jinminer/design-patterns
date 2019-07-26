@@ -13,7 +13,7 @@ public class Test {
         Thread t2 = new Thread(new T());
         t1.start();
         t2.start();
-        System.out.println("program end");
+        System.out.println("process end");
 
     }
 

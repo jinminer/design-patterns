@@ -240,33 +240,58 @@
   * 单例模式和工厂模式
   * 单例模式和享元模式
 
+### 单例模式线程安全
+
+* 相关代码
+
+  * `LazySingleton` 单例类
+
+    ![lazy-singleton](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/lazy-singleton.png>)
+
+  * `T` 线程类
+
+    ![thread](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/thread.png>)
+
+  * `Test` 测试类
+
+    ![test](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/test.png>)
 
 
 
+* `idea` 多线程`debug`
+
+  * 设置idea debug模式为 suspend-thread 模式
+
+  ![idea-debug-suspend](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/idea-debug-suspend.png>)
+  
+  * 选择需要执行的线程，进行步进操作，进而**对线程执行过程进行人工干预，模拟多线程场景下线程安全的问题** 
+  
+  ![thread-choose](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/thread-choose.png>)
+
+* 场景1：模拟多线程完全顺序执行，无线程安全问题
+
+  1. 以`debug`模式运行`Test`类的`main`函数，步进启动`t1`线程和`t2`线程，当前运行线程：`main、Thread-0、Thread-1` 
+
+     ![in-thread-main](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-safe/in-thread-main.png>)
+
+  2. 在`debug-Frames` 窗口中选择 `Thread-0` 线程，对线程`Thread-0`进行 `debug` ，**此时已经进入人工干预线程运行顺序的模式，这里对  `Thread-0` 进行步进，`main` 线程和 `Thread-1` 线程会处于阻塞状态（虽然Frames窗口显示三个线程都处于 `RUNNING` 状态，这是人工干预线程运行顺序结果）**，这时在`Thread-0`  下步进，直到`Thread-0` 执行完毕，这时查看静态变量 `lazySingleton` 被赋值为 `LazySingleton@515` 
+
+     ![in-thread-0-value](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-safe/in-thread-0-value.png>)
+
+  3. 在`debug-Frames` 窗口中切换到 `Thread-1` 线程，查看静态变量 `lazySingleton` 的值为 `LazySingleton@515`  
+
+     ![in-thread-1-value](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-safe/in-thread-1-value.png>)
+
+  4. 在 `Thread-1` 线程下步进，执行`if`逻辑代码，程序判断 `lazySingleton` 的为 `LazySingleton@515` 不为空，所以直接`return lazySingleton` ，显然 `Thread-1` 运行后结果， `lazySingleton` 静态变量值仍然是 `Thread-0` 线程执行的结果 `LazySingleton@515` ，程序运行完毕，控制台打印结果显示 `Thread-1`  `Thread-0` 运行结果相同。通过人工干预，两个线程在线程安全隐患：**静态变量赋值** 处顺序执行，无线程安全问题。
+
+     ![in-thread-1-value-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-safe/in-thread-1-value-1.png>)
+
+     ![thread-end](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-safe/thread-end.png>)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* 场景2：模拟多线程无顺序随机执行，抢占`cup`资源，出现线程安全问题
+  * 
 
 
 
