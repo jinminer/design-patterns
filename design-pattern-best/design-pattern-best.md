@@ -291,7 +291,28 @@
 
 
 * 场景2：模拟多线程无顺序随机执行，抢占`cup`资源，出现线程安全问题
-  * 
 
+  1. 以`debug`模式运行`Test`类的`main`函数，步进启动`t1`线程和`t2`线程，当前运行线程：`main、Thread-0、Thread-1` 
 
+     ![in-thread-main](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/in-thread-main.png>)
+
+  2. 在`debug-Frames` 窗口中选择 `Thread-0` 线程，对线程`Thread-0`进行 `debug` ，**此时已经进入人工干预线程运行顺序的模式，这里对  `Thread-0` 进行步进，`main` 线程和 `Thread-1` 线程会处于阻塞状态**，这时在`Thread-0`  下步进，程序判断 `lazySingleton` 的为 `null` 进入`if`代码块，这里先不执行 `lazySingleton = new LazySingleton()` 代码，切换到线程 `Thread-1` 
+
+     ![in-thread-0-valuenull](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/in-thread-0-valuenull.png>)
+
+  3. 在`debug-Frames` 窗口中选择 `Thread-1` 线程，对线程`Thread-1`进行 `debug` ，**此时已经进入人工干预线程运行顺序的模式，这里对  `Thread-1` 进行步进，`main` 线程和 `Thread-0` 线程会处于阻塞状态**，这时在`Thread-1`  下步进，程序判断 `lazySingleton` 的为 `null` 进入`if`代码块
+
+     ![in-thread-1-valuenull](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/in-thread-1-valuenull.png>)
+
+  4. 在`Thread-1`  下继续步进，执行 `lazySingleton = new LazySingleton()` 代码，对静态变量 `lazySingleton` 赋值为：`LazySingleton@511` 
+
+     ![in-thread-1-value](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/in-thread-1-value.png>)
+
+  5. 在`debug-Frames` 窗口中选择 `Thread-0` 线程，在`Thread-0`  下继续步进，执行 `lazySingleton = new LazySingleton()` 代码，对静态变量 `lazySingleton` 赋值为：`LazySingleton@512` 
+
+     ![in-thread-0-value](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/in-thread-0-value.png>)
+
+  6. 此时 `Thread-1`  `Thread-0` 完成对静态变量 `lazySingleton` 的赋值操作，具体的值分别为：`LazySingleton@511` 、`LazySingleton@512` ，跳步执行，程序执行完毕，控制台打印结果显示 `Thread-1`  `Thread-0` 运行结果不相同，破坏单例
+
+     ![unsafe-result](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/multithreading-unsafe-result.png>)
 
