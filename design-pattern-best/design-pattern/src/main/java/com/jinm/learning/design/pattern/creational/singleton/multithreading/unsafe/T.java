@@ -1,4 +1,4 @@
-package com.jinm.learning.design.pattern.creational.singleton.multithreading;
+package com.jinm.learning.design.pattern.creational.singleton.multithreading.unsafe;
 
 /**
  * thread.

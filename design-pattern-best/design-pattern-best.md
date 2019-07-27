@@ -296,11 +296,11 @@
 
      ![in-thread-main](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/in-thread-main.png>)
 
-  2. 在`debug-Frames` 窗口中选择 `Thread-0` 线程，对线程`Thread-0`进行 `debug` ，**此时已经进入人工干预线程运行顺序的模式，这里对  `Thread-0` 进行步进，`main` 线程和 `Thread-1` 线程会处于阻塞状态**，这时在`Thread-0`  下步进，程序判断 `lazySingleton` 的为 `null` 进入`if`代码块，这里先不执行 `lazySingleton = new LazySingleton()` 代码，切换到线程 `Thread-1` 
+  2. 在`debug-Frames` 窗口中选择 `Thread-0` 线程，对线程`Thread-0`进行 `debug` ，**此时已经进入人工干预线程运行顺序的模式，这里对  `Thread-0` 进行步进，**，这时在`Thread-0`  下步进，程序判断 `lazySingleton` 的为 `null` 进入`if`代码块，这里先不执行 `lazySingleton = new LazySingleton()` 代码，切换到线程 `Thread-1` 
 
      ![in-thread-0-valuenull](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/in-thread-0-valuenull.png>)
 
-  3. 在`debug-Frames` 窗口中选择 `Thread-1` 线程，对线程`Thread-1`进行 `debug` ，**此时已经进入人工干预线程运行顺序的模式，这里对  `Thread-1` 进行步进，`main` 线程和 `Thread-0` 线程会处于阻塞状态**，这时在`Thread-1`  下步进，程序判断 `lazySingleton` 的为 `null` 进入`if`代码块
+  3. 在`debug-Frames` 窗口中选择 `Thread-1` 线程，对线程`Thread-1`进行 `debug` ，**此时已经进入人工干预线程运行顺序的模式，这里对  `Thread-1` 进行步进**，这时在`Thread-1`  下步进，程序判断 `lazySingleton` 的为 `null` 进入`if`代码块
 
      ![in-thread-1-valuenull](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/in-thread-1-valuenull.png>)
 
@@ -315,4 +315,44 @@
   6. 程序执行完毕，此时 `Thread-1`  `Thread-0` 完成对静态变量 `lazySingleton` 的赋值操作，具体的值分别为：`LazySingleton@511` 、`LazySingleton@512` ，跳步执行，程序执行完毕，控制台打印结果显示 `Thread-1`  `Thread-0` 运行结果不相同，破坏单例
 
      ![unsafe-result](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-unsafe/multithreading-unsafe-result.png>)
+
+
+
+* 多线程线程安全问题分析
+  * 对于同一段程序代码，运行每一行代码 `cup` 都花费一定时间来计算逻辑、读取数据等
+  * `cup` 计算运行多个线程程序时，由于操作系统的特性，资源的分配是随机的，每个线程计算某一行代码的时间会有偏差性，可能是不相同的，所以对于同一段代码、同一个方法、同一个类，线程A先进行调用执行，线程B后进行调用执行，但线程B先执行完毕，这种程序运行机制导致程序运行结果和程序设计逻辑相悖，比如多个线程操作同一个静态变量的场景等等
+  * 以上面的例子来说，我们设计懒汉单例模式，是为了保证对象的唯一性，但是在进行`debug`干预后，我们发现多线程场景下是反单例的，当单例类比较重、逻辑比较复杂时，随着线程数量的不断增加，会在我们毫无察觉的情况下不断创建对象，对系统资源的消耗呈指数性增长，最终导致服务崩溃
+  * 而这种问题在程序开发设计之初，乃至测试阶段不经过详细的分析、压测都很难被察觉发现，一旦问题暴露，就意味着整个服务的不可用
+
+* 场景3：多线程场景下的单例模式加同步锁 `synchronized`，解决线程安全问题
+
+  1. 以`debug`模式运行`Test`类的`main`函数，步进启动`t1`线程和`t2`线程，当前运行线程：`main、Thread-0、Thread-1` 
+
+     ![multithreading-synchronized-safe-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-synchronized-safe/multithreading-synchronized-safe-1.png>)
+
+  2. 在`debug-Frames` 窗口中选择 `Thread-0` 线程，对线程`Thread-0`进行 `debug` ，**此时已经进入人工干预线程运行顺序的模式，这里对  `Thread-0` 进行步进**，这时在`Thread-0`  下步进，程序判断 `lazySingleton` 的为 `null` 进入`if`代码块，这里先不执行 `lazySingleton = new LazySingleton()` 代码，切换到线程 `Thread-1` 
+
+     ![multithreading-synchronized-safe-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-synchronized-safe/multithreading-synchronized-safe-2.png>)
+
+  3. 在`debug-Frames` 窗口中选择 `Thread-1` 线程，对线程 `Thread-1`进行 `debug` ，这时发现`Thread-1`  处于 `MONITOR` 监听状态，无法继续向下执行
+
+     * 由于 `LazySingleton` 类的 `getInstance()` 方法被 `synchronized` 关键字修饰，加锁变为同步方法，而该方法是由 `Thread-0` 线程先调用的，只有 `Thread-0` 将该方法执行完毕，`Thread-1`线程才能获得方法的执行权限，继续执行
+
+     ![multithreading-synchronized-safe-3](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-synchronized-safe/multithreading-synchronized-safe-3.png>)
+
+  4.  `Thread-0` 线程执行完毕 `LazySingleton` 类的 `getInstance()` 方法， `Thread-1` 开始执行该方法，这时，由于在 `Thread-0` 线程执行过后，已经对静态变量 `lazySingleton` 完成赋值操作，不为空， `Thread-1` 线程下，直接返回 `lazySingleton` 的值，无线程安全问题
+
+     ![multithreading-synchronized-safe-4](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-synchronized-safe/multithreading-synchronized-safe-4.png>)
+
+
+
+
+
+
+
+
+
+
+
+
 
