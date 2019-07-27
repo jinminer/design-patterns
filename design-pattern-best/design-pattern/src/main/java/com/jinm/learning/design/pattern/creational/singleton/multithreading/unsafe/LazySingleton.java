@@ -13,6 +13,9 @@ public class LazySingleton {
 
     }
 
+    /**
+     *  线程不安全
+     */
     public static LazySingleton getInstance(){
 
         if (lazySingleton == null){

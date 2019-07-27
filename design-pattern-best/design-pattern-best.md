@@ -431,12 +431,12 @@ public class LazySingletonDoubleCheck {
 
 ​		![double-check-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/double-check-2png.png>)
 
-* 注意：多线程场景下，程序指令重排序导致获取对象为空的问题，是有一定的概率性的，但是作为程序隐患一定要进行消除
+* 注意：多线程场景下，程序指令重排序可能将一个未初始化的对象引用暴露出来，从而导致不可预料的结果，虽然这种问题的出现具有一定的概率性的，但是作为程序隐患一定要进行消除
 
 ### `volatile` 
 
-* 解决方案
-  * 使用`volatile`关键字修饰变量，禁止程序指令重排序
+* 程序指令重排问题解决方案一：禁止指令重排序
+  * 使用 `volatile`关键字修饰变量，解决程序指令重排序问题
 
 * 原理
   * 多线程场景下`cup`也有共享内存
@@ -446,9 +446,47 @@ public class LazySingletonDoubleCheck {
     2. 实现可见性
        * 将当前处理器缓存行的数据，写回到系统内存。这个写回内存的操作会使得其他`cup`里已经缓存了该内存地址的数据无效；因为其他`cup`缓存的数据已经无效，所以这些`cup` 又从共享内存同步数据(从系统内存中重新把数据读到`cup`的缓存里)，这样就保证了内存的可见性，这里主要使用了**缓存一致性协议** 
 
+* 代码
 
+  ```java
+  public class LazySingletonVolatile {
+  
+      /**
+       *  volatitle:
+       *      防止重排序
+       *      实现可见性
+       */
+      public static volatile LazySingletonVolatile instance = null;
+  
+      private LazySingletonVolatile(){
+  
+      }
+  
+      public static LazySingletonVolatile getInstance(){
+  
+          if (instance == null){
+              synchronized (LazySingletonVolatile.class){
+                  if (instance == null){
+                      instance = new LazySingletonVolatile();
+                  }
+              }
+          }
+  
+          return instance;
+  
+      }
+  
+  }
+  ```
+
+  
 
 ### 静态内部类
+
+* 程序指令重排问题解决方案二：基于类初始化的解决方案
+  * 允许程序指令重排序，但不允许非构造线程看到构造线程的指令重排序
+    * 构造线程：执行对象初始化操作的线程
+    * 非构造线程：不执行`new`对象操作，而直接使用变量值的线程
 
 
 

@@ -1,4 +1,4 @@
-package com.jinm.learning.design.pattern.creational.singleton.doublecheckvolatile;
+package com.jinm.learning.design.pattern.creational.singleton.multithreading.safe.doublecheckvolatile;
 
 /**
  * lazy singleton double check volatile.
@@ -8,6 +8,7 @@ package com.jinm.learning.design.pattern.creational.singleton.doublecheckvolatil
 public class LazySingletonVolatile {
 
     /**
+     *  双重检查 ：性能较高
      *  volatitle:
      *      防止重排序
      *      实现可见性
