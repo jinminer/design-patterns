@@ -216,21 +216,6 @@
   * 序列化和反序列化安全
   * 反射
 
-* `Double Check`
-
-  ![double-check-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/double-check-1.png>)
-
-
-
-​		![double-check-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/double-check-2png.png>)
-
-
-
-* 静态内部类
-
-  ![static-inner-class](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/static-inner-class.png>)
-
-
 
 * 奇技淫巧
   * 反编译
@@ -347,6 +332,127 @@
   * 注意
     *  `synchronized` 关键字虽然能够解决线程安全问题，但是这种同步加锁的方式会使程序性能下降
     * 对静态方法加 `synchronized` 锁，相当于对静态方法所在类加同步锁
+
+
+
+### 双重检查锁
+
+```java
+public class LazySingletonDoubleCheck {
+
+    public static LazySingletonDoubleCheck instance = null;
+
+    private LazySingletonDoubleCheck(){
+
+    }
+
+    /**
+     *  双重检查锁：提高程序性能，并确保只有一个线程来完成对象创建操作
+     *      添加双重判断逻辑：
+     *          内层加锁的同步判断逻辑保证多线程场景下，对象实例创建的单例性，解决线程安全问题；
+     *          外层判断逻辑，确保在对象已经创建成功的情况下，线程不去执行加锁的同步代码，提高程序性能;
+     */
+    public static LazySingletonDoubleCheck getInstance(){
+
+        if (instance == null){
+            synchronized (LazySingletonDoubleCheck.class){
+                if (instance == null){
+                    instance = new LazySingletonDoubleCheck();
+                }
+            }
+        }
+
+        return instance;
+
+    }
+
+}
+```
+
+
+
+### 程序指令重排
+
+* 问题描述
+
+```java
+public class LazySingletonDoubleCheck {
+
+    public static LazySingletonDoubleCheck instance = null;
+
+    private LazySingletonDoubleCheck(){
+
+    }
+
+    /**
+     *  双重检查锁：提高程序性能，并确保只有一个线程来完成对象创建操作
+     *      添加双重判断逻辑：
+     *          内层加锁的同步判断逻辑保证多线程场景下，对象实例创建的单例性，解决线程安全问题；
+     *          外层判断逻辑，确保在对象已经创建成功的情况下，线程不去执行加锁的同步代码，提高程序性能
+     *  问题：指令重排
+     */
+    public static LazySingletonDoubleCheck getInstance(){
+
+        if (instance == null){
+            synchronized (LazySingletonDoubleCheck.class){
+                if (instance == null){
+                    instance = new LazySingletonDoubleCheck();
+                    
+                    /**
+                     * java语言规范：所有线程在执行程序时必须遵守 intra-thread-semantics 规定：
+                     *      保证重排序不会改变单线程内的程序运行结果
+                     * 程序指令排序：提高程序的执行性能
+                     */
+                    
+                    //1.分配内存给LazySingletonDoubleCheck对象
+
+                    //3.对instance变量进行赋值(这一步可能会在2之前执行)
+
+                    //2.初始化LazySingletonDoubleCheck对象
+                    //------3.对instance变量进行赋值：将1中分配的内存指针(句柄)赋值给instance变量
+
+                }
+            }
+        }
+
+        return instance;
+
+    }
+
+}
+
+```
+
+
+
+![double-check-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/double-check-1.png>)
+
+
+
+​		![double-check-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/double-check-2png.png>)
+
+* 注意：多线程场景下，程序指令重排序导致获取对象为空的问题，是有一定的概率性的，但是作为程序隐患一定要进行消除
+
+### `volatile` 
+
+* 解决方案
+  * 使用`volatile`关键字修饰变量，禁止程序指令重排序
+
+* 原理
+  * 多线程场景下`cup`也有共享内存
+  * 使用`volatile`关键字修饰变量后，所有的线程都能看到共享内存的最新状态，保证内存的可见性
+  * 使用`volatile`关键字修饰的共享变量，在进行写操作时会多出一些汇编代码，起到以下作用：
+    1. 防止重排序
+    2. 实现可见性
+       * 将当前处理器缓存行的数据，写回到系统内存。这个写回内存的操作会使得其他`cup`里已经缓存了该内存地址的数据无效；因为其他`cup`缓存的数据已经无效，所以这些`cup` 又从共享内存同步数据(从系统内存中重新把数据读到`cup`的缓存里)，这样就保证了内存的可见性，这里主要使用了**缓存一致性协议** 
+
+
+
+### 静态内部类
+
+
+
+![static-inner-class](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/static-inner-class.png>)
 
 
 

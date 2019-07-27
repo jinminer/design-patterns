@@ -12,17 +12,8 @@ public class LazySingleton {
     private LazySingleton(){
 
     }
-
-/*    public static synchronized LazySingleton getInstance(){
-
-        if (lazySingleton == null){
-            lazySingleton = new LazySingleton();
-        }
-        return lazySingleton;
-
-    }*/
-
-    public static LazySingleton getInstance(){
+    /* 这两种加锁方式，写法不同，作用相同 */
+    /*    public static LazySingleton getInstance(){
 
         synchronized(LazySingleton.class){
             if (lazySingleton == null){
@@ -32,8 +23,19 @@ public class LazySingleton {
 
         return lazySingleton;
 
+    }*/
+
+    /**
+     *  方法加锁，当某个线程持有方法的执行权限时，
+     *  在该线程执行完方法之前，其他线程都会阻塞
+     */
+    public static synchronized LazySingleton getInstance(){
+
+        if (lazySingleton == null){
+            lazySingleton = new LazySingleton();
+        }
+        return lazySingleton;
+
     }
-
-
 
 }
