@@ -13,13 +13,27 @@ public class LazySingleton {
 
     }
 
-    public static synchronized LazySingleton getInstance(){
+/*    public static synchronized LazySingleton getInstance(){
 
         if (lazySingleton == null){
             lazySingleton = new LazySingleton();
         }
         return lazySingleton;
 
+    }*/
+
+    public static LazySingleton getInstance(){
+
+        synchronized(LazySingleton.class){
+            if (lazySingleton == null){
+                lazySingleton = new LazySingleton();
+            }
+        }
+
+        return lazySingleton;
+
     }
+
+
 
 }

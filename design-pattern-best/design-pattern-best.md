@@ -343,8 +343,10 @@
   4.  `Thread-0` 线程执行完毕 `LazySingleton` 类的 `getInstance()` 方法， `Thread-1` 开始执行该方法，这时，由于在 `Thread-0` 线程执行过后，已经对静态变量 `lazySingleton` 完成赋值操作，不为空， `Thread-1` 线程下，直接返回 `lazySingleton` 的值，无线程安全问题
 
      ![multithreading-synchronized-safe-4](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-thread-unsafe/multithreading-synchronized-safe/multithreading-synchronized-safe-4.png>)
-
-
+  
+  * 注意
+    *  `synchronized` 关键字虽然能够解决线程安全问题，但是这种同步加锁的方式会使程序性能下降
+    * 对静态方法加 `synchronized` 锁，相当于对静态方法所在类加同步锁
 
 
 
