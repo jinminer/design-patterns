@@ -436,8 +436,9 @@ public class LazySingletonDoubleCheck {
 ### `volatile` 
 
 * 程序指令重排问题解决方案一：禁止指令重排序
-  * 使用 `volatile`关键字修饰变量，解决程序指令重排序问题
-
+  
+* 使用 `volatile`关键字修饰变量，解决程序指令重排序问题
+  
 * 原理
   * 多线程场景下`cup`也有共享内存
   * 使用`volatile`关键字修饰变量后，所有的线程都能看到共享内存的最新状态，保证内存的可见性
@@ -488,9 +489,27 @@ public class LazySingletonDoubleCheck {
     * 构造线程：执行对象初始化操作的线程
     * 非构造线程：不执行`new`对象操作，而直接使用变量值的线程
 
+* 原理
 
+  ![static-inner-class](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/static-inner-class.png>)
 
-![static-inner-class](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/static-inner-class.png>)
+  * 类的初始化
+    * 生命周期： `class`被加载后，并且被线程使用之前
+    * 初始化内容：
+      * 执行类的静态初始化
+      * 初始化在类中声明的静态变量
+    * 根据 `java`语言规范，出现以下情况类会被立刻初始化
+      1. 类的实例被创建，即 `new` 操作
+      2. 类中声明的静态方法被调用
+      3. 类中声明的一个静态成员被赋值
+      4. 类中声明的一个静态成员被使用，并且这个成员不是一个常量成员
+      5. 类为顶级类，并且在这个类中有嵌套的断言语句
+    * 首次发生的时候，一个类将被立刻初始化(这里的类泛指包括接口`interface`在内的一切类)
+  * `jvm`在类的初始化阶段，会获取一个锁，这个锁会同步多个线程对一个类的初始化
+  * 图解
+    * 比如上图中的 `线程0` 先调用静态内部类，那么 `线程0` 就是一个构造线程，它会持有静态内部类的初始化锁
+    * 其他非构造线程如 `线程1` ，在 `线程0` 完成静态内部类的调用之前都处于`MONITOR`阻塞状态
+    * 也就是说，即使静态内部类在完成对象创建和变量赋值操作时发生指令重排序情况，也只是在 `线程0` 执行方法期间，避免暴露未初始化对象的问题
 
 
 
