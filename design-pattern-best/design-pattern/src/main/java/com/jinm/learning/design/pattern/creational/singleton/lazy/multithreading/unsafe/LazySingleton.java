@@ -1,4 +1,4 @@
-package com.jinm.learning.design.pattern.creational.singleton.singlethread;
+package com.jinm.learning.design.pattern.creational.singleton.lazy.multithreading.unsafe;
 
 /**
  * lazy singleton.
@@ -13,6 +13,9 @@ public class LazySingleton {
 
     }
 
+    /**
+     *  线程不安全
+     */
     public static LazySingleton getInstance(){
 
         if (lazySingleton == null){

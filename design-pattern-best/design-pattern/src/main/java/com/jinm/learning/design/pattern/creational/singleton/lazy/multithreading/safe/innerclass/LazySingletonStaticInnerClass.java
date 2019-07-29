@@ -1,4 +1,4 @@
-package com.jinm.learning.design.pattern.creational.singleton.multithreading.safe.innerclass;
+package com.jinm.learning.design.pattern.creational.singleton.lazy.multithreading.safe.innerclass;
 
 /**
  * lazy singleton inner class.

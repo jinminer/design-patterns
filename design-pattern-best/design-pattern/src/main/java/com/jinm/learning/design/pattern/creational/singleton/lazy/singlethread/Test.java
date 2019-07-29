@@ -1,4 +1,4 @@
-package com.jinm.learning.design.pattern.creational.singleton.singlethread;
+package com.jinm.learning.design.pattern.creational.singleton.lazy.singlethread;
 
 /**
  * test.

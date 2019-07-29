@@ -1,4 +1,4 @@
-package com.jinm.learning.design.pattern.creational.singleton.multithreading.safe.doublecheckvolatile;
+package com.jinm.learning.design.pattern.creational.singleton.lazy.multithreading.safe.doublecheckvolatile;
 
 /**
  * lazy singleton double check volatile.
