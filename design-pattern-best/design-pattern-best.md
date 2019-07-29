@@ -522,9 +522,53 @@ public class LazySingletonDoubleCheck {
 
 
 
+### 序列化破坏单例
 
+* 代码示例
 
+* 源码`debug`
 
+  * 序列化反序列化破坏单例
+
+    ![1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-1.png>)
+
+  * `readResolve()` 避免序列化反序列化破坏单例问题
+
+  1. 首先调用单例方法获取单例对象 `HungrySingleton@494` 
+
+     ![2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-2.png>)
+
+  2. 反序列化方法 `readObject()` 内部实现
+
+     ![3](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-3.png>)
+
+  3. `object`反序列化方法
+
+     ![4](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-4.png>)
+
+  4. 反序列化时默认会先创建一个新的对象 `HungrySingleton@781` 
+
+     ![5](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-5.png>)
+
+  5. 判断实现 `Serializable`接口的类是否有 `readResolve()`方法
+
+     ![6](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-6.png>)
+
+  6. `readResolve()`方法原理
+
+     ![7](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-7.png>)
+
+  7. `readResolve()`方法原理：`readResolve`方法名定义
+
+     ![8](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-8.png>)
+
+  8. 反射调用类中的`readResolve()`方法
+
+     ![9](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-9.png>)
+
+  9. 反射调用`readResolve()`方法内部实现
+
+     ![10](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/serializable/serializable-10.png>)
 
 
 
