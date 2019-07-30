@@ -1,18 +1,18 @@
-package com.jinm.learning.design.pattern.creational.singleton.lazy.multithreading.safe.innerclass;
+package com.jinm.learning.design.pattern.creational.singleton.staticinnerclass;
 
 /**
- * lazy singleton inner class.
+ * singleton static inner class.
  * Created by jinm on  2019/07/28.  contact: keanemer.gmail.com
  */
 
-public class LazySingletonStaticInnerClass {
+public class SingletonStaticInnerClass {
 
     /**
      *  静态内部类：
      *      性能较高
      *      线程安全
      */
-    private LazySingletonStaticInnerClass(){
+    private SingletonStaticInnerClass(){
 
     }
 
@@ -23,10 +23,10 @@ public class LazySingletonStaticInnerClass {
      *  这样程序执行重排操作只会发生在构造线程执行方法调用的过程中，对其他非构造线程是不可见的，避免暴露未初始化对象的隐患；
      */
     private static class InnerClass{
-        private static LazySingletonStaticInnerClass instance = new LazySingletonStaticInnerClass();
+        private static SingletonStaticInnerClass instance = new SingletonStaticInnerClass();
     }
 
-    public static LazySingletonStaticInnerClass getInstance(){
+    public static SingletonStaticInnerClass getInstance(){
         return InnerClass.instance;
     }
 

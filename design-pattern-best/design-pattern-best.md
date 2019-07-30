@@ -572,6 +572,129 @@ public class LazySingletonDoubleCheck {
 
 
 
+### 反射破坏单例
+
+* 通过反射机制，`new` 对象
+
+  ```java
+  public class Test {
+  
+      public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+  
+          SingletonStaticInnerClass instance = SingletonStaticInnerClass.getInstance();
+  
+          Constructor constructor = SingletonStaticInnerClass.class.getDeclaredConstructor();
+          //修改私有构造器的访问权限
+          constructor.setAccessible(true);
+          SingletonStaticInnerClass instance1 = (SingletonStaticInnerClass) constructor.newInstance();
+  
+          System.out.println(instance);
+          System.out.println(instance1);
+          System.out.println(instance == instance1);
+  
+      }
+  
+  }
+  ```
+
+* 防止反射攻击
+
+  ```java
+  public class SingletonStaticInnerClass {
+  
+      private SingletonStaticInnerClass(){
+          //在构造器中添加判断，避免通过反射new对象
+          if (InnerClass.instance != null){
+              throw new RuntimeException("单例构造器，禁止反射");
+          }
+      }
+  
+      private static class InnerClass{
+          private static SingletonStaticInnerClass instance = new SingletonStaticInnerClass();
+      }
+  
+      public static SingletonStaticInnerClass getInstance(){
+          return InnerClass.instance;
+      }
+  
+  }
+  ```
+
+* 懒汉模式延迟加载场景下，防止反射破坏需要注意单例方法和反射方法的调用顺序
+
+  * 单例类的私有方法中添加静态变量值的判断逻辑防止反射攻击
+
+    ```java
+    public class LazySingleton {
+    
+        /**
+         *  由于静态变量需要在静态方法getInstance()调用时才被初始化，
+         *  所以当反射生成单例对象执行在单例初始化对象方法之前时，
+         *  通过在私有方法内部，添加变量值的判断来防止反射攻击并不奏效，
+         *  在多线程场景下，因为每个线程执行代码的顺序具有随机性，所以这种情况很容易发生；
+         */
+        public static LazySingleton instance = null;
+    
+        private LazySingleton(){
+            /**
+             *  防止反射攻击
+             */
+            if (instance != null){
+                throw new RuntimeException("单例构造器，禁止反射");
+            }
+        }
+    
+        public static synchronized LazySingleton getInstance(){
+    
+            if (instance == null){
+                instance = new LazySingleton();
+            }
+            return instance;
+    
+        }
+    
+    }
+    ```
+
+  * 懒汉模式下，单例类私有构造方法中添加静态变量判断的方式不能防止反射攻击，特别是在多线程场景下
+
+    ```java
+    public class Test {
+    
+        public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    
+            /**
+             *  调用单例方法初始化对象，在反射初始化对象之前，
+             *  通过在私有方法中添加静态变量值得判断能够防止反射攻击
+             */
+            LazySingleton instance = LazySingleton.getInstance();
+            Constructor constructor = LazySingleton.class.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            LazySingleton instance1 = (LazySingleton) constructor.newInstance();
+    
+            /**
+             *  调用单例方法初始化对象，在反射初始化对象之后，
+             *  通过在私有方法中添加静态变量值得判断不能防止反射攻击，
+             *  这种情况在多线程场景中，很可能会发生
+             */
+    //        LazySingleton instance = LazySingleton.getInstance();
+    
+    
+            System.out.println(instance);
+            System.out.println(instance1);
+            System.out.println(instance == instance1);
+        }
+    
+    }
+    ```
+
+* 结论
+  * 反射会破坏单例(懒汉、饿汉、静态内部类)
+  * 通过在私有构造器中添加变量值的判断逻辑，可以防止反射攻击(饿汉、静态内部类)
+  * 懒汉延迟加载单例模式不能防止反射攻击
+    * 单线程场景下，与单例实例化对象方法和反射实例化对象方法的调用顺有关
+    * 多线程场景下，代码的执行顺序不确定，一定会出现反射破坏单例的现象
+
 
 
 
