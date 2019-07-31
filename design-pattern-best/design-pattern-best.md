@@ -848,7 +848,211 @@ public class LazySingletonDoubleCheck {
 
 
 
+* 枚举类型源码解析
 
+  * `EnumSingleton.java` 
+
+    ```java
+    public enum EnumSingleton {
+    
+        /**
+         *  instance
+         */
+        INSTANCE;
+    
+        private Object data;
+    
+        public Object getData() {
+            return data;
+        }
+    
+        public void setData(Object data) {
+            this.data = data;
+        }
+    
+        public static EnumSingleton getInstance(){
+            return INSTANCE;
+        }
+    
+    }
+    ```
+
+  * `EnumSingleton.class`
+
+    * 使用[**jad**](https://varaneckas.com/jad/)编译工具查看编译后的字节码文件
+
+    ```java
+    /**
+     *  枚举类是final型：不能被继承
+     */
+    public final class EnumSingleton extends Enum
+    {
+    
+        public static EnumSingleton[] values()
+        {
+            return (EnumSingleton[])$VALUES.clone();
+        }
+    
+        public static EnumSingleton valueOf(String name)
+        {
+            return (EnumSingleton)Enum.valueOf(com/jinm/learning/design/pattern/creational/singleton/enumsingleton/reflection/EnumSingleton, name);
+        }
+        
+        /**
+         *  构造器私有：符合单例模式的设计思想，不允许外部实例化
+         */
+        private EnumSingleton(String s, int i)
+        {
+            super(s, i);
+        }
+    
+        public Object getData()
+        {
+            return data;
+        }
+    
+        public void setData(Object data)
+        {
+            this.data = data;
+        }
+    
+        public static EnumSingleton getInstance()
+        {
+            return INSTANCE;
+        }
+    
+        /**
+         *  变量是static/final型
+         */
+        public static final EnumSingleton INSTANCE;
+        private Object data;
+        private static final EnumSingleton $VALUES[];
+    
+        /**
+         *  通过静态代码块的方式实例化变量，不会延迟加载，是线程安全的
+         *	在枚举类初始化加载时，枚举类中的变量就会声明初始化完成
+         */
+        static 
+        {
+            INSTANCE = new EnumSingleton("INSTANCE", 0);
+            $VALUES = (new EnumSingleton[] {
+                INSTANCE
+            });
+        }
+    }
+                                               
+    ```
+
+  * 枚举类型解析
+
+    * 被final修饰的类：不能被继承扩展
+    * 构造器私有：不允许外部实例化
+    * 枚举类变量被`final/static`修饰：一旦初始化以后就不能被赋值修改
+    * 枚举变量通过静态代码块赋值初始化：在类初始化加载时就完成变量赋值，由于类初始化同步锁的机制，也保证了其线程安全性
+    * `Constructor` 类中限制了枚举类型反射初始化的操作，防止反射攻击
+    * 序列化反序列过程中枚举对象的创建方式，防止序列化反序列破坏单例
+
+  * 总结
+
+    * 枚举类型的设计机制，与单例模式的设计思想高度吻合
+    * 枚举类型是单例模型的最近实践
+
+  * 枚举类扩展使用
+
+    * 枚举类中声明方法
+
+      * `EnumSingleton.java`
+
+        ```java
+        public enum EnumSingleton {
+        
+            /**
+             *  declare enum method
+             */
+            INSTANCE{
+                @Override
+                protected void enumMethodTest(){
+                    System.out.println("enum method test.....");
+                }
+            };
+        
+            /**
+             *  该方法必须写，否则无法调用
+             */
+            protected abstract void enumMethodTest();
+        
+            public static EnumSingleton getInstance(){
+                return INSTANCE;
+            }
+        
+        }
+        
+        /**
+         *  测试类
+         */
+        public class Test {
+        
+            public static void main(String[] args) {
+        
+                EnumSingleton instance = EnumSingleton.getInstance();
+                instance.enumMethodTest();
+        
+            }
+        }
+        ```
+
+      * `EnumSingleton.class`
+
+        ```java
+        public abstract class EnumSingleton extends Enum
+        {
+        
+            public static EnumSingleton[] values()
+            {
+                return (EnumSingleton[])$VALUES.clone();
+            }
+        
+            public static EnumSingleton valueOf(String name)
+            {
+                return (EnumSingleton)Enum.valueOf(com/jinm/learning/design/pattern/creational/singleton/enumsingleton/extensions/EnumSingleton, name);
+            }
+        
+            private EnumSingleton(String s, int i)
+            {
+                super(s, i);
+            }
+        
+            protected abstract void enumMethodTest();
+        
+            public static EnumSingleton getInstance()
+            {
+                return INSTANCE;
+            }
+        
+        
+            public static final EnumSingleton INSTANCE;
+            private static final EnumSingleton $VALUES[];
+        
+            static 
+            {
+                INSTANCE = new EnumSingleton("INSTANCE", 0) {
+        
+                    protected void enumMethodTest()
+                    {
+                        System.out.println("enum method test.....");
+                    }
+        
+                };
+                $VALUES = (new EnumSingleton[] {
+                    INSTANCE
+                });
+            }
+        }
+        ```
+
+        
+
+    
 
 
 
