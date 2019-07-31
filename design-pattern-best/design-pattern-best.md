@@ -697,7 +697,10 @@ public class LazySingletonDoubleCheck {
 
 
 
+### 枚举类型单例
 
+* 单例模式最佳实践
+  * **Effective Java** 强烈推荐推荐的单例模型实现方式
 
 
 

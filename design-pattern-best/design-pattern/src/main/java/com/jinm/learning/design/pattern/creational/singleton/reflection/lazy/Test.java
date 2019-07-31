@@ -28,7 +28,6 @@ public class Test {
          */
 //        LazySingleton instance = LazySingleton.getInstance();
 
-
         System.out.println(instance);
         System.out.println(instance1);
         System.out.println(instance == instance1);
