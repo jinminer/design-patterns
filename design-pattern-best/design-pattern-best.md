@@ -700,15 +700,151 @@ public class LazySingletonDoubleCheck {
 ### 枚举类型单例
 
 * 单例模式最佳实践
+
   * **Effective Java** 强烈推荐推荐的单例模型实现方式
 
+* 序列化破坏单例
 
+  * 示例
 
+    * 代码
 
+      ```java
+      /**
+       *  枚举单例模型
+       */
+      public enum EnumSingleton {
+      
+          /**
+           *  instance
+           */
+          INSTANCE;
+      
+          private Object data;
+      
+          public Object getData() {
+              return data;
+          }
+      
+          public void setData(Object data) {
+              this.data = data;
+          }
+      
+          public static EnumSingleton getInstance(){
+              return INSTANCE;
+          }
+      }
+      
+      /**
+       *  序列化反序列化测试类
+       */
+      public class Test {
+      
+          public static void main(String[] args) throws IOException, ClassNotFoundException {
+              EnumSingleton instance = EnumSingleton.getInstance();
+      
+              ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("singleton-enum"));
+              oos.writeObject(instance);
+      
+              ObjectInputStream ois = new ObjectInputStream(new FileInputStream("singleton-enum"));
+              EnumSingleton instance1 = (EnumSingleton) ois.readObject();
+      
+              System.out.println(instance);
+              System.out.println(instance1);
+              System.out.println(instance == instance1);
+      
+          }
+      }
+      ```
 
+    * 运行结果
 
+      ![serializable-safe](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/enum-singleton/serializable-safe.png>)
 
+  * 源码解析
 
+    * `java.io.ObjectInputStream#readEnum()`
+
+    * 枚举中的`name`是唯一的，并且每个name只对应一个枚举常量，所以源码中通过枚举读取到的反序列化对象，一定是唯一
+
+    ![source-code-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/enum-singleton/source-code-1.png>)
+
+  * 结论：**枚举单例模型，在序列化和反序列化过程中仍然保持单例性**
+
+* 反射破坏单例
+
+  * 示例
+
+    * 代码
+
+      ```java
+      /**
+       *  枚举单例模型
+       */
+      public enum EnumSingleton {
+      
+          /**
+           *  instance
+           */
+          INSTANCE;
+      
+          private Object data;
+      
+          public Object getData() {
+              return data;
+          }
+      
+          public void setData(Object data) {
+              this.data = data;
+          }
+      
+          public static EnumSingleton getInstance(){
+              return INSTANCE;
+          }
+      
+      }
+      
+      /**
+       *  枚举单例模型反射破坏测试类
+       */
+      public class Test {
+      
+          public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+              EnumSingleton instance = EnumSingleton.getInstance();
+      
+              Constructor constructor = EnumSingleton.class.getDeclaredConstructor();
+              constructor.setAccessible(true);
+              EnumSingleton instance1 = (EnumSingleton) constructor.newInstance();
+      
+              System.out.println(instance);
+              System.out.println(instance1);
+              System.out.println(instance == instance1);
+      
+          }
+      }
+      ```
+
+    * 运行结果1：反射获取构造器异常
+
+      * 报错原因1：枚举类型没有无参的构造函数
+
+        ![reflection-constructor-error](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/enum-singleton/reflection-constructor-error.png>)
+
+      * 源码解读：枚举类型有且仅有一个带参的构造函数
+
+        ![enum-source-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/enum-singleton/enum-source-1.png>)
+
+    * 运行结果2：
+
+      * 根据枚举类型源码解读，返回获取枚举类型的带参构造函数
+
+      * 报错原因2：无法通过反射创建枚举实例
+
+        ![reflection-new-error](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/enum-singleton/reflection-new-error.png>)
+
+      * `Constructor`类源码解析：**无法通过反射创建枚举类对象**
+
+        ![constructor-source-enum-error](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/enum-singleton/constructor-source-enum-error.png>)
 
 
 
