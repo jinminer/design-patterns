@@ -18,14 +18,14 @@
 
 * <a href="#singleton">单例模式</a>
   * <a name="multithreading-safe-head" href="#multithreading-safe">单例模式线程安全</a> 
-  * <a href="#double-check-synchronized">双重检查锁</a>
-  * <a href="#command-sort">程序指令重排</a> 
-  * <a href="#volatile">`volatile`</a>
-  * <a href="#static-inner-class">静态内部类</a>
-  * <a href="#lazy-hungry-compare">懒汉模式vs饿汉模式</a>
-  * <a href="#serializable-break">序列化破坏单例</a>
-  * <a href="#reflection-break">反射破坏单例</a>
-  * <a href="#signleton-enum">枚举类型单例</a> 
+  * <a name="double-check-synchronized-head" href="#double-check-synchronized">双重检查锁</a>
+  * <a name="command-sort-head" href="#command-sort">程序指令重排</a> 
+  * <a name="volatile-head" href="#volatile">`volatile`</a>
+  * <a name="static-inner-class-head" href="#static-inner-class">静态内部类</a>
+  * <a name="lazy-hungry-compare-head" href="#lazy-hungry-compare">懒汉模式vs饿汉模式</a>
+  * <a name="serializable-break-head" href="#serializable-break">序列化破坏单例</a>
+  * <a name="reflection-break-head" href="#reflection-break">反射破坏单例</a>
+  * <a name="signleton-enum-head" href="#signleton-enum">枚举类型单例</a> 
 
 
 
@@ -344,7 +344,7 @@
 
 
 
-### <a name="double-check-synchronized">双重检查锁</a>
+### <a name="double-check-synchronized" href="#double-check-synchronized-head">双重检查锁</a>
 
 ```java
 public class LazySingletonDoubleCheck {
@@ -380,7 +380,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="command-sort">程序指令重排</a>
+### <a name="command-sort" href="#command-sort-head">程序指令重排</a>
 
 * 问题描述
 
@@ -491,7 +491,7 @@ public class LazySingletonDoubleCheck {
 
   
 
-### <a name="static-inner-class">静态内部类</a>
+### <a name="static-inner-class" href="#static-inner-class-head">静态内部类</a>
 
 * 程序指令重排问题解决方案二：基于类初始化的解决方案
   * 允许程序指令重排序，但不允许非构造线程看到构造线程的指令重排序
@@ -520,7 +520,7 @@ public class LazySingletonDoubleCheck {
     * 其他非构造线程如 `线程1` ，在 `线程0` 完成静态内部类的调用之前都处于`MONITOR`阻塞状态
     * 也就是说，即使静态内部类在完成对象创建和变量赋值操作时发生指令重排序情况，也只是在 `线程0` 执行方法期间，避免暴露未初始化对象的问题
 
-### <a name="lazy-hungry-compare">懒汉模式vs饿汉模式</a>
+### <a name="lazy-hungry-compare" href="#lazy-hungry-compare-head">懒汉模式vs饿汉模式</a>
 
 * 懒汉模式
   * 延迟加载，被调用时完成加载
@@ -531,7 +531,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="serializable-break">序列化破坏单例</a>
+### <a name="serializable-break" href="#serializable-break-head">序列化破坏单例</a>
 
 * 代码示例
 
@@ -581,7 +581,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="reflection-break">反射破坏单例</a>
+### <a name="reflection-break" href="#reflection-break-head">反射破坏单例</a>
 
 * 通过反射机制，`new` 对象
 
@@ -706,7 +706,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="signleton-enum">枚举类型单例</a>
+### <a name="signleton-enum" href="#signleton-enum-head">枚举类型单例</a>
 
 * 单例模式最佳实践
 
