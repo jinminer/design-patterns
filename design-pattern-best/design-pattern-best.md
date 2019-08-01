@@ -17,7 +17,7 @@
 * <a href="#builder">建造者模式</a>
 
 * <a href="#singleton">单例模式</a>
-  * <a href="#multithreading-safe">单例模式线程安全</a>
+  * <a name="multithreading-safe-head" href="#multithreading-safe">单例模式线程安全</a> 
   * <a href="#double-check-synchronized">双重检查锁</a>
   * <a href="#command-sort">程序指令重排</a> 
   * <a href="#volatile">`volatile`</a>
@@ -234,7 +234,7 @@
   * 单例模式和工厂模式
   * 单例模式和享元模式
 
-### <a name="multithreading-safe">单例模式线程安全</a>
+### <a name="multithreading-safe" href="multithreading-safe-head">单例模式线程安全</a>
 
 * 相关代码
 
