@@ -442,7 +442,7 @@ public class LazySingletonDoubleCheck {
 
 * 注意：多线程场景下，程序指令重排序可能将一个未初始化的对象引用暴露出来，从而导致不可预料的结果，虽然这种问题的出现具有一定的概率性的，但是作为程序隐患一定要进行消除
 
-### <a name="volatile">`volatile` </a>
+### <a name="volatile" href="#volatile-head">`volatile`</a>
 
 * 程序指令重排问题解决方案一：禁止指令重排序
   
