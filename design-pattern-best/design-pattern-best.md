@@ -6,17 +6,26 @@
 
 ## 概述
 
-<a href="#simple-factory">简单工厂模式</a>
+* <a href="#simple-factory">简单工厂模式</a>
 
-<a href="#factory-method">工厂方法模式</a>
+* <a href="#factory-method">工厂方法模式</a>
 
-<a href="#product-race-level">产品族-产品等级</a>
+* <a href="#product-race-level">产品族-产品等级</a>
 
-<a href="#abstract-factory">抽象工厂模式</a>
+* <a href="#abstract-factory">抽象工厂模式</a>
 
-<a href="#builder">建造者模式</a>
+* <a href="#builder">建造者模式</a>
 
-<a href="#singleton">单例模式</a>
+* <a href="#singleton">单例模式</a>
+  * <a href="#multithreading-safe">单例模式线程安全</a>
+  * <a href="#double-check-synchronized">双重检查锁</a>
+  * <a href="#command-sort">程序指令重排</a> 
+  * <a href="#volatile">`volatile`</a>
+  * <a href="#static-inner-class">静态内部类</a>
+  * <a href="#lazy-hungry-compare">懒汉模式vs饿汉模式</a>
+  * <a href="#serializable-break">序列化破坏单例</a>
+  * <a href="#reflection-break">反射破坏单例</a>
+  * <a href="#signleton-enum">枚举类型单例</a> 
 
 
 
@@ -225,7 +234,7 @@
   * 单例模式和工厂模式
   * 单例模式和享元模式
 
-### 单例模式线程安全
+### <a name="multithreading-safe">单例模式线程安全</a>
 
 * 相关代码
 
@@ -335,7 +344,7 @@
 
 
 
-### 双重检查锁
+### <a name="double-check-synchronized">双重检查锁</a>
 
 ```java
 public class LazySingletonDoubleCheck {
@@ -371,7 +380,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### 程序指令重排
+### <a name="command-sort">程序指令重排</a>
 
 * 问题描述
 
@@ -433,7 +442,7 @@ public class LazySingletonDoubleCheck {
 
 * 注意：多线程场景下，程序指令重排序可能将一个未初始化的对象引用暴露出来，从而导致不可预料的结果，虽然这种问题的出现具有一定的概率性的，但是作为程序隐患一定要进行消除
 
-### `volatile` 
+### <a name="volatile">`volatile` </a>
 
 * 程序指令重排问题解决方案一：禁止指令重排序
   
@@ -482,7 +491,7 @@ public class LazySingletonDoubleCheck {
 
   
 
-### 静态内部类
+### <a name="static-inner-class">静态内部类</a>
 
 * 程序指令重排问题解决方案二：基于类初始化的解决方案
   * 允许程序指令重排序，但不允许非构造线程看到构造线程的指令重排序
@@ -511,7 +520,7 @@ public class LazySingletonDoubleCheck {
     * 其他非构造线程如 `线程1` ，在 `线程0` 完成静态内部类的调用之前都处于`MONITOR`阻塞状态
     * 也就是说，即使静态内部类在完成对象创建和变量赋值操作时发生指令重排序情况，也只是在 `线程0` 执行方法期间，避免暴露未初始化对象的问题
 
-### 懒汉模式饿汉模式
+### <a name="lazy-hungry-compare">懒汉模式vs饿汉模式</a>
 
 * 懒汉模式
   * 延迟加载，被调用时完成加载
@@ -522,7 +531,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### 序列化破坏单例
+### <a name="serializable-break">序列化破坏单例</a>
 
 * 代码示例
 
@@ -572,7 +581,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### 反射破坏单例
+### <a name="reflection-break">反射破坏单例</a>
 
 * 通过反射机制，`new` 对象
 
@@ -697,7 +706,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### 枚举类型单例
+### <a name="signleton-enum">枚举类型单例</a>
 
 * 单例模式最佳实践
 
