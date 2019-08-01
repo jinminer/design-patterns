@@ -26,8 +26,10 @@
   * <a name="serializable-break-head" href="#serializable-break">序列化破坏单例</a>
   * <a name="reflection-break-head" href="#reflection-break">反射破坏单例</a>
   * <a name="signleton-enum-head" href="#signleton-enum">枚举类型单例</a> 
-
-
+  * <a name="container-head" href="#container">容器单例</a> 
+  * <a name="thread-local-head" href="#thread-local">`ThreadLocal`线程单例</a> 
+  * <a name="singleton-in-sources-head" href="#singleton-in-sources">单例模式源码实践</a> 
+  * 
 
 
 
@@ -1059,27 +1061,118 @@ public class LazySingletonDoubleCheck {
         }
         ```
 
-        
-
-    
 
 
 
+### <a name="container" href="#container-head">容器单例</a>
+
+* 概述
+  * 和享元模式类似
+  * 使用容器单例模型来统一管理多个单例对象
+
+* 代码示例
+
+  ```java
+  public class ContainerSingleton {
+  
+  //    private static HashMap<String, Object> container = new HashMap<>();
+  //    private static Hashtable<String, Object> container = new Hashtable<>();
+      private static ConcurrentHashMap<String, Object> container = new ConcurrentHashMap<>();
+  
+      private ContainerSingleton(){
+  
+      }
+  
+      public static void putInstance(String key, Object value){
+  
+          /**
+           *  双重检查锁确保单例
+           */
+          if (!container.containsKey(key)){
+  
+              synchronized (ContainerSingleton.class){
+                  if (StringUtils.isNotBlank(key) && value != null){
+                      if (!container.containsKey(key)){
+                          container.put(key, value);
+                      }
+                  }
+              }
+  
+          }
+  
+      }
+  
+      public static Object getInstance(String key){
+          return container.get(key);
+      }
+  
+  }
+  ```
+
+  
+
+### <a name="thread-local" href="#thread-local-head"> `ThreadLocal`线程单例</a>
+
+* 概述
+  * 保证线程唯一，确保每个线程内部的单例性
+  * 不能保证整个应用全局唯一
+  * 隔离了多个线程对数据的访问冲突
+  * 多线程资源共享
+    * 同步锁：以时间换空间的方式，线程需要排队等待
+    * `ThreadLocal` ：以空间换时间的方式，多个线程创建多个对象，每个线程获取的对象都是唯一的，线程之间相互不会影响
+
+* 代码示例
+
+  ```java
+  public class ThreadLocalSingleton {
+  
+      public static final ThreadLocal<ThreadLocalSingleton> threadLocal = new ThreadLocal<ThreadLocalSingleton>(){
+          @Override
+          protected ThreadLocalSingleton initialValue() {
+              return new ThreadLocalSingleton();
+          }
+      };
+  
+      private ThreadLocalSingleton(){
+  
+      }
+  
+      public static ThreadLocalSingleton getInstance(){
+          return threadLocal.get();
+      }
+  
+  }
+  ```
 
 
 
+### <a name="singleton-in-sources" href="#singleton-in-sources-head">单例模式源码实践</a>
+
+* `jdk Runtime` 
+
+  * 饿汉单例模型实践
+
+    ![jdk-runtime](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-in-source/jdk-runtime.png>)
 
 
 
+* `spring` 
 
+  * `org.springframework.beans.factory.config.AbstractFactoryBean` 
 
+    ![spring-bean-factory-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-in-source/spring-bean-factory-1.png>)
+    ![spring-bean-factory-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-in-source/spring-bean-factory-2.png>)
 
+  * `spring`中单例模型的特点
 
+    * 基于容器(如tomcat等)：如果一个主函数(`SpringBootApplication`)或一个应用启动了多个容器，那么在每个容器中都能拿到单例对象
+    * `spring` 中的单例是`bean`作用域中的一种，被设置了单例属性实例的作用域贯穿于整个应用程序中，即在每个应用程序的上下文`context`中仅创建一个单例实例
 
+* `mybatis` 
 
+  * `org.apache.ibatis.executor.ErrorContext`
 
-
-
+    ![mybatis-errorcontext](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-in-source/mybatis-errorcontext.png>)
 
 
 
