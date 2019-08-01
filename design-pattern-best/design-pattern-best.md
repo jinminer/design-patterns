@@ -234,7 +234,7 @@
   * 单例模式和工厂模式
   * 单例模式和享元模式
 
-### <a name="multithreading-safe" href="multithreading-safe-head">单例模式线程安全</a>
+### <a name="multithreading-safe" href="#multithreading-safe-head">单例模式线程安全</a>
 
 * 相关代码
 
