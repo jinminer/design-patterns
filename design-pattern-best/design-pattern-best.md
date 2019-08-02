@@ -7,15 +7,10 @@
 ## 概述
 
 * <a href="#simple-factory">简单工厂模式</a>
-
 * <a href="#factory-method">工厂方法模式</a>
-
 * <a href="#product-race-level">产品族-产品等级</a>
-
 * <a href="#abstract-factory">抽象工厂模式</a>
-
 * <a href="#builder">建造者模式</a>
-
 * <a href="#singleton">单例模式</a>
   * <a name="multithreading-safe-head" href="#multithreading-safe">单例模式线程安全</a> 
   * <a name="double-check-synchronized-head" href="#double-check-synchronized">双重检查锁</a>
@@ -29,7 +24,9 @@
   * <a name="container-head" href="#container">容器单例</a> 
   * <a name="thread-local-head" href="#thread-local">`ThreadLocal`线程单例</a> 
   * <a name="singleton-in-sources-head" href="#singleton-in-sources">单例模式源码实践</a> 
-  * 
+* <a name="prototype-head" href="#prototype">原型模式</a> 
+  * <a name="clone-shallow-head" href="#clone-shallow">浅克隆</a> 
+  * <a name="clone-deep-head" href="#clone-deep">深克隆</a>
 
 
 
@@ -1173,6 +1170,345 @@ public class LazySingletonDoubleCheck {
   * `org.apache.ibatis.executor.ErrorContext`
 
     ![mybatis-errorcontext](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/singleton/singleton-in-source/mybatis-errorcontext.png>)
+
+
+
+## <a name="prototype" href="#prototype-head">原型模式</a> 
+
+* 定义
+  * 指原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象
+  * 不需要指定任何创建的细节，不调用构造函数
+* 类型
+  * 创建型
+* 适用场景
+  * 类初始化消耗较多的资源
+  * `new`产生一个的一个对象需要非常繁琐的过程(数据准备、访问权限等)
+  * 构造函数比较复杂
+  * 循环体中产生大量的对象时
+* 优点
+  * 原型模式是在内存中进行二进制流的拷贝，性能比直接`new`一个对象高
+  * 简化创建过程
+* 缺点
+  * 必须配备克隆方法
+  * 对克隆复杂对象或对克隆出的对象进行复杂改造时，容易引入风险
+  * 深拷贝、浅拷贝要运用得当
+* 原型扩展
+  * 深克隆
+    * 对于引用类型，如果需要让它们指向不同的对象，一定要使用深克隆
+    * 深克隆某一个对象的引用类型时，要显示的去写对哪个具体的属性进行深克隆
+  * 浅克隆
+
+* 代码示例
+
+  * 代码
+
+    ```java
+    /**
+     * 类实现克隆方法
+     */
+    public class Mail implements Cloneable{
+    
+        private String name;
+        private String address;
+        private String content;
+    
+        public Mail(){
+            System.out.println("mail class constructor");
+        }
+    
+        /**
+         *  实现Cloneable的clone()方法
+         */
+        @Override
+        protected Object clone() throws CloneNotSupportedException {
+            System.out.println("clone mail object");
+            return super.clone();
+        }
+    
+        public String getName() {
+            return name;
+        }
+    
+        public void setName(String name) {
+            this.name = name;
+        }
+    
+        public String getAddress() {
+            return address;
+        }
+    
+        public void setAddress(String address) {
+            this.address = address;
+        }
+    
+        public String getContent() {
+            return content;
+        }
+    
+        public void setContent(String content) {
+            this.content = content;
+        }
+    
+        @Override
+        public String toString() {
+            return "Mail{" +
+                    "name='" + name + '\'' +
+                    ", address='" + address + '\'' +
+                    ", content='" + content + '\'' +
+                    '}' + super.toString();
+        }
+        
+    }
+    
+    /**
+     * 测试类
+     */
+    public class Test {
+    
+        public static void main(String[] args) throws CloneNotSupportedException {
+    
+            Mail mail = new Mail();
+            mail.setContent("初始化模板......");
+            System.out.println("调用构造函数创建mail:" + mail);
+            for (int i = 0; i < 5; i++) {
+    
+                Mail tempMail = (Mail) mail.clone();
+                tempMail.setName("姓名" + i);
+                tempMail.setAddress("姓名" + i + "@gmail.com");
+                tempMail.setContent("恭喜你, 离秃头又近了一步");
+                MailUtil.sendMail(mail);
+                System.out.println("调用克隆方法创建mail:" + tempMail);
+    
+            }
+    
+            MailUtil.saveOriginRecord(mail);
+    
+        }
+    
+    }
+    ```
+
+  * 运行结果
+
+    ![constructor-cloneable-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/constructor-cloneable-1.png>)
+
+  
+
+### <a name="clone-shallow" href="#clone-shallow-head">浅克隆</a>
+
+* 只克隆类当前的层次，不会克隆类内部的引用属性
+
+* 代码示例
+
+  * 代码
+
+    ```java
+    /**
+     * 类实现克隆方法
+     */
+    public class People implements Cloneable{
+    
+        private String name;
+        private Date birthday;
+    
+        public People(String name, Date birthday) {
+            this.name = name;
+            this.birthday = birthday;
+        }
+    
+        @Override
+        protected Object clone() throws CloneNotSupportedException {
+            return super.clone();
+        }
+    
+        public String getName() {
+            return name;
+        }
+    
+        public void setName(String name) {
+            this.name = name;
+        }
+    
+        public Date getBirthday() {
+            return birthday;
+        }
+    
+        public void setBirthday(Date birthday) {
+            this.birthday = birthday;
+        }
+    
+        @Override
+        public String toString() {
+            return "People{" +
+                    "name='" + name + '\'' +
+                    ", birthday=" + birthday +
+                    '}' + super.toString();
+        }
+    }
+    
+    /**
+     * 测试类
+     */
+    public class Test {
+    
+        public static void main(String[] args) throws CloneNotSupportedException {
+    
+            People p = new People("jack", new Date(0L));
+            People p1 = (People) p.clone();
+    
+            System.out.println(p.toString());
+            System.out.println(p1.toString());
+            System.out.println("              ");
+    
+            p.getBirthday().setTime(520520520520520520L);
+            System.out.println(p.toString());
+            System.out.println(p1.toString());
+    
+        }
+    
+    }
+    ```
+
+  * 运行结果
+
+    * 设置克隆实例的字段属性，会一并修改被克隆类的属性
+
+      ![clone-shallow-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/clone-shallow-1.png>)
+
+    * `debug`查找问题原因
+
+      ![clone-shallow-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/clone-shallow-2.png>)
+
+
+
+### <a name="clone-deep" href="#clone-deep-head">深克隆</a>
+
+* 对于类内部的引用类型属性也要重写克隆方法，克隆对象的同时也克隆对象中的引用类型属性
+
+* 代码示例
+
+  * 代码
+
+    ```java
+    /**
+     * 实现克隆方法的类
+     */
+    public class People implements Cloneable{
+    
+        private String name;
+        private Date birthday;
+    
+        public People(String name, Date birthday) {
+            this.name = name;
+            this.birthday = birthday;
+        }
+    
+        @Override
+        protected Object clone() throws CloneNotSupportedException {
+    
+            /**
+             *  深克隆:
+             *      单独对类的某个属性实现克隆方法
+             */
+            People p = (People) super.clone();
+            p.birthday = (Date) p.birthday.clone();
+            return p;
+    
+        }
+    
+        public String getName() {
+            return name;
+        }
+    
+        public void setName(String name) {
+            this.name = name;
+        }
+    
+        public Date getBirthday() {
+            return birthday;
+        }
+    
+        public void setBirthday(Date birthday) {
+            this.birthday = birthday;
+        }
+    
+        @Override
+        public String toString() {
+            return "People{" +
+                    "name='" + name + '\'' +
+                    ", birthday=" + birthday +
+                    '}' + super.toString();
+        }
+    }
+    
+    /**
+     * 测试类
+     */
+    public class Test {
+    
+        public static void main(String[] args) throws CloneNotSupportedException {
+    
+            People p = new People("jack", new Date(0L));
+            People p1 = (People) p.clone();
+    
+            System.out.println(p.toString());
+            System.out.println(p1.toString());
+            System.out.println("              ");
+    
+            p.getBirthday().setTime(520520520520L);
+            System.out.println(p.toString());
+            System.out.println(p1.toString());
+    
+        }
+    
+    }
+    ```
+
+  * 运行结果
+
+    ![clone-deep-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/clone-deep-1.png>)
+
+  * debug查找原因
+
+    ![clone-deep-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/clone-deep-2.png>)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
