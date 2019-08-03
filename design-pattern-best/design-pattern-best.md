@@ -1624,7 +1624,11 @@ public class LazySingletonDoubleCheck {
 * 外观模式和抽象工厂模式
   * 外观类可以通过抽象工厂获取子系统的实例，这样子系统可以在内部对外观类进行屏蔽
 
+* 应用举例
 
+  * 把积分兑换系统中信息校验、积分支付、物流子系统提供的服务设计为外观模式，客户端不需要直接与各个子系统进行交互
+
+  ![facade-uml](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/facade/facade-uml.png>)
 
 
 
