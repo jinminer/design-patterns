@@ -26,7 +26,9 @@
   * <a name="singleton-in-sources-head" href="#singleton-in-sources">单例模式源码实践</a> 
 * <a name="prototype-head" href="#prototype">原型模式</a> 
   * <a name="clone-shallow-head" href="#clone-shallow">浅克隆</a> 
-  * <a name="clone-deep-head" href="#clone-deep">深克隆</a>
+  * <a name="clone-deep-head" href="#clone-deep">深克隆</a> 
+  * <a name="clone-singleton-break-head" href="#clone-singleton-break">克隆破坏单例</a> 
+  * 
 
 
 
@@ -1179,6 +1181,7 @@ public class LazySingletonDoubleCheck {
   * 指原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象
   * 不需要指定任何创建的细节，不调用构造函数
 * 类型
+  
   * 创建型
 * 适用场景
   * 类初始化消耗较多的资源
@@ -1474,9 +1477,90 @@ public class LazySingletonDoubleCheck {
 
 
 
+### <a name="clone-singleton-break" href="#clone-singleton-break-head">克隆破坏单例</a>
 
+* 代码示例
 
+  * 代码
 
+    ```java
+    /**
+     *  单例类
+     */
+    public class HungrySingleton implements Cloneable{
+    
+        private static HungrySingleton instance = new HungrySingleton();
+    
+        private HungrySingleton(){
+    
+        }
+    
+        public static HungrySingleton getInstance(){
+            return instance;
+        }
+    
+        /**
+         *  单例类实现克隆方法
+         */
+        @Override
+        protected Object clone() throws CloneNotSupportedException {
+            return super.clone();
+        }
+    }
+    
+    /**
+     *  单例类
+     */
+    public class Test {
+    
+        public static void main(String[] args) throws CloneNotSupportedException {
+    
+            HungrySingleton instance = HungrySingleton.getInstance();
+            HungrySingleton instance1= (HungrySingleton) instance.clone();
+    
+            System.out.println(instance);
+            System.out.println(instance1);
+            System.out.println(instance == instance1);
+    
+        }
+    
+    }
+    ```
+
+  * 运行结果
+
+    ![singleton-break](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/singleton-break.png>)
+
+  * 解决方案：重写`clone`方法确保单例
+
+    * 代码
+
+      ```java
+      public class HungrySingletonSafe implements Cloneable{
+      
+          private static HungrySingletonSafe instance = new HungrySingletonSafe();
+      
+          private HungrySingletonSafe(){
+      
+          }
+      
+          public static HungrySingletonSafe getInstance(){
+              return instance;
+          }
+      
+          /**
+           *  重写克隆方法
+           */
+          @Override
+          protected Object clone() throws CloneNotSupportedException {
+              return getInstance();
+          }
+      }
+      ```
+
+    * 运行结果
+
+      ![singleton-break-safe](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/singleton-break-safe.png>)
 
 
 
