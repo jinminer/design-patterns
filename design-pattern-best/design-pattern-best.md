@@ -28,6 +28,7 @@
   * <a name="clone-shallow-head" href="#clone-shallow">浅克隆</a> 
   * <a name="clone-deep-head" href="#clone-deep">深克隆</a> 
   * <a name="clone-singleton-break-head" href="#clone-singleton-break">克隆破坏单例</a> 
+* <a name="facade-head" href="#facade">外观模式</a> 
   * 
 
 
@@ -1549,7 +1550,7 @@ public class LazySingletonDoubleCheck {
           }
       
           /**
-           *  重写克隆方法
+           *  重写克隆方法实现
            */
           @Override
           protected Object clone() throws CloneNotSupportedException {
@@ -1564,13 +1565,64 @@ public class LazySingletonDoubleCheck {
 
 
 
+### 源码中的原型模式
+
+* `java.util.ArrayList#clone()` 
+
+  ![prototype-in-sources-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/prototype-in-sources-2.png>)
+
+  ![prototype-in-sources-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/prototype-in-sources-1.png>)
+
+* `java.util.HashMap#clone()` 
+
+  ![prototype-in-sources-3](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/prototype-in-sources-3.png>)
+
+  ![prototype-in-sources-4](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/prototype/prototype-in-sources-4.png)
 
 
 
+## <a name="facade" href="#facade-head">外观模式</a>
 
-
-
-
+* 定义
+  * 又称为门面模式，提供一个统一的接口，用来访问子系统中的一群接口
+  * 外观模式定义了一个高层接口，让子系统更容易使用
+* 类型
+  * 结构型
+* 角色
+  * 外观角色
+    * 知道子系统所有的方法
+    * 有自己的方法
+    * 客户端通过调用外观角色的方法来调用子系统的功能
+  * 子系统
+    * 并不是单独的类
+    * 可以是一个或多个
+    * 按照不同的维度分成不同的处理模块
+    * 子系统形成一个集合为外观模式中的外观类提供子系统的服务
+* 适用场景
+  * 子系统越来越复杂，增加外观模式提供更简单的调用接口
+  * 构建多层系统结构，利用外观对象作为每层的入口，简化层间调用
+* 优点
+  * 简化了调用过程，无需深入了解子系统，防止带来风险
+    * 风险：对子系统直接集成调用，不会去修改其內部实现，不会带来风险
+  * 减少系统依赖、松散耦合
+    * 降低了客户端与子系统之间的耦合关系，客户端不与子系统直接交流，而是和外观对象进行交流，让子系统内部的模块更容易扩展和维护
+  * 更好的划分访问层次
+    * 对一个系统而言，有些方法需要暴露到系统外部使用，有些方法只能由内部系统调用
+    * 把那些需要暴露在外部功能集中到外观类上，即方便客户端调用，也能很好的隐藏系统内部细节
+  * 符合迪米特法则，即最少知道原则
+    * 客户端不需要了解子系统内部的实现
+    * 也不需要跟众多内部的子系统直接进行交互
+* 缺点
+  * 增加子系统、扩展系统的行为容易引入风险
+  * 不符合开闭原则
+* 相关设计模式
+  * 外观模式和中介者模式
+    * 外观模式关注的是外界和子系统之间的交互
+    * 中介者模式关注的是各个内部子系统之间的交互
+* 外观模式和单例模式
+  * 通常会把外观模式中的外观对象结合单例模式进行设计
+* 外观模式和抽象工厂模式
+  * 外观类可以通过抽象工厂获取子系统的实例，这样子系统可以在内部对外观类进行屏蔽
 
 
 
