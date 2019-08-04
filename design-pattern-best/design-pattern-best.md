@@ -1688,13 +1688,47 @@ public class LazySingletonDoubleCheck {
       * 在适配器模式中，适配器和被适配的类具有不同的接口，当然部分接口也有可能是重合的
       * 装饰者还可以退化成半装饰者，也就是说一个装饰器，除了提供被装饰类的接口外，还提供了其他的方法，即半透明的装饰器
 
+* 代码示例
+
+  * 场景：街边小贩卖煎饼，并计算煎饼价格
+
+  * 使用继承的扩展方式实现需求
+
+    ![code-uml-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/decorator/code-uml-2.png>)
+
+  * 使用装饰器模式的扩展方式实现需求
+
+    * 通过装饰器模式实现类的功能扩展后，类似这种加多个鸡蛋、多根香肠的需求，只需要在应用层调用相应的装饰器实例即可完成，不需要再对底层的类进行二次开发二外扩展
+
+    ![code-uml-3](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/decorator/code-uml-3.png>)
 
 
 
+* 源码时间
 
+  * `java.io.BufferedInputStream` 
 
+    ![decorator-in-source-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/decorator/decorator-in-source-2.png>)
 
+    ![decorator-in-source-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/decorator/decorator-in-source-1.png>)
 
+  * `org.springframework.cache.transaction.TransactionAwareCacheDecorator` 
+
+    ![decorator-in-source-3](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/decorator/decorator-in-source-3.png>)
+
+  * `org.springframework.session.web.http.SessionRepositoryFilter.SessionRepositoryRequestWrapper` 
+
+    ![decorator-in-source-4](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/decorator/decorator-in-source-4.png>)
+
+    ![decorator-in-source-5](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/decorator/decorator-in-source-5.png>)
+
+  * `org.apache.ibatis.cache.decorators.TransactionalCache` 
+
+    ![decorator-in-source-6-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/decorator/decorator-in-source-6-1.png>)
+
+    ![decorator-in-source-6](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/decorator/decorator-in-source-6.png>)
+
+    
 
 
 
