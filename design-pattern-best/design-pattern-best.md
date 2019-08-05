@@ -1739,8 +1739,11 @@ public class LazySingletonDoubleCheck {
 * 定义
   * 将一个类的接口(被适配者)转换成客户期望的另一个接口(目标类)
   * 使原本接口不兼容的类可以以前工作(如：手机、笔记本的电源适配器等)
+  
 * 类型
+  
   * 结构型
+  
 * 适用场景
   * 已经存在的类，它的方法和需求不匹配时
     * 方法结果相同或相似
@@ -1749,10 +1752,12 @@ public class LazySingletonDoubleCheck {
   * 不是软件设计阶段考虑的设计模式，而是随着软件迭代维护的不断演进，由于不同产品、不同厂家造成功能类似和接口不相同情况下的解决方案
     * 比如在进行新项目、新系统的开发时通常不会考虑使用适配器模式，它的作用更多的提现在**亡羊补牢**上
     * 随着项目不断地发展，需要兼容、利用旧系统功能，或者匹配外部系统的行为时，就可以使用适配模式的思想进行系统设计了
+  
 * 优点
   * 能提高类的透明性和复用性，现有的类复用但不需要改变，能够解决现有类和目标类不匹配的问题
   * 目标类和适配器类解耦，提高程序扩展性
   * 符合开闭原则
+  
 * 缺点
   * 适配器编写过程需要全面考虑，可能会增加系统的复杂性
   * 增加系统代码可读的难度
@@ -1763,6 +1768,8 @@ public class LazySingletonDoubleCheck {
     * 使用委托机制
   * 类适配器
     * 通过类继承来实现
+  * 在对象适配器和类适配器之间优先选择对象适配器模式，类之间的组合关系更符合设计原则
+  
 * 相关设计模式
   * 适配器模式和外观模式
     * 二者都是对现有的类、现存系统的封装
@@ -1773,9 +1780,78 @@ public class LazySingletonDoubleCheck {
       * 外观模式是用来适配整个子系统或相关子系统，它所针对的对象粒度更大
       * 适配器模式注重在某一类功能行为的适配，比如接口
 
+* 代码示例
 
+  * 类适配器
 
-
+    * 通过继承以及实现接口的方式建立被适配者和目标类之间的联系
+  
+    * 把目标接口 `Target` 的实现委托给被适配者`Adaptee` 去实现
+    
+    * `Adaptee` ---> 被适配者(系统中已有的功能)
+    
+    * `Target` ---> 定了目标对象行为规范
+    
+    * `ConcreteTarget` ---> 目标对象的具体实例(系统中的新功能)，可以看作被适配者的模板对象，被适配者在进行适配之后，能够具备和`ConcreteTarget`相像的行为
+    
+    * `Adapter` ---> 适配器，是连接被适配者(已有功能)和目标对象(新功能)的**转换器**，被适配者的行为经过**转换器**转换之后，会变为和目标类实例相像的行为，这样新系统能够调用目标类实例，同样也可以通过适配器调用被适配者的功能，实现了在不改变旧功能的前提下，使用旧系统所提供的功能
+    
+      ```java
+      public class Adaper extends Adaptee implements Target{
+      
+          /**
+           *  类适配器：
+           *      把Adaptee适配给Target
+           *      建立被适配对象和适配后的目标之间的联系
+           *      继承被适配对象，并实现目标类的接口规范，
+           *      从而使得旧功能Adaper#adapteeRequest()，符合目标类Target#request()定义的规范，建立两者之间的联系
+           */
+          @Override
+          public void request() {
+      
+              //......适配逻辑代码
+              super.adapteeRequest();
+              //......适配逻辑代码
+          }
+      
+      }
+      ```
+    
+      
+    
+      ![adapter-code-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-code-1.png>)
+    
+  * 对象适配器
+  
+    * 在`Adapter` 中直接声明 `Adaptee` 被适配者，并调用其方法，将目标接口 `Target` 的实现委托给`Adaptee` 处理
+  
+    * 在适配器中声明被适配者，并调用其方法，是类之间的组合关系
+  
+      ```java
+      public class Adapter implements Target{
+      
+          /**
+           *  对象适配器：
+           *      在适配器中声明被适配者，并调用其方法，
+           *      即通过组合的方式，将目标接口 Target 的实现委托给目标类 Adaptee 去处理
+           */
+          private Adaptee adaptee = new Adaptee();
+      
+          @Override
+          public void request() {
+      
+              //......适配逻辑代码
+              adaptee.adapteeRequest();
+              //......适配逻辑代码
+      
+          }
+      
+      }
+      ```
+  
+      
+  
+      ![adapter-object-code-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-object-code-2.png>)
 
 
 

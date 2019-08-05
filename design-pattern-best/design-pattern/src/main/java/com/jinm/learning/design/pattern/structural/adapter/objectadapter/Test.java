@@ -1,8 +1,8 @@
-package com.jinm.learning.design.pattern.structural.adapter.classadapter;
+package com.jinm.learning.design.pattern.structural.adapter.objectadapter;
 
 /**
  * test.
- * Created by jinm on  2019/08/05.  contact: keanemer.gmail.com
+ * Created by jinm on  2019/08/06.  contact: keanemer.gmail.com
  */
 
 public class Test {
@@ -14,7 +14,7 @@ public class Test {
         target.request();
 
         //适配器模式委托方法调用
-        Target adapterTarget = new Adaper();
+        Target adapterTarget = new Adapter();
         adapterTarget.request();
 
     }
