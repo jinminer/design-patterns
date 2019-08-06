@@ -31,6 +31,7 @@
 * <a name="facade-head" href="#facade">外观模式</a> 
 * <a name="decorator-head" href="#decorator">装饰器模式</a> 
 * <a name="adapter-head" href="#adapter">适配器模式</a> 
+  * <a name="spring-mvc-head" href="#spring-mvc">`springmvc` 适配器模式实践</a> 
 
 
 
@@ -1852,6 +1853,92 @@ public class LazySingletonDoubleCheck {
       
   
       ![adapter-object-code-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-object-code-2.png>)
+
+
+
+* 源码实践
+
+  * `org.springframework.aop.framework.adapter.AdvisorAdapter` ---> `org.springframework.aop.framework.adapter.MethodBeforeAdviceAdapter`
+
+    ![adapter-source-springaop-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springaop-1.png)
+
+    ![adapter-source-springaop-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springaop-2.png)
+
+  * `org.springframework.orm.jpa.JpaVendorAdapter` ---> `org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter` 
+
+    ![adapter-source-springdatajpa-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springdatajpa-1.png>)
+
+    ![adapter-source-springdatajpa-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springdatajpa-2.png>)
+
+
+
+### <a name="spring-mvc" href="#spring-mvc-head">`springmvc` 适配器模式实践</a> 
+
+* `org.springframework.web.servlet.DispatcherServlet` 
+
+  * `spring-webmvc` 中的核心类，可以把它看作是适配器中的`client` 、代码示例中的`Test` 
+  * 处于上帝视角，主要的作用在于通过处理映射器 `HandlerMapping` 来找到对应的 `Handler`
+    * `Handler` ---> `Controller/Servlet/HttpRequestHandler`  
+  * 同时执行`Handler` 中的对应方法，并返回 `ModelAndView` 
+  * `org.springframework.web.servlet.DispatcherServlet#doDispatch(HttpServletRequest request, HttpServletResponse response)` 
+
+  ![adapter-source-springwebmvc-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springwebmvc-1.png>)
+  ![adapter-source-springwebmvc-3](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springwebmvc-3.png>)
+
+  * `org.springframework.web.servlet.DispatcherServlet#getHandlerAdapter(Object handler)` 
+
+  ![adapter-source-springwebmvc-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springwebmvc-2.png>)
+
+* `org.springframework.web.servlet.HandlerAdapter` 
+
+  *  `HandlerAdapter` 接口类，定义了该类型适配器的适配规则
+
+  ![adapter-source-springwebmvc-5](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springwebmvc-5.png>)
+
+  * 多种适配器实例，适配相应的请求，并进行相应的逻辑处理
+
+  ![adapter-source-springwebmvc-6](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springwebmvc-6.png>)
+
+* `org.springframework.web.servlet.mvc.Controller` 
+
+  ![adapter-source-springwebmvc-4](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/adapter/adapter-source-springwebmvc-4.png>)
+
+* 设计思想
+
+  * 以 `Controller` 为例，它包含的多实现对象
+  * 按照一般思维，一个请求到达 `DispatcherServlet` 后，我们可以通过类似于 `instanceof` 的方式，通添加分支判断，实现请求路由，将不同类型请求对应到不同的处理逻辑中去。如果这样设计，当增加一中新的 `Controller` 类型时，就必须修改`DispatcherServlet` 类的判断逻辑，并且`Handler` 对象和 `Controller` 对象之间并未相互关联，这样就很难实现多类型请求的处理
+
+  * 使用适配器模式，进行请求处理逻辑设计，将被适配对象 `Handler` 拿到的请求，通过适配器委托到相应的 `Controller` 实现对象中，这样不仅简化了 `DispatcherServlet` 请求处理逻辑，并且如果新增 `Controller` 类型时，只需要增加一个相应的适配即可，不需要对原有的代码逻辑进行修改，符合设计模式指导原则
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
