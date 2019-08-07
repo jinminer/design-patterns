@@ -32,6 +32,8 @@
 * <a name="decorator-head" href="#decorator">装饰器模式</a> 
 * <a name="adapter-head" href="#adapter">适配器模式</a> 
   * <a name="spring-mvc-head" href="#spring-mvc">`springmvc` 适配器模式实践</a> 
+* <a name="flyweight-head" href="#flyweight">享元模式</a> 
+* 
 
 
 
@@ -1909,6 +1911,173 @@ public class LazySingletonDoubleCheck {
   * 按照一般思维，一个请求到达 `DispatcherServlet` 后，我们可以通过类似于 `instanceof` 的方式，通添加分支判断，实现请求路由，将不同类型请求对应到不同的处理逻辑中去。如果这样设计，当增加一中新的 `Controller` 类型时，就必须修改`DispatcherServlet` 类的判断逻辑，并且`Handler` 对象和 `Controller` 对象之间并未相互关联，这样就很难实现多类型请求的处理
 
   * 使用适配器模式，进行请求处理逻辑设计，将被适配对象 `Handler` 拿到的请求，通过适配器委托到相应的 `Controller` 实现对象中，这样不仅简化了 `DispatcherServlet` 请求处理逻辑，并且如果新增 `Controller` 类型时，只需要增加一个相应的适配即可，不需要对原有的代码逻辑进行修改，符合设计模式指导原则
+
+
+
+## <a name="flyweight" href="#flyweight-head">享元模式</a> 
+
+* 定义
+
+  * 提供了减少对象数量从而改变应用所需的对象结构的方式
+  * 运用共享技术有效地支持大量细粒度的对象
+  * 减少创建对象的数量，从而减少内存占用，提高性能
+  * 系统中如果存在大量的对象时，就有可能造成内存溢出，把其中有共同部分抽象出来，如果有相同的业务请求，直接返回内存中的已有对象，避免重复创建
+  * 关注点在共享
+
+* 类型
+
+  * 结构型
+
+* 适用场景
+
+  * 常常应用于系统底层的开发，以便解决系统的性能问题
+
+    * `Java`中的`String`类型：如果已经有则直接返回，如果没有则创建该字符串，并且保存在字符串缓存池中
+    * 数据库连接池：数据库连接保存在连接池中，需要时直接拿来用，用完了放回去
+
+  * 系统有大量的相似对象，需要缓冲池的场景
+
+    * 一个系统中存在大量的细粒度对象，并且这些细粒度对象的状态中，有大部分都可以外部化(享元模式状态：外部化、内部化)
+    * 如果软件系统不依赖于这些相似对象的身份，即随便获取一个对象，假设它们都是相同的，无法分辨出来，这种场景下都可以使用享元模式
+    * 第一个享元对象肯定是占用内存的，如果该对象的使用率较高的化，使用享元模式进行对象设计，非常划算
+
+    * 所以在有非常多的享元对象可供共享时，才值得我们使用享元模式，如果对象的复用度较低，使用享元模式的价值并不大
+
+* 优点
+
+  * 减少对象的创建，降低内存中对象的数量，降低系统的内存，提高效率
+  * 减少内存之外其他资源的占用率
+    * 其他资源：
+      * 时间：创建对象时需要的时间。通过使用享元模式共享对象，可以减少使用`new`关键字创建实例的次数，也就提高程序的运行速度，降低响应耗时
+      * 操作系统中的文件句柄和窗口句柄：在不同的操作系统中，可以同时使用的窗口句柄和文件句柄的数量都是有限的，如果不进行共享对象，应用程序在运行时很容易达到资源极限，从而导致程序崩溃
+
+* 缺点
+
+  * 关注内/外部状态，关注线程安全问题
+    * 在使用享元对象进行程序设计时，一般情况下会使用`HashMap`
+    * 如果出于线程安全问题角度考虑而使用`HashTable`，会因为同步锁的存在而排队等待，有可能得不偿失
+    * 折中办法是使用`ConcurrentHashMap` 兼顾性能和线程安全问题
+  * 使系统、程序的逻辑复杂化
+    * 使用享元对象，需要分离出外部状态和内部状态，而且外部状态不应该随着内部状态的变化而变化，否系统就混乱了，这种内部的实现机制会提高系统的复杂度。
+    * 例如`jdk`中`Integer`类型，使用了享元模式，其中的缓存机制，在对象判等时会给开发人员造成困惑
+
+* 扩展
+
+  * 内部状态
+    * 在享元模式内部，并且不随着外部环境的改变而改变的共享部分
+    * 可以看作为享元模式的一个属性，这个属性不会随着外部环境的改变而变化
+  * 外部状态
+    * 记录在享元模式外部，会随着外部环境的改变而改变
+    * 在调用享元模式获取享元对象时，通过方法的参数，传入一个状态，不同状态对应不同的表现
+  * 举例
+    * 比如使用程序画一个圆形，如果圆形类的属性半径声明在对象内部，并且是固定不变的，这个属性就称之为是内部状态
+    * 如果圆形类要根据传入参数的不同，而画出不同大小的圆形，这时对半径这个属性可以在外部进行设置、传入，此时这个属性就是外部状态
+
+* 相关设计模式
+
+  * 享元模式和代理模式
+    * 在使用代理模式对一个类进行代理时，如果生成代理类所花费的时间和资源都比较多，这时可以与享元模式结合使用，提高程序的处理速度
+  * 享元模式和单例模式
+    * 二者的共同点在于对象的复用
+    * 单例模式中的容器单例，就是享元模式和单例模式的结合使用
+
+* 代码示例
+
+  * 场景：某公司要求公司内部的各个部门做年终总结报告，每个部门可能会进行多次报告，如果某个部门已经完成过一次报告，那么当该部门需要再次做报告时，不需要生成新的报告文件。
+  * 角色：部门、部门负责人。
+
+  ![code-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/flyweight/code-1.png>)
+
+  * 主要类
+
+  ```java
+  /**
+   *  员工创建工厂类
+   */
+  public class EmployeeFactory {
+  
+      //对象池：单例容器
+      private static final Map<String, Employee> EMPLOYEE_MAP = new HashMap<String, Employee>();
+  
+      public static Employee getManager(String department){
+  
+          //享元共享设计：如果没有创建并保存，如果有直接获取
+          Manager manager = (Manager) EMPLOYEE_MAP.get(department);
+          if (manager == null){
+  
+              manager = new Manager(department);
+              System.out.print("创建 " + department + " 负责人;" );
+              String reportContent = department + "部门汇报：此次汇报的主要内容是......";
+              manager.setReportContent(reportContent);
+              System.out.println(" 创建报告 " + reportContent);
+              EMPLOYEE_MAP.put(department, manager);
+  
+  
+          }
+          return manager;
+  
+      }
+  
+  }
+  
+  /**
+   *  测试类
+   */
+  public class Test {
+  
+      private static final String[] DEPARTMENTS = {"RD", "QA", "PM", "BD"};
+  
+      public static void main(String[] args) {
+  
+          for (int i = 0; i < 10; i++) {
+              String department = DEPARTMENTS[(int) (Math.random() * DEPARTMENTS.length)];
+              Manager manager = (Manager) EmployeeFactory.getManager(department);
+              manager.report();
+          }
+  
+      }
+  
+  }
+  ```
+
+  * 运行结果：第一次调用时创建，以后调用直接从对象池获取
+
+  ![code-2](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/flyweight/code-2.png>)
+
+* 源码实践
+
+  * `jdk Integer`
+
+    * `java.lang.Integer#valueOf(int)` 
+    * 享元模式共享设计：当对象在缓存范围内则直接返回，否则new一个
+
+    ![source-1](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/flyweight/source-1.png>)
+
+  * `java.lang.Integer.IntegerCache` 
+
+    ![source-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/flyweight/source-3.png)
+
+  * 代码验证运行结果
+
+    ![source-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/flyweight/source-2.png)
+
+  * `apache` 连接池
+
+    * `org.apache.commons.pool2.impl.GenericKeyedObjectPool#borrowObject(K, long)` 
+
+      ![source-4](<https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/flyweight/source-4.png>)
+
+    * `org.apache.commons.pool2.impl.GenericKeyedObjectPool#register` 
+
+      ![source-5](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/flyweight/source-5.png)
+
+    * `org.apache.commons.pool2.impl.GenericKeyedObjectPool#poolMap` 
+
+      ![source-6](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/flyweight/source-6.png)
+
+
+
+
 
 
 
