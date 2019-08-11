@@ -2100,14 +2100,14 @@ public class LazySingletonDoubleCheck {
 * 优点
 
   * 清楚的定义分层次的复杂对象，表示对象的全部或部分层次
-  * 让客户端忽略了层次的差异，方便对整个层次结构就行控制
+  * 让客户端忽略了层次的差异，方便对整个层次结构进行控制
   * 简化客户端代码。可以统一处理个别对象和组合对象
   * 符合开闭原则。在组合模式中增加新的节点、子节点、叶子节点都异常方便，无需对现有的类库进行修改
 
 * 缺点
 
   * 限制类型较为复杂
-    * 在使用组合模式时，不能用类型系统来施加约束，因为它们都来自于相同的抽象层(节点的抽象层)，在这种情况下，程序必须在运行时进行类型检查，而实现类型限制的过程是非常复杂的。例如在某个文件夹中只能包含文本文件。
+    * 在使用组合模式时，不能用类型系统来施加约束，因为它们都来自于相同的抽象层(节点的抽象层)，在这种情况下，程序必须在运行时进行类型检查，做动态类型判断，而实现类型限制的过程是非常复杂的。例如在某个文件夹中只能包含文本文件。这种有别于其他节点的类型控制也可以认为是组合模式中，组合对象和个别对象的个性化差异。
   * 使设计变得更加抽象
     * 如果业务模型涉及的逻辑非常复杂，那么在使用组合模式进行设计时挑战性会非常大，因为逻辑较为复杂的业务模型中，常常会出现独立于通用体系之外的一些对象类型，这些特例使得组合模型的运用充满挑战
 
@@ -2139,15 +2139,26 @@ public class LazySingletonDoubleCheck {
       * 树形结构中各个节点、叶子节节点之间的关系也要分析透彻
         * 例如不同层级的课程目录和课程之间行缩进的问题，如果需要让目标排版显示更清晰的层级关系，那么还要在目录中定义一个`level`属性，用于区分不同级别的组合模型和个体模型
   
-      
+* 源码实践
 
+  * `java.util.HashMap#putAll` 
 
+    ![source-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/composite/source-1.png)
 
+  * `java.util.ArrayList#addAll(java.util.Collection<? extends E>)` 
 
+    ![source-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/composite/source-2.png)
+  
+  * `org.apache.ibatis.scripting.xmltags.MixedSqlNode` 
+  
+    ![source-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/composite/source-3.png)
+  
+    ![source-4](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/composite/source-4.png)
+  
+* 总结
 
-
-
-
+  * 叶子节点和组合节点都要实现相同的接口或者继承相同的抽象类
+  * 当叶子节点和组合节点之间建立了关联关系(实现相同的接口/者继承相同的抽象类)后，才能将这些树形结构中叶子节点和组合节点进行一致性处理
 
 
 

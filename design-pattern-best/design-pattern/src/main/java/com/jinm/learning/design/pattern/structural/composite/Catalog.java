@@ -12,6 +12,12 @@ public class Catalog extends CatalogComponent {
 
     private List<CatalogComponent> items = new ArrayList<>();
     private String name;
+
+    /**
+     *  类型控制标记：
+     *      引入类型系统体系，对组合模式中的组合对象(节点)和个体对象(叶子节点)进行类型控制，用来处理其个性化需求，如不同级别的目录行缩进程度等;
+     *      使用Integer类，而不是int类：int会有初始值，不便于进行判断处理
+     */
     private Integer level;
 
     public Catalog(String name, Integer level) {
@@ -41,11 +47,19 @@ public class Catalog extends CatalogComponent {
 
         //打印子目录
         for (CatalogComponent catalogComponent : items){
-            if (this.level != null){
+
+            //类型控制，如果是目录对象实例则按照level控制级别进行行缩进
+//            if (catalogComponent instanceof Catalog){
+//                for (int i = 0; i < this.level; i++) {
+//                    System.out.print("   ");
+//                }
+//            }
+
+//            if (this.level != null){
                 for (int i = 0; i < this.level; i++) {
                     System.out.print("   ");
                 }
-            }
+//            }
             catalogComponent.print();
         }
 
