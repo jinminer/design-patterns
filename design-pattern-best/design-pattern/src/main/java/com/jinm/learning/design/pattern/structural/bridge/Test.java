@@ -20,8 +20,6 @@ public class Test {
         savingAccount.showAccountType();
         System.out.println("------------------------------------");
 
-
-
         Bank abcBank1 = new ABCBank(new DepositAccount());
         Account depositAccount1 = abcBank1.openAccount();
         depositAccount1.showAccountType();

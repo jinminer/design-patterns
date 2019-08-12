@@ -2194,7 +2194,7 @@ public class LazySingletonDoubleCheck {
   * 增加了系统的理解与设计难度
     * 类之间的关系建立在抽象层，所以在系统设计之初就要对抽象层进行详尽的设计
   * 需要正确的识别出系统中两个独立变化的维度
-    * 需要对业务模型较为熟悉，且在该领域有一定的校验积累，还要有可预见性
+    * 需要对业务模型较为熟悉，且在该领域有一定的经验积累，还要有可预见性
 * 相关设计模式
   * 桥接模式和组合模式
     * 组合模式强调的是部分和整体间的组合
@@ -2224,15 +2224,33 @@ public class LazySingletonDoubleCheck {
 
     ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/bridge/code-1.png)
 
+* 源码实践
 
+  * `java.sql.Driver` ---> 桥接模式中的实现层
 
+    * `java` 定义数据库驱动的实现规范
 
+    ![source-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/bridge/source-1.png)
 
+  * `java.sql.DriverManager` ---> 桥接模式中的抽象层
 
+    * `java` 数据库驱动管理类
 
+    ![source-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/bridge/source-2.png)
 
+    ![source-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/bridge/source-3.png)
 
+    ![source-4](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/bridge/source-4.png)
 
+  * `com.mysql.jdbc.Driver` ---> 实现层的具体实现类
+
+    ![source-5](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/bridge/source-5.png)
+
+  * 源码解析
+
+    * 通过桥接模式设计数据库驱动代码结构，不同类型的驱动只需要执行统一的实现层接口`Driver` 即可，新增驱动类型不用修改抽象层的代码逻辑
+    * 实现层和抽象层都可以沿着各自的维度进行扩展互不影响，如 `com.mysql.jdbc.Driver` 在实现 `java.sql.Driver` 接口的同时也继承了 `com.mysql.jdbc.NonRegisteringDriver` 类，这个类和抽象层并无关系
+    * 抽象层可以直观的认为是调用者，它调用实现层的实现类提供的方法，来完成自己的行为，而这种调用关系是通过桥接的方式，委托实现的
 
 
 
