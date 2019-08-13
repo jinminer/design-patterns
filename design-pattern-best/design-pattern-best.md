@@ -6,39 +6,47 @@
 
 ## 概述
 
-* <a href="#simple-factory">简单工厂模式</a>
-* <a href="#factory-method">工厂方法模式</a>
-* <a href="#product-race-level">产品族-产品等级</a>
-* <a href="#abstract-factory">抽象工厂模式</a>
-* <a href="#builder">建造者模式</a>
-* <a href="#singleton">单例模式</a>
-  * <a name="multithreading-safe-head" href="#multithreading-safe">单例模式线程安全</a> 
-  * <a name="double-check-synchronized-head" href="#double-check-synchronized">双重检查锁</a>
-  * <a name="command-sort-head" href="#command-sort">程序指令重排</a> 
-  * <a name="volatile-head" href="#volatile">`volatile`</a>
-  * <a name="static-inner-class-head" href="#static-inner-class">静态内部类</a>
-  * <a name="lazy-hungry-compare-head" href="#lazy-hungry-compare">懒汉模式vs饿汉模式</a>
-  * <a name="serializable-break-head" href="#serializable-break">序列化破坏单例</a>
-  * <a name="reflection-break-head" href="#reflection-break">反射破坏单例</a>
-  * <a name="signleton-enum-head" href="#signleton-enum">枚举类型单例</a> 
-  * <a name="container-head" href="#container">容器单例</a> 
-  * <a name="thread-local-head" href="#thread-local">`ThreadLocal`线程单例</a> 
-  * <a name="singleton-in-sources-head" href="#singleton-in-sources">单例模式源码实践</a> 
-* <a name="prototype-head" href="#prototype">原型模式</a> 
-  * <a name="clone-shallow-head" href="#clone-shallow">浅克隆</a> 
-  * <a name="clone-deep-head" href="#clone-deep">深克隆</a> 
-  * <a name="clone-singleton-break-head" href="#clone-singleton-break">克隆破坏单例</a> 
-* <a name="facade-head" href="#facade">外观模式</a> 
-* <a name="decorator-head" href="#decorator">装饰器模式</a> 
-* <a name="adapter-head" href="#adapter">适配器模式</a> 
-  * <a name="spring-mvc-head" href="#spring-mvc">`springmvc` 适配器模式实践</a> 
-* <a name="flyweight-head" href="#flyweight">享元模式</a> 
-* <a name="composite-head" href="#composite">组合模式</a> 
-* <a name="bridge-head" href="#bridge">桥接模式</a> 
+* <a name="creational-head" name="#creational">创建型</a> 
+  * <a href="#simple-factory">简单工厂模式</a> 
+  * <a href="#factory-method">工厂方法模式</a> 
+  * <a href="#product-race-level">产品族-产品等级</a> 
+  * <a href="#abstract-factory">抽象工厂模式</a> 
+  * <a href="#builder">建造者模式</a> 
+  * <a href="#singleton">单例模式</a> 
+    * <a name="multithreading-safe-head" href="#multithreading-safe">单例模式线程安全</a> 
+    * <a name="double-check-synchronized-head" href="#double-check-synchronized">双重检查锁</a> 
+    * <a name="command-sort-head" href="#command-sort">程序指令重排</a> 
+    * <a name="volatile-head" href="#volatile">`volatile`</a> 
+    * <a name="static-inner-class-head" href="#static-inner-class">静态内部类</a> 
+    * <a name="lazy-hungry-compare-head" href="#lazy-hungry-compare">懒汉模式vs饿汉模式</a> 
+    * <a name="serializable-break-head" href="#serializable-break">序列化破坏单例</a> 
+    * <a name="reflection-break-head" href="#reflection-break">反射破坏单例</a> 
+    * <a name="signleton-enum-head" href="#signleton-enum">枚举类型单例</a> 
+    * <a name="container-head" href="#container">容器单例</a> 
+    * <a name="thread-local-head" href="#thread-local">`ThreadLocal`线程单例</a> 
+    * <a name="singleton-in-sources-head" href="#singleton-in-sources">源码实践</a> 
+  * <a name="prototype-head" href="#prototype">原型模式</a> 
+    * <a name="clone-shallow-head" href="#clone-shallow">浅克隆</a> 
+    * <a name="clone-deep-head" href="#clone-deep">深克隆</a> 
+    * <a name="clone-singleton-break-head" href="#clone-singleton-break">克隆破坏单例</a> 
+* <a name="structural-head" href="#structural">结构型</a> 
+  * <a name="facade-head" href="#facade">外观模式</a> 
+  * <a name="decorator-head" href="#decorator">装饰器模式</a> 
+  * <a name="adapter-head" href="#adapter">适配器模式</a> 
+    * <a name="spring-mvc-head" href="#spring-mvc">`springmvc` 源码实践</a> 
+  * <a name="flyweight-head" href="#flyweight">享元模式</a> 
+  * <a name="composite-head" href="#composite">组合模式</a> 
+  * <a name="bridge-head" href="#bridge">桥接模式</a> 
+  * <a name="proxy-head" href="#proxy">代理模式</a> 
+    * <a name="proxy-static-head" href="#proxy-static">静态代理</a> 
+    * <a name="proxy-dynamic-head" href="#proxy-dynamic">动态代理</a> 
+    * <a name="proxy-cglib-head" href="#proxy-cglib">`CGLib`</a> 
+    * <a name="proxy-spring-head" href="#proxy-spring">`spring` 中的代理选择</a> 
+  * <a name="proxy-performance-vs-head" href="#proxy-performance-vs">代理性能对比</a> 
 
+## <a name="creational" href="#creational-head">创建型</a> 
 
-
-## <a name="simple-factory">简单工厂</a>
+### <a name="simple-factory">简单工厂</a>
 
 * 定义
   
@@ -68,7 +76,7 @@
 
 
 
-## <a name="factory-method">工厂方法模式</a>
+### <a name="factory-method">工厂方法模式</a>
 
 * 定义
   * 定义一个创建对象的接口，让实现这个接口的类来决定实例化哪个工厂方法
@@ -93,7 +101,7 @@
 
 
 
-## <a name="product-race-level">产品族-产品等级</a>
+### <a name="product-race-level">产品族-产品等级</a>
 
 * 产品族：产于同一厂商(工厂类)，但是每个产品完成的功能接口不同，并且产品之间相互联系，这个集合称之为**产品族**
 * 产品等级：一系列具有相似功能(提供的接口功能相同)，来自于不同产地(工厂类)的产品，称它们处于同一个**产品等级**
@@ -140,7 +148,7 @@
 
 
 
-## <a name="abstract-factory">抽象工厂模式</a>
+### <a name="abstract-factory">抽象工厂模式</a>
 
 * 定义
   * 抽象工厂模式提供一个创建一系列相关或相互依赖对象的接口
@@ -171,7 +179,7 @@
 
 
 
-## <a name="builder">建造者模式</a>
+### <a name="builder">建造者模式</a>
 
 * 定义
   * 将一个复杂对象的构建与他的表示分离，使得同样的构建过程可以创建不同的表示
@@ -200,7 +208,7 @@
 
 
 
-## <a name="singleton">单例模式</a>
+### <a name="singleton">单例模式</a>
 
 * 定义
 
@@ -241,7 +249,7 @@
   * 单例模式和工厂模式
   * 单例模式和享元模式
 
-### <a name="multithreading-safe" href="#multithreading-safe-head">单例模式线程安全</a>
+#### <a name="multithreading-safe" href="#multithreading-safe-head">单例模式线程安全</a>
 
 * 相关代码
 
@@ -351,7 +359,7 @@
 
 
 
-### <a name="double-check-synchronized" href="#double-check-synchronized-head">双重检查锁</a>
+#### <a name="double-check-synchronized" href="#double-check-synchronized-head">双重检查锁</a>
 
 ```java
 public class LazySingletonDoubleCheck {
@@ -387,7 +395,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="command-sort" href="#command-sort-head">程序指令重排</a>
+#### <a name="command-sort" href="#command-sort-head">程序指令重排</a>
 
 * 问题描述
 
@@ -449,7 +457,7 @@ public class LazySingletonDoubleCheck {
 
 * 注意：多线程场景下，程序指令重排序可能将一个未初始化的对象引用暴露出来，从而导致不可预料的结果，虽然这种问题的出现具有一定的概率性的，但是作为程序隐患一定要进行消除
 
-### <a name="volatile" href="#volatile-head">`volatile`</a>
+#### <a name="volatile" href="#volatile-head">`volatile`</a>
 
 * 程序指令重排问题解决方案一：禁止指令重排序
   
@@ -498,7 +506,7 @@ public class LazySingletonDoubleCheck {
 
   
 
-### <a name="static-inner-class" href="#static-inner-class-head">静态内部类</a>
+#### <a name="static-inner-class" href="#static-inner-class-head">静态内部类</a>
 
 * 程序指令重排问题解决方案二：基于类初始化的解决方案
   * 允许程序指令重排序，但不允许非构造线程看到构造线程的指令重排序
@@ -527,7 +535,7 @@ public class LazySingletonDoubleCheck {
     * 其他非构造线程如 `线程1` ，在 `线程0` 完成静态内部类的调用之前都处于`MONITOR`阻塞状态
     * 也就是说，即使静态内部类在完成对象创建和变量赋值操作时发生指令重排序情况，也只是在 `线程0` 执行方法期间，避免暴露未初始化对象的问题
 
-### <a name="lazy-hungry-compare" href="#lazy-hungry-compare-head">懒汉模式vs饿汉模式</a>
+#### <a name="lazy-hungry-compare" href="#lazy-hungry-compare-head">懒汉模式vs饿汉模式</a>
 
 * 懒汉模式
   * 延迟加载，被调用时完成加载
@@ -538,7 +546,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="serializable-break" href="#serializable-break-head">序列化破坏单例</a>
+#### <a name="serializable-break" href="#serializable-break-head">序列化破坏单例</a>
 
 * 代码示例
 
@@ -588,7 +596,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="reflection-break" href="#reflection-break-head">反射破坏单例</a>
+#### <a name="reflection-break" href="#reflection-break-head">反射破坏单例</a>
 
 * 通过反射机制，`new` 对象
 
@@ -713,7 +721,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="signleton-enum" href="#signleton-enum-head">枚举类型单例</a>
+#### <a name="signleton-enum" href="#signleton-enum-head">枚举类型单例</a>
 
 * 单例模式最佳实践
 
@@ -1069,7 +1077,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="container" href="#container-head">容器单例</a>
+#### <a name="container" href="#container-head">容器单例</a>
 
 * 概述
   * 和享元模式类似
@@ -1116,7 +1124,7 @@ public class LazySingletonDoubleCheck {
 
   
 
-### <a name="thread-local" href="#thread-local-head"> `ThreadLocal`线程单例</a>
+#### <a name="thread-local" href="#thread-local-head"> `ThreadLocal`线程单例</a>
 
 * 概述
   * 保证线程唯一，确保每个线程内部的单例性
@@ -1151,7 +1159,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="singleton-in-sources" href="#singleton-in-sources-head">单例模式源码实践</a>
+#### <a name="singleton-in-sources" href="#singleton-in-sources-head">源码实践</a> 
 
 * `jdk Runtime` 
 
@@ -1181,7 +1189,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-## <a name="prototype" href="#prototype-head">原型模式</a> 
+### <a name="prototype" href="#prototype-head">原型模式</a> 
 
 * 定义
   * 指原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象
@@ -1303,7 +1311,7 @@ public class LazySingletonDoubleCheck {
 
   
 
-### <a name="clone-shallow" href="#clone-shallow-head">浅克隆</a>
+#### <a name="clone-shallow" href="#clone-shallow-head">浅克隆</a>
 
 * 只克隆类当前的层次，不会克隆类内部的引用属性
 
@@ -1390,7 +1398,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="clone-deep" href="#clone-deep-head">深克隆</a>
+#### <a name="clone-deep" href="#clone-deep-head">深克隆</a>
 
 * 对于类内部的引用类型属性也要重写克隆方法，克隆对象的同时也克隆对象中的引用类型属性
 
@@ -1483,7 +1491,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="clone-singleton-break" href="#clone-singleton-break-head">克隆破坏单例</a>
+#### <a name="clone-singleton-break" href="#clone-singleton-break-head">克隆破坏单例</a>
 
 * 代码示例
 
@@ -1570,7 +1578,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### 源码中的原型模式
+#### 源码实践
 
 * `java.util.ArrayList#clone()` 
 
@@ -1586,7 +1594,9 @@ public class LazySingletonDoubleCheck {
 
 
 
-## <a name="facade" href="#facade-head">外观模式</a>
+## <a name="structural" href="#structural-head">结构型</a>
+
+### <a name="facade" href="#facade-head">外观模式</a>
 
 * 定义
   * 又称为门面模式，提供一个统一的接口，用来访问子系统中的一群接口
@@ -1652,7 +1662,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-## <a name="decorator" href="#decorator-head">装饰器模式</a>
+### <a name="decorator" href="#decorator-head">装饰器模式</a>
 
 * 定义
   * 在不改变原有对象的基础上，将功能附加到对象上
@@ -1738,7 +1748,7 @@ public class LazySingletonDoubleCheck {
   
   
 
-## <a name="adapter" href="#adapter-head">适配器模式</a> 
+### <a name="adapter" href="#adapter-head">适配器模式</a> 
 
 * 定义
   * 将一个类的接口(被适配者)转换成客户期望的另一个接口(目标类)
@@ -1875,7 +1885,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="spring-mvc" href="#spring-mvc-head">`springmvc` 适配器模式实践</a> 
+#### <a name="spring-mvc" href="#spring-mvc-head">`springmvc` 源码实践</a> 
 
 * `org.springframework.web.servlet.DispatcherServlet` 
 
@@ -1915,7 +1925,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-## <a name="flyweight" href="#flyweight-head">享元模式</a> 
+### <a name="flyweight" href="#flyweight-head">享元模式</a> 
 
 * 定义
 
@@ -2078,7 +2088,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-## <a name="composite" href="#composite-head">组合模式</a>
+### <a name="composite" href="#composite-head">组合模式</a>
 
 * 定义
 
@@ -2163,7 +2173,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-## <a name="bridge" href="#bridge-head">桥接模式</a>
+### <a name="bridge" href="#bridge-head">桥接模式</a>
 
 * 定义
   * 将抽象部分与它的具体实现部分分离，使它们都可以独立地变化，即在一定程度上实现解耦
@@ -2251,6 +2261,102 @@ public class LazySingletonDoubleCheck {
     * 通过桥接模式设计数据库驱动代码结构，不同类型的驱动只需要执行统一的实现层接口`Driver` 即可，新增驱动类型不用修改抽象层的代码逻辑
     * 实现层和抽象层都可以沿着各自的维度进行扩展互不影响，如 `com.mysql.jdbc.Driver` 在实现 `java.sql.Driver` 接口的同时也继承了 `com.mysql.jdbc.NonRegisteringDriver` 类，这个类和抽象层并无关系
     * 抽象层可以直观的认为是调用者，它调用实现层的实现类提供的方法，来完成自己的行为，而这种调用关系是通过桥接的方式，委托实现的
+
+### <a name="proxy" href="#proxy-head">代理模式</a> 
+
+* 定义
+  * 为其他对象提供一种代理，以控制对这个对象的访问
+  * 代理对象在客户端和目标对象之间起到中介的作用
+    * 代理对象是对目标对象的增强，相当于一个中介，客户端不之间与目标对象打交道，比如房屋中介增强了租房这个行为
+* 类型
+  * 结构型
+* 适用场景
+  * 保护目标对象
+    * 例如租房子，在租房合同签订的过程中，我们不知道房东长啥样，姓谁名谁
+  * 增强目标对象
+    * 如房屋中介在租房这件事上，可能比房东更加专业，那么中介这个代理对象从一定意义上增强了房东的租房行为
+* 优点
+  * 代理模式能将代理对象与真实被调用的目标对象分离
+  * 一定程度上降低了系统的耦合度，扩展性好
+  * 保护目标对象
+  * 增强目标对象
+* 缺点
+  * 代理模式会造成系统设计中类的数目增加
+  * 在客户端和目标对象之间增加一个代理对象，会造成请求处理速度变慢
+  * 增加系统的复杂度
+
+#### <a name="proxy-static" href="#proxy-static-head">静态代理</a> 
+
+* 定义
+  * 在代码中显式指定代理
+  * 即在代码中显式的定义了业务类的一个代理，并在代理类中对同名的方法进行包装，用户通过调用代理类中被包装过的业务方法来调用目标对象的业务方法，同时对目标对象的业务方法进行增强
+
+#### <a name="proxy-dynamic" href="#proxy-dynamic-head">动态代理</a> 
+
+* 定义
+  * 动态代理类无法代理类，可以代理接口
+  * 只能对实现了某个接口的类进行动态代理，并不能对一个具体实现类进行动态代理
+    * 如 `jdk` 中，用到的代理类，是在程序调用到代理类对象时才由`jvm`真正创建
+    * `jvm`根据传入的业务实现类对象，以及方法名，动态的创建了一个代理类的`.class`文件，并且这个`.class`文件被字节码引擎执行，然后再通过该代理类的对象进行方法调用
+  * 通过接口中的方法名，在动态生成代理类中调用业务实现类的同名方法
+
+#### <a name="proxy-cglib" href="#proxy-cglib-head">`CGLib`</a> 
+
+* 定义
+  * 针对类实现进行代理
+  * 通过继承的机制实现，生成的动态代理类就是业务类的子类，再通过重写业务方法进行代理
+* 原理
+  * 如果我们代理一个类，`CGLib`会生成一个被代理类的子类，覆盖父类中的方法，也就是继承和重写，
+
+#### <a name="proxy-spring" href="#proxy-spring-head">`spring` 中的代理选择</a> 
+
+* 当`Bean` 有实现接口时，`spring` 就会用 `jdk` 的动态代理
+
+* 当`Bean` 没有实现接口时，`spring` 使用 `CGLib` 的动态代理
+
+* 可以强制使用 `CGLib` 
+
+  * 在 `spring` 配置中加入 `<aop:aspectj-autoproxy proxy-target-class="true"/>` 
+
+  * <https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html> 
+
+#### <a name="proxy-performance-vs" href="#proxy-performance-vs-head">代理性能对比</a> 
+
+* 原理
+  * `CGLib ` 
+    * `CGLib ` 底层使用了`ASM` (一个短小精悍的字节码操作框架)来操作字节码生成新的类
+    * 通过这种方式比使用 `java` 反射效率要高
+    * 但是在使用 `CGLib ` 时一定要关注  `final` 修饰符
+  * `JDK` 动态代理
+    * `JDK` 原生的代理实现
+* 性能对比
+  * 例如在万级次数执行的情况下 `jdk7` 和 `jdk8` 的动态代理性能大约比 `CGLib ` 快20%左右
+
+#### 相关设计模式
+
+* 代理模式和装饰者模式
+  * 实现较为相似
+  * 目的不同
+    * 装饰者模式
+      * 为对象加上行为
+    * 代理模式
+      * 控制访问
+      * 更加注重通过设置代理对象的方式来增强目标对象，这些增强方式一般体现在增强目标对象的某些行为
+* 代理模式和适配器模式
+  * 适配器模式
+    * 主要考虑改变目标对象的接口
+  * 代理模式
+    * 不能改变目标类的接口
+
+
+
+
+
+
+
+
+
+
 
 
 
