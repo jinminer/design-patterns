@@ -1,4 +1,9 @@
-package com.jinm.learning.design.pattern.structural.proxy;
+package com.jinm.learning.design.pattern.structural.proxy.staticproxy;
+
+import com.jinm.learning.design.pattern.structural.proxy.IOrderService;
+import com.jinm.learning.design.pattern.structural.proxy.Order;
+import com.jinm.learning.design.pattern.structural.proxy.OrderServiceImpl;
+import com.jinm.learning.design.pattern.structural.proxy.db.DataSourceContextHolder;
 
 /**
  * order service static proxy.
@@ -13,7 +18,8 @@ public class OrderServiceStaticProxy {
     private IOrderService orderService;
 
     /**
-     *  增强目标对象orderService 的 saveOrder 行为
+     *  增强目标对象orderService 的 saveOrder 行为;
+     *  这里的方法命名可以与被增强的目标对象方法相同，也可不同
      */
     public int saveOrder(Order order){
         beforeMethod();
@@ -25,8 +31,11 @@ public class OrderServiceStaticProxy {
         int dbRouter = userId %2;
         System.out.println("静态代理分配到 db【" + dbRouter + "】处理数据");
 
+        //TODO 设置datasource
+        DataSourceContextHolder.setDBType("db" + String.valueOf(dbRouter));
+
         afterMethod();
-        return 0;
+        return orderService.saveOrder(order);
     }
 
     private void beforeMethod(){

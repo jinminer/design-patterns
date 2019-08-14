@@ -2348,7 +2348,21 @@ public class LazySingletonDoubleCheck {
   * 代理模式
     * 不能改变目标类的接口
 
+#### 代码示例
 
+* 静态代理
+
+  * 场景：简单模拟订单入库的分库分表过程
+  * 角色
+    * `IOrderService`  目标对象(被代理对象) 
+    * `IOrderService.saveOrder()` 目标对象中被代理增强的具体行为
+    * `OrderServiceStaticProxy` 代理对象
+    * `OrderServiceStaticProxy.saveOrder()` 代理对象中具体的代理方法，方法的命名可以与被代理对象中的方面相同或不同
+    * `DataSourceContextHolder` 、`DataSourceContextHolder` 模拟订单分库分表实现，与代理并无关系
+  * 解析
+    * `OrderServiceStaticProxy` 代理对象对目标对象 `IOrderService` 进行代理(使用组合的方式)，增强了目标对象的 `saveOrder()` 方法(行为)，使订单数据分库插入
+
+  ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/code-1.png)
 
 
 
