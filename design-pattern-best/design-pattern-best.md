@@ -2559,9 +2559,13 @@ public class LazySingletonDoubleCheck {
 
     ![dynamic-debug-11](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-11.png)
 
-  * 9- `IOrderService#saveOrder()` 方法被调用，进入 `com.jinm.learning.design.pattern.structural.proxy.dynamicproxy.OrderServiceDynamicProxy#invoke()` 方法
+  * 9- `IOrderService#saveOrder()` 方法被调用，进入 `OrderServiceDynamicProxy#invoke()` 方法
 
-    * 参数 `proxy` 在当前代码方法中并未使用，但是这个测试是不可获取的：
+    * 为什么调用代理类中的被代理方法 `IOrderService#saveOrder()` 会进入 `OrderServiceDynamicProxy#invoke()` 方法？来看 `java.lang.reflect.Proxy` 类中的描述：
+
+      ![dynamic-debug-17](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-17.png)
+
+    * 参数 `proxy` 在当前代码方法中并未使用，但它是不可缺少的：
 
     *  由 `java.lang.reflect.Proxy#newProxyInstance()` 中的代码 `Class<?> cl = getProxyClass0(loader, intfs)` 创建，是`jdk` 动态生成的 `class` 字节码文件
 
@@ -2579,11 +2583,11 @@ public class LazySingletonDoubleCheck {
 
       ![dynamic-debug-14](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-14.png)
 
-  * 调用 `java.lang.reflect.Method#invoke()` 方法，并加入被代理目标对象的真正方法中
+  * 10-调用 `java.lang.reflect.Method#invoke()` 方法，并加入被代理目标对象的真正方法中
 
     ![dynamic-debug-15](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-15.png)
 
-  * 被代理目标对象的具体方法被调用，代码执行完毕，整个代理过程结束
+  * 11-被代理目标对象的具体方法被调用，代码执行完毕，整个动态代理过程结束
 
     ![dynamic-debug-16](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-16.png)
 
