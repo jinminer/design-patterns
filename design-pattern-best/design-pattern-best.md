@@ -2591,7 +2591,41 @@ public class LazySingletonDoubleCheck {
 
     ![dynamic-debug-16](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-16.png)
 
+#### 源码实践
 
+* `mybatis` 
+
+  *  `org.apache.ibatis.binding.MapperProxy` 
+
+    ![source-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/source-1.png)
+
+*  `springframework` 
+
+  * `org.springframework.aop.framework.ProxyFactoryBean#getObject()` 
+
+    ![source-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/source-2.png)
+
+  * `org.springframework.aop.framework.ProxyFactoryBean#getSingletonInstance()` 
+
+    ![source-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/source-3.png)
+
+  * `org.springframework.aop.framework.ProxyFactoryBean#getProxy()` 
+
+    ![source-4](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/source-4.png)
+
+  * `org.springframework.aop.framework.DefaultAopProxyFactory#createAopProxy` 
+
+    ![source-5](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/source-5.png)
+
+  * `org.springframework.aop.framework.JdkDynamicAopProxy#invoke()` 
+
+    ![source-5-jdk-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/source-5-jdk-1.png)
+
+    ![source-5-jdk-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/source-5-jdk-2.png)
+
+  * `org.springframework.aop.framework.CglibAopProxy#getProxy(java.lang.ClassLoader)` 
+
+    ![source-5-cglib-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/source-5-cglib-1.png)
 
 
 
