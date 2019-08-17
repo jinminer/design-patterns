@@ -1,9 +1,10 @@
-package com.jinm.learning.design.pattern.structural.proxy;
+package com.jinm.learning.design.pattern.structural.proxy.staticproxy;
 
+import com.jinm.learning.design.pattern.structural.proxy.Order;
 import com.jinm.learning.design.pattern.structural.proxy.staticproxy.OrderServiceStaticProxy;
 
 /**
- * test.
+ * static   proxy   test.
  * Created by jinm on  2019/08/15.  contact: keanemer.gmail.com
  */
 
