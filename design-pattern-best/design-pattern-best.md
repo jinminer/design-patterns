@@ -2355,228 +2355,232 @@ public class LazySingletonDoubleCheck {
   * 在设计代理类时要注意目标对象被增强方法实现逻辑中的先后顺序
   * 即：根据具体的业务逻辑，确定 `beforeMethod()` 和 `afterMethod()` 在代理逻辑中的确切位置
   
-* 静态代理
+  
 
-  * 静态代理代码实现
+##### 静态代理
 
-    ```java
-    public class OrderServiceStaticProxy {
-    
-        /**
-         *  声明/注入目标对象
-         */
-        private IOrderService orderService;
-    
-        /**
-         *  增强目标对象orderService 的 saveOrder 行为;
-         *  这里的方法命名可以与被增强的目标对象方法相同，也可不同
-         */
-        public int saveOrder(Order order){
-    
-            /**
-             *  这里要注意beforeMethod()方法和afterMethod()方法的界限划分
-             *      代理类中的方法OrderServiceStaticProxy.saveOrder()  是为了增强 目标对象的方法orderService.saveOrder()：
-             *          beforeMethod()：确定目标数据库，在执行orderService.saveOrder()之前要完成对分库分表的数据库路由选择逻辑，即确定数据要插入哪个库；
-             *          afterMethod()：在执行orderService.saveOrder()完毕之后需要完成的逻辑；
-             */
-    
-            /**
-             *  具体的代理处理逻辑
-             *  即，在目标对象的saveOrder()方法被调用之前，数据要插入哪个库已经确定
-             */
-            beforeMethod(order);
-    
-            //显示注入，模拟spring注入
-            orderService = new OrderServiceImpl();
-    
-            //被代理的目标对象的方法，也就是目标对象被实际增强的方法
-            int result = orderService.saveOrder(order);
-    
-            afterMethod();
-    
-            return result;
-        }
-    
-        private void beforeMethod(Order order){
-    
-            System.out.println("静态代理    before  code");
-    
-            /*-----------------------被代理目标对象方法增强    begining---------------------------*/
-            int userId = order.getUserId();
-            //设置分库分表路由规则
-            int dbRouter = userId %2;
-            System.out.println("静态代理分配到 db【" + dbRouter + "】处理数据");
-    
-            //TODO 设置datasource
-            DataSourceContextHolder.setDBType("db" + String.valueOf(dbRouter));
-            /*-----------------------被代理目标对象方法增强    ending---------------------------*/
-    
-        }
-    
-        private void afterMethod(){
-            System.out.println("静态代理    after   code");
-        }
-    
-    }
-    ```
+* 静态代理代码实现
 
-    
+  ```java
+  public class OrderServiceStaticProxy {
+  
+      /**
+       *  声明/注入目标对象
+       */
+      private IOrderService orderService;
+  
+      /**
+       *  增强目标对象orderService 的 saveOrder 行为;
+       *  这里的方法命名可以与被增强的目标对象方法相同，也可不同
+       */
+      public int saveOrder(Order order){
+  
+          /**
+           *  这里要注意beforeMethod()方法和afterMethod()方法的界限划分
+           *      代理类中的方法OrderServiceStaticProxy.saveOrder()  是为了增强 目标对象的方法orderService.saveOrder()：
+           *          beforeMethod()：确定目标数据库，在执行orderService.saveOrder()之前要完成对分库分表的数据库路由选择逻辑，即确定数据要插入哪个库；
+           *          afterMethod()：在执行orderService.saveOrder()完毕之后需要完成的逻辑；
+           */
+  
+          /**
+           *  具体的代理处理逻辑
+           *  即，在目标对象的saveOrder()方法被调用之前，数据要插入哪个库已经确定
+           */
+          beforeMethod(order);
+  
+          //显示注入，模拟spring注入
+          orderService = new OrderServiceImpl();
+  
+          //被代理的目标对象的方法，也就是目标对象被实际增强的方法
+          int result = orderService.saveOrder(order);
+  
+          afterMethod();
+  
+          return result;
+      }
+  
+      private void beforeMethod(Order order){
+  
+          System.out.println("静态代理    before  code");
+  
+          /*-----------------------被代理目标对象方法增强    begining---------------------------*/
+          int userId = order.getUserId();
+          //设置分库分表路由规则
+          int dbRouter = userId %2;
+          System.out.println("静态代理分配到 db【" + dbRouter + "】处理数据");
+  
+          //TODO 设置datasource
+          DataSourceContextHolder.setDBType("db" + String.valueOf(dbRouter));
+          /*-----------------------被代理目标对象方法增强    ending---------------------------*/
+  
+      }
+  
+      private void afterMethod(){
+          System.out.println("静态代理    after   code");
+      }
+  
+  }
+  ```
 
-  * 场景：简单模拟订单入库的分库分表过程
+  
 
-  * 角色
-    * `IOrderService`  目标对象(被代理对象) 
-    * `IOrderService.saveOrder()` 目标对象中被代理增强的具体行为
-    * `OrderServiceStaticProxy` 代理对象
-    * `OrderServiceStaticProxy.saveOrder()` 代理对象中具体的代理方法，方法的命名可以与被代理对象中的方法相同或不同
-    * `DataSourceContextHolder` 、`DataSourceContextHolder` 模拟订单分库分表实现，与代理并无关系
+* 场景：简单模拟订单入库的分库分表过程
 
-  * 解析
-    * `OrderServiceStaticProxy` 代理对象对目标对象 `IOrderService` 进行代理(使用组合的方式)，增强了目标对象的 `saveOrder()` 方法(行为)，使订单数据分库插入
-    * 显示指定代理，是静态代理
+* 角色
+  * `IOrderService`  目标对象(被代理对象) 
+  * `IOrderService.saveOrder()` 目标对象中被代理增强的具体行为
+  * `OrderServiceStaticProxy` 代理对象
+  * `OrderServiceStaticProxy.saveOrder()` 代理对象中具体的代理方法，方法的命名可以与被代理对象中的方法相同或不同
+  * `DataSourceContextHolder` 、`DataSourceContextHolder` 模拟订单分库分表实现，与代理并无关系
 
-  ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/code-1.png)
+* 解析
+  * `OrderServiceStaticProxy` 代理对象对目标对象 `IOrderService` 进行代理(使用组合的方式)，增强了目标对象的 `saveOrder()` 方法(行为)，使订单数据分库插入
+  * 显示指定代理，是静态代理
 
-* 动态代理
+![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/code-1.png)
+
+
+
+##### 动态代理
+
+* 与静态代理的区别
+
+  * 静态代理：需要显示的指定被代理的对象，目标对象在程序编码时已经确定，所以对于不同的代理目标对象/目标对象的被代理方法，都要创建相应的代理类
+  * 动态代理：由于是在运行时代理被调用后，才去创建被代理对象，所以一个代理就可以处理多个目标对象的处理逻辑
+
+* 动态代理代码实现
+
+  ```java
+  public class OrderServiceDynamicProxy implements InvocationHandler {
   
-  * 与静态代理的区别
+      //要被代理的目标对象
+      private Object target;
   
-    * 静态代理：需要显示的指定被代理的对象，目标对象在程序编码时已经确定，所以对于不同的代理目标对象/目标对象的被代理方法，都要创建相应的代理类
-    * 动态代理：由于是在运行时代理被调用后，才去创建被代理对象，所以一个代理就可以处理多个目标对象的处理逻辑
+      //构造器注入被代理的目标对象
+      public OrderServiceDynamicProxy(Object target) {
+          this.target = target;
+      }
   
-  * 动态代理代码实现
+      public Object build(){
+          Class clazz = target.getClass();
   
-    ```java
-    public class OrderServiceDynamicProxy implements InvocationHandler {
-    
-        //要被代理的目标对象
-        private Object target;
-    
-        //构造器注入被代理的目标对象
-        public OrderServiceDynamicProxy(Object target) {
-            this.target = target;
-        }
-    
-        public Object build(){
-            Class clazz = target.getClass();
-    
-            //动态代理的核心
-            return Proxy.newProxyInstance(clazz.getClassLoader(), clazz.getInterfaces(), this);
-        }
-    
-        /**
-          * Create by jinm on 2019/8/15 .
-          * @description    动态代理
-          * @param proxy    一般很少使用，被调用方法的代理实例
-          * @param method   要被增强的方法对象
-          * @param args 被增强方法的参数
-          * @return java.lang.Object
-          */
-        @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-    
-            Object arg = args[0];
-            beforeMethod(arg);
-            Object object = method.invoke(target, args);
-            afterMethod();
-    
-            return object;
-        }
-    
-        private void beforeMethod(Object obj){
-    
-            System.out.println("动态代理    before  code");
-    
-            if (obj instanceof Order){
-                /*-----------------------被代理目标对象方法增强    begining---------------------------*/
-                Order order = (Order) obj;
-                int userId = order.getUserId();
-                //设置分库分表路由规则
-                int dbRouter = userId %2;
-                System.out.println("动态代理分配到 db【" + dbRouter + "】处理数据");
-    
-                //TODO 设置datasource
-                DataSourceContextHolder.setDBType("db" + String.valueOf(dbRouter));
-                /*-----------------------被代理目标对象方法增强    ending---------------------------*/
-            }
-            
-        }
-    
-        private void afterMethod(){
-            System.out.println("动态代理    after   code");
-        }
-    
-    }
-    ```
+          //动态代理的核心
+          return Proxy.newProxyInstance(clazz.getClassLoader(), clazz.getInterfaces(), this);
+      }
   
-  *  `debug` 解析
+      /**
+        * Create by jinm on 2019/8/15 .
+        * @description    动态代理
+        * @param proxy    一般很少使用，被调用方法的代理实例
+        * @param method   要被增强的方法对象
+        * @param args 被增强方法的参数
+        * @return java.lang.Object
+        */
+      @Override
+      public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
   
-    * `Test` 类中调用 `OrderServiceDynamicProxy` 动态代理类的构造方法
+          Object arg = args[0];
+          beforeMethod(arg);
+          Object object = method.invoke(target, args);
+          afterMethod();
   
-      ![dynamic-debug-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-1.png)
+          return object;
+      }
   
-    *  `OrderServiceDynamicProxy` 动态代理类的构造方法被调用，并注入被代理的目标对象类 `OrderServiceImpl` 
+      private void beforeMethod(Object obj){
   
-      ![dynamic-debug-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-2.png)
+          System.out.println("动态代理    before  code");
   
-    * 调用动态代理类的动态绑定方法 `OrderServiceDynamicProxy#build()` 
+          if (obj instanceof Order){
+              /*-----------------------被代理目标对象方法增强    begining---------------------------*/
+              Order order = (Order) obj;
+              int userId = order.getUserId();
+              //设置分库分表路由规则
+              int dbRouter = userId %2;
+              System.out.println("动态代理分配到 db【" + dbRouter + "】处理数据");
   
-      ![dynamic-debug-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-3.png)
+              //TODO 设置datasource
+              DataSourceContextHolder.setDBType("db" + String.valueOf(dbRouter));
+              /*-----------------------被代理目标对象方法增强    ending---------------------------*/
+          }
+          
+      }
   
-    * `java.lang.reflect.Proxy#newProxyInstance()` 
+      private void afterMethod(){
+          System.out.println("动态代理    after   code");
+      }
   
-      ![dynamic-debug-4](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-4.png)
-  
-    * `java.lang.reflect.Proxy#getProxyClass0()` 
-  
-      * 从 `class` 缓存中获取目标对象的代理对象
-      * 如果缓存中有，直接获取返回
-      * 如果没有则通过工厂模式创建该对象，并加载到 `class` 缓存中，并返回该对象
-  
-      ![dynamic-debug-5](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-5.png)
-  
-    * `java.lang.reflect.WeakCache#get()` 
-  
-      ![dynamic-debug-6](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-6.png)
-  
-      ![dynamic-debug-7](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-7.png)
-  
-      ![dynamic-debug-8](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-8.png)
-  
-      ![dynamic-debug-9](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-9.png)
-  
-    * `java.lang.reflect.Proxy#newProxyInstance`() 
-  
-      * 根据上一步得到的代理类的 `class` 对象，创建目标对象的代理对象
-  
-      ![dynamic-debug-10](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-10.png)
-  
-    * 目标类 `OrderServiceImpl` 的代理对象创建成功，并调用目标类被代理的具体方法 `IOrderService#saveOrder()` 
-  
-      ![dynamic-debug-11](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-11.png)
-  
-    * `IOrderService#saveOrder()` 方法被调用，进入 `com.jinm.learning.design.pattern.structural.proxy.dynamicproxy.OrderServiceDynamicProxy#invoke()` 方法
-  
-      * 参数 `proxy` 在当前代码方法中并未使用，但是这个测试是不可获取的：
-      *  由 `java.lang.reflect.Proxy#newProxyInstance()` 中的代码 `Class<?> cl = getProxyClass0(loader, intfs)` 创建，是`jdk` 动态生成的 `class` 字节码文件
-      * 用来获取获取 `method` 和 `args` 参数的值，对动态生成的 `$Proxy0` 进行持久化，再通过反编译后发现代码中会通过 `Class.forName()` 方法获取具体的方法
-  
-      ![dynamic-debug-12](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-12.png)
-      * 参数 `method` ---> 被代理的目标对象的代理行为 ，即 `savaOrder()` 方法
-      * 作为 `Class.forName()` 方法的参数获取具体的方法
-  
-      ![dynamic-debug-13](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-13.png)
-      * 通过参数 `proxy` 获取具体的方法参数
-  
-      ![dynamic-debug-14](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-14.png)
-  
-    * 调用 `java.lang.reflect.Method#invoke()` 方法，并加入被代理目标对象的真正方法中
-  
-      ![dynamic-debug-15](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-15.png)
-  
-    * 被代理目标对象的具体方法被调用，代码执行完毕，整个代理过程结束
-  
-    ![dynamic-debug-16](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-16.png)
+  }
+  ```
+
+*  `debug` 解析
+
+  * `Test` 类中调用 `OrderServiceDynamicProxy` 动态代理类的构造方法
+
+    ![dynamic-debug-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-1.png)
+
+  *  `OrderServiceDynamicProxy` 动态代理类的构造方法被调用，并注入被代理的目标对象类 `OrderServiceImpl` 
+
+    ![dynamic-debug-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-2.png)
+
+  * 调用动态代理类的动态绑定方法 `OrderServiceDynamicProxy#build()` 
+
+    ![dynamic-debug-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-3.png)
+
+  * `java.lang.reflect.Proxy#newProxyInstance()` 
+
+    ![dynamic-debug-4](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-4.png)
+
+  * `java.lang.reflect.Proxy#getProxyClass0()` 
+
+    * 从 `class` 缓存中获取目标对象的代理对象
+    * 如果缓存中有，直接获取返回
+    * 如果没有则通过工厂模式创建该对象，并加载到 `class` 缓存中，并返回该对象
+
+    ![dynamic-debug-5](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-5.png)
+
+  * `java.lang.reflect.WeakCache#get()` 
+
+    ![dynamic-debug-6](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-6.png)
+
+    ![dynamic-debug-7](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-7.png)
+
+    ![dynamic-debug-8](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-8.png)
+
+    ![dynamic-debug-9](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-9.png)
+
+  * `java.lang.reflect.Proxy#newProxyInstance`() 
+
+    * 根据上一步得到的代理类的 `class` 对象，创建目标对象的代理对象
+
+    ![dynamic-debug-10](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-10.png)
+
+  * 目标类 `OrderServiceImpl` 的代理对象创建成功，并调用目标类被代理的具体方法 `IOrderService#saveOrder()` 
+
+    ![dynamic-debug-11](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-11.png)
+
+  * `IOrderService#saveOrder()` 方法被调用，进入 `com.jinm.learning.design.pattern.structural.proxy.dynamicproxy.OrderServiceDynamicProxy#invoke()` 方法
+
+    * 参数 `proxy` 在当前代码方法中并未使用，但是这个测试是不可获取的：
+    *  由 `java.lang.reflect.Proxy#newProxyInstance()` 中的代码 `Class<?> cl = getProxyClass0(loader, intfs)` 创建，是`jdk` 动态生成的 `class` 字节码文件
+    * 用来获取获取 `method` 和 `args` 参数的值，对动态生成的 `$Proxy0` 进行持久化，再通过反编译后发现代码中会通过 `Class.forName()` 方法获取具体的方法
+
+    ![dynamic-debug-12](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-12.png)
+    * 参数 `method` ---> 被代理的目标对象的代理行为 ，即 `savaOrder()` 方法
+    * 作为 `Class.forName()` 方法的参数获取具体的方法
+
+    ![dynamic-debug-13](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-13.png)
+    * 通过参数 `proxy` 获取具体的方法参数
+
+    ![dynamic-debug-14](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-14.png)
+
+  * 调用 `java.lang.reflect.Method#invoke()` 方法，并加入被代理目标对象的真正方法中
+
+    ![dynamic-debug-15](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-15.png)
+
+  * 被代理目标对象的具体方法被调用，代码执行完毕，整个代理过程结束
+
+  ![dynamic-debug-16](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-16.png)
 
 
 
