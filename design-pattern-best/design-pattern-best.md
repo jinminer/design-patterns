@@ -42,7 +42,7 @@
     * <a name="proxy-dynamic-head" href="#proxy-dynamic">动态代理</a> 
     * <a name="proxy-cglib-head" href="#proxy-cglib">`CGLib`</a> 
     * <a name="proxy-spring-head" href="#proxy-spring">`spring` 中的代理选择</a> 
-  * <a name="proxy-performance-vs-head" href="#proxy-performance-vs">代理性能对比</a> 
+    * <a name="proxy-performance-vs-head" href="#proxy-performance-vs">代理性能对比</a> 
 
 ## <a name="creational" href="#creational-head">创建型</a> 
 
