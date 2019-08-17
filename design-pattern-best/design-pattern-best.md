@@ -2513,25 +2513,25 @@ public class LazySingletonDoubleCheck {
   }
   ```
 
-*  `debug` 解析
+* 代码 `debug` 解析
 
-  * `Test` 类中调用 `OrderServiceDynamicProxy` 动态代理类的构造方法
+  * 1- `Test` 类中调用 `OrderServiceDynamicProxy` 动态代理类的构造方法
 
     ![dynamic-debug-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-1.png)
 
-  *  `OrderServiceDynamicProxy` 动态代理类的构造方法被调用，并注入被代理的目标对象类 `OrderServiceImpl` 
+  * 2- `OrderServiceDynamicProxy` 动态代理类的构造方法被调用，并注入被代理的目标对象类 `OrderServiceImpl`  
 
     ![dynamic-debug-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-2.png)
 
-  * 调用动态代理类的动态绑定方法 `OrderServiceDynamicProxy#build()` 
+  * 3-调用动态代理类的动态绑定方法 `OrderServiceDynamicProxy#build()` 
 
     ![dynamic-debug-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-3.png)
 
-  * `java.lang.reflect.Proxy#newProxyInstance()` 
+  * 4- `java.lang.reflect.Proxy#newProxyInstance()` 
 
     ![dynamic-debug-4](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-4.png)
 
-  * `java.lang.reflect.Proxy#getProxyClass0()` 
+  * 5- `java.lang.reflect.Proxy#getProxyClass0()` 
 
     * 从 `class` 缓存中获取目标对象的代理对象
     * 如果缓存中有，直接获取返回
@@ -2539,7 +2539,7 @@ public class LazySingletonDoubleCheck {
 
     ![dynamic-debug-5](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-5.png)
 
-  * `java.lang.reflect.WeakCache#get()` 
+  * 6- `java.lang.reflect.WeakCache#get()` 
 
     ![dynamic-debug-6](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-6.png)
 
@@ -2549,30 +2549,35 @@ public class LazySingletonDoubleCheck {
 
     ![dynamic-debug-9](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-9.png)
 
-  * `java.lang.reflect.Proxy#newProxyInstance`() 
+  * 7- `java.lang.reflect.Proxy#newProxyInstance()` 
 
     * 根据上一步得到的代理类的 `class` 对象，创建目标对象的代理对象
 
     ![dynamic-debug-10](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-10.png)
 
-  * 目标类 `OrderServiceImpl` 的代理对象创建成功，并调用目标类被代理的具体方法 `IOrderService#saveOrder()` 
+  * 8- 目标类 `OrderServiceImpl` 的代理对象创建成功，并调用目标类被代理的具体方法 `IOrderService#saveOrder()` 
 
     ![dynamic-debug-11](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-11.png)
 
-  * `IOrderService#saveOrder()` 方法被调用，进入 `com.jinm.learning.design.pattern.structural.proxy.dynamicproxy.OrderServiceDynamicProxy#invoke()` 方法
+  * 9- `IOrderService#saveOrder()` 方法被调用，进入 `com.jinm.learning.design.pattern.structural.proxy.dynamicproxy.OrderServiceDynamicProxy#invoke()` 方法
 
     * 参数 `proxy` 在当前代码方法中并未使用，但是这个测试是不可获取的：
+
     *  由 `java.lang.reflect.Proxy#newProxyInstance()` 中的代码 `Class<?> cl = getProxyClass0(loader, intfs)` 创建，是`jdk` 动态生成的 `class` 字节码文件
+
     * 用来获取获取 `method` 和 `args` 参数的值，对动态生成的 `$Proxy0` 进行持久化，再通过反编译后发现代码中会通过 `Class.forName()` 方法获取具体的方法
 
-    ![dynamic-debug-12](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-12.png)
+      ![dynamic-debug-12](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-12.png)
+
     * 参数 `method` ---> 被代理的目标对象的代理行为 ，即 `savaOrder()` 方法
+
     * 作为 `Class.forName()` 方法的参数获取具体的方法
 
-    ![dynamic-debug-13](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-13.png)
+      ![dynamic-debug-13](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-13.png)
+
     * 通过参数 `proxy` 获取具体的方法参数
 
-    ![dynamic-debug-14](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-14.png)
+      ![dynamic-debug-14](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-14.png)
 
   * 调用 `java.lang.reflect.Method#invoke()` 方法，并加入被代理目标对象的真正方法中
 
@@ -2580,7 +2585,9 @@ public class LazySingletonDoubleCheck {
 
   * 被代理目标对象的具体方法被调用，代码执行完毕，整个代理过程结束
 
-  ![dynamic-debug-16](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-16.png)
+    ![dynamic-debug-16](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/proxy/dynamic-debug-16.png)
+
+
 
 
 
