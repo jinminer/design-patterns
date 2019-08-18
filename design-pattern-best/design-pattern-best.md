@@ -6,43 +6,50 @@
 
 ## 概述
 
-* <a name="creational-head" name="#creational">创建型</a> 
-  * <a href="#simple-factory">简单工厂模式</a> 
-  * <a href="#factory-method">工厂方法模式</a> 
-  * <a href="#product-race-level">产品族-产品等级</a> 
-  * <a href="#abstract-factory">抽象工厂模式</a> 
-  * <a href="#builder">建造者模式</a> 
-  * <a href="#singleton">单例模式</a> 
-    * <a name="multithreading-safe-head" href="#multithreading-safe">单例模式线程安全</a> 
-    * <a name="double-check-synchronized-head" href="#double-check-synchronized">双重检查锁</a> 
-    * <a name="command-sort-head" href="#command-sort">程序指令重排</a> 
-    * <a name="volatile-head" href="#volatile">`volatile`</a> 
-    * <a name="static-inner-class-head" href="#static-inner-class">静态内部类</a> 
-    * <a name="lazy-hungry-compare-head" href="#lazy-hungry-compare">懒汉模式vs饿汉模式</a> 
-    * <a name="serializable-break-head" href="#serializable-break">序列化破坏单例</a> 
-    * <a name="reflection-break-head" href="#reflection-break">反射破坏单例</a> 
-    * <a name="signleton-enum-head" href="#signleton-enum">枚举类型单例</a> 
-    * <a name="container-head" href="#container">容器单例</a> 
-    * <a name="thread-local-head" href="#thread-local">`ThreadLocal`线程单例</a> 
-    * <a name="singleton-in-sources-head" href="#singleton-in-sources">源码实践</a> 
-  * <a name="prototype-head" href="#prototype">原型模式</a> 
-    * <a name="clone-shallow-head" href="#clone-shallow">浅克隆</a> 
-    * <a name="clone-deep-head" href="#clone-deep">深克隆</a> 
-    * <a name="clone-singleton-break-head" href="#clone-singleton-break">克隆破坏单例</a> 
-* <a name="structural-head" href="#structural">结构型</a> 
-  * <a name="facade-head" href="#facade">外观模式</a> 
-  * <a name="decorator-head" href="#decorator">装饰器模式</a> 
-  * <a name="adapter-head" href="#adapter">适配器模式</a> 
-    * <a name="spring-mvc-head" href="#spring-mvc">`springmvc` 源码实践</a> 
-  * <a name="flyweight-head" href="#flyweight">享元模式</a> 
-  * <a name="composite-head" href="#composite">组合模式</a> 
-  * <a name="bridge-head" href="#bridge">桥接模式</a> 
-  * <a name="proxy-head" href="#proxy">代理模式</a> 
-    * <a name="proxy-static-head" href="#proxy-static">静态代理</a> 
-    * <a name="proxy-dynamic-head" href="#proxy-dynamic">动态代理</a> 
-    * <a name="proxy-cglib-head" href="#proxy-cglib">`CGLib`</a> 
-    * <a name="proxy-spring-head" href="#proxy-spring">`spring` 中的代理选择</a> 
-    * <a name="proxy-performance-vs-head" href="#proxy-performance-vs">代理性能对比</a> 
+*  <a name="creational-head" name="#creational">创建型</a> 
+  *  <a href="#simple-factory">简单工厂模式</a> 
+  *  <a href="#factory-method">工厂方法模式</a> 
+  *  <a href="#product-race-level">产品族-产品等级</a> 
+  *  <a href="#abstract-factory">抽象工厂模式</a> 
+  *  <a href="#builder">建造者模式</a> 
+  *  <a href="#singleton">单例模式</a> 
+    *  <a name="multithreading-safe-head" href="#multithreading-safe">单例模式线程安全</a> 
+    *  <a name="double-check-synchronized-head" href="#double-check-synchronized">双重检查锁</a> 
+    *  <a name="command-sort-head" href="#command-sort">程序指令重排</a> 
+    *  <a name="volatile-head" href="#volatile">`volatile`</a> 
+    *  <a name="static-inner-class-head" href="#static-inner-class">静态内部类</a> 
+    *  <a name="lazy-hungry-compare-head" href="#lazy-hungry-compare">懒汉模式vs饿汉模式</a> 
+    *  <a name="serializable-break-head" href="#serializable-break">序列化破坏单例</a> 
+    *  <a name="reflection-break-head" href="#reflection-break">反射破坏单例</a> 
+    *  <a name="signleton-enum-head" href="#signleton-enum">枚举类型单例</a> 
+    *  <a name="container-head" href="#container">容器单例</a> 
+    *  <a name="thread-local-head" href="#thread-local">`ThreadLocal`线程单例</a> 
+    *  <a name="singleton-in-sources-head" href="#singleton-in-sources">源码实践</a> 
+  *  <a name="prototype-head" href="#prototype">原型模式</a> 
+    *  <a name="clone-shallow-head" href="#clone-shallow">浅克隆</a> 
+    *  <a name="clone-deep-head" href="#clone-deep">深克隆</a> 
+    *  <a name="clone-singleton-break-head" href="#clone-singleton-break">克隆破坏单例</a> 
+  
+*  <a name="structural-head" href="#structural">结构型</a> 
+  *  <a name="facade-head" href="#facade">外观模式</a> 
+  *  <a name="decorator-head" href="#decorator">装饰器模式</a> 
+  *  <a name="adapter-head" href="#adapter">适配器模式</a> 
+    *  <a name="spring-mvc-head" href="#spring-mvc">`springmvc` 源码实践</a> 
+  *  <a name="flyweight-head" href="#flyweight">享元模式</a> 
+  *  <a name="composite-head" href="#composite">组合模式</a> 
+  *  <a name="bridge-head" href="#bridge">桥接模式</a> 
+  *  <a name="proxy-head" href="#proxy">代理模式</a> 
+    *  <a name="proxy-static-head" href="#proxy-static">静态代理</a> 
+    *  <a name="proxy-dynamic-head" href="#proxy-dynamic">动态代理</a> 
+    *  <a name="proxy-cglib-head" href="#proxy-cglib">`CGLib`</a> 
+    *  <a name="proxy-spring-head" href="#proxy-spring">`spring` 中的代理选择</a> 
+    *  <a name="proxy-performance-vs-head" href="#proxy-performance-vs">代理性能对比</a> 
+  
+*  <a name="behavioral" href="#behavioral-head">行为型</a> 
+
+  *  <a name="template-method" href="#template-method-head">模板方法模式</a> 
+
+  
 
 ## <a name="creational" href="#creational-head">创建型</a> 
 
@@ -2629,11 +2636,209 @@ public class LazySingletonDoubleCheck {
 
 
 
+## <a name="behavioral" href="#behavioral-head">行为型</a> 
 
+### <a name="template-method" href="#template-method-head">模板方法模式</a> 
 
+* 定义
+  * 定义了一个算法的骨架，并允许子类为一个或多个步骤提供实现
+  * 模板方法使子类可以在不改变算法结构的情况下，重新定义算法的某些步骤
+* 类型
+  * 行为型
+* 适用场景
+  * 一次性实现一个算法的不变部分，并将可变的行为留给子类来实现
+  * 各子类中公共的行为被提取出来并集中到一个公共父类中，从而避免代码重复
 
+* 优点
+  * 提高复用性
+  * 提高扩展性
+  * 符合开闭原则
+* 缺点
+  * 类数目增加
+    * 引入了抽象类，对于每一个不同的实现，都需要一个子类来实现，这样就导致了类的个数增加
+  * 增加了系统实现的复杂度
+  * 继承关系自身缺点，如果父类添加新的抽象方法，所有子类都要改一遍
+* 扩展
+  * 钩子方法
+    * 提供了缺省的行为
+    * 子类可以在必要时进行扩展
+* 相关设计模式
+  * 模板方法模式和工厂方法模式
+    * 工厂方法模式是模板方法模式的一种特殊实现
+  * 模板方法模式和策略模式
+    * 相同点
+      * 策略模式和模板方法模式，二者都有封装算法
+    * 区别
+      * 策略模式
+        * 目的是使不同的算法可以相互替换，并且不影响应用层、客户端的使用
+        * 可以改变算法的流程，并且它们之间是可以相互替换的
+      * 模板方法模式
+        * 针对定义一个算法的流程，而将一些存在差异性的算法步骤交给不同的子类去实现
+        * 不改变算法的流程
 
+* 代码示例
 
+  * 要点
+    * 在使用模板方法模式进行代码结构设计时，一定要注意业务模型的抽象化规则，将业务模型抽象好，对于业务的扩展性，以及这个业务后续的发展都要有一些前瞻性的思考，充分的考虑好哪些行为是固定的，哪些行为是需要交给子类的，哪些行为是可选的，所以要对业务模型分析的足够透彻。
+    * 缺省项钩子方法的使用：使用钩子方法可以实现对父类中有固定逻辑的模板方法进行权限控制，从而把某些可选行为交由子类去控制，实现了个性化定制
+    * 在进行业务模型抽象时，如果业务模型转换的不够合理，出现了抽象层次不明确的情况，而导致因产品等级不匹配，而造成了子类实现差异化需求无法处理的情况，这时可将对应用层开放适当的权限，来处理这些个性化差异
+
+  ```java
+  /**
+   *  场景：
+   *      某网络课程平台，有不同的视频课程；
+   *      视频课程包含各种资料如：视频、文档、源代码、图片等；
+   *      对于所有的课程，课程制作的步骤都是一样的所以可定义为模板方法；
+   *      对于不同的课程，配套的资料可能有所不同，这些差异性特点可交由子类去处理；
+   */
+  public abstract class ACourse {
+  
+      /**
+       *  模板方法：
+       *      final修饰，不能被子类覆写，保证了算法逻辑流程不被修改
+       */
+      protected final void makeCourse(){
+  
+          /**
+           *  模板方法的具体算法逻辑：
+           *      逻辑步骤都是规定好的，而且是逻辑规则是不可更改的；
+           *      如先制作ppt资料，再制作视频资料，最后打包所有的课程资料；
+           */
+          this.makePPT();
+          this.makeVideo();
+  
+          /**
+           *  钩子方法：由具体的实现子类来控制可选行为
+           */
+          if (needWriteArticle()){
+              this.makeArticle();
+          }
+  
+          this.packageCourse();
+  
+      }
+  
+      /**
+       *  课程ppt：所有子类来说都适用，不需要个性化定制，所以声明为final型
+       */
+      final void makePPT(){
+          System.out.println("制作PPT");
+      }
+  
+      /**
+       *  课程视频：所有子类通用方法，final修饰
+       */
+      final void makeVideo(){
+          System.out.println("制作 Video");
+      }
+  
+      /**
+       *  课程笔记：
+       *      对于编写笔记这个行为本身来说所以的课程编写的过程都是一样的，即内部实现都是相同的；
+       *      但是并不是所有的课程都需要编写笔记，所以这个方法对于子类来讲是可选项；
+       */
+      final void makeArticle(){
+          System.out.println("制作 笔记");
+      }
+  
+      /**
+       *  钩子方法：
+       *      对于编写笔记这类可选行为，设置一个缺省的钩子方法，子类可以覆盖这个方法；
+       *      即，添加一个权限控制方法，把控制逻辑交给子类，由子类决定是否执行；
+       */
+      protected boolean needWriteArticle(){
+          return false;
+      }
+  
+      /**
+       *  包装课程：
+       *      这个行为对于不同子类有不同的课程包装方式，所以声明为抽象方法，交由具体的子类去实现；
+       *      如：前端课程需要打包ppt、视频、源码、图片素材等；设计模式课程需要打包ppt、源码、视频、笔记等；
+       */
+      abstract void packageCourse();
+  
+  }
+  
+  /**
+   *  设计模式课程
+   */
+  public class DesignPatternCourse extends ACourse {
+  
+      @Override
+      void packageCourse() {
+          System.out.println("提供课程的 Java 源代码");
+      }
+  
+      /**
+       *  覆写父类暴露出来的钩子方法，用来控制可选行为 ：编写笔记
+       */
+      @Override
+      protected boolean needWriteArticle() {
+          return true;
+      }
+  }
+  
+  /**
+   *  前端课程
+   */
+  public class FECourese extends ACourse {
+  
+      /**
+       *  场景：
+       *      对于前端课程，可能包括：vue、react、angularjs等具体类型的课程；
+       *      如果其中的react课程需要编写课程笔记，而且其他课程不需要编写；
+       *      这时就需要对应用层客户端开放是否编写课程笔记的控制权限，以处理这些个性化差异
+       */
+      private boolean needWriteArticleFlag = false;
+  
+      /**
+       *  构造器注入行为控制权限，也可用set方法注入
+       */
+      public FECourese(boolean needWriteArticleFlag) {
+          this.needWriteArticleFlag = needWriteArticleFlag;
+      }
+  
+      @Override
+      protected boolean needWriteArticle() {
+          return this.needWriteArticleFlag;
+      }
+  
+      @Override
+      void packageCourse() {
+  
+          System.out.println("提供课程的前端代码");
+          System.out.println("提供课程的图片等多媒体资料");
+  
+      }
+  
+  }
+  
+  public class Test {
+  
+      public static void main(String[] args) {
+  
+          System.out.println("后端设计模式课程    start -------");
+          ACourse designPatternCoures = new DesignPatternCourse();
+          designPatternCoures.makeCourse();
+          System.out.println("后端设计模式课程    end -------");
+          System.out.println("--------------------------------------------------");
+  
+          System.out.println("前端课程 react    start -------");
+  
+          ACourse reactCourse = new FECourese(true);
+          reactCourse.makeCourse();
+          System.out.println("前端课程 react  end -------");
+          System.out.println("--------------------------------------------------");
+  
+          System.out.println("前端课程 react    start -------");
+          ACourse vueCourse = new FECourese(false);
+          vueCourse.makeCourse();
+          System.out.println("前端课程 react  end -------");
+  
+      }
+  
+  }
+  ```
 
 
 
