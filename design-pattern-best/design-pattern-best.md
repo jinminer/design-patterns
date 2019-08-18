@@ -45,9 +45,9 @@
     *  <a name="proxy-spring-head" href="#proxy-spring">`spring` 中的代理选择</a> 
     *  <a name="proxy-performance-vs-head" href="#proxy-performance-vs">代理性能对比</a> 
   
-*  <a name="behavioral" href="#behavioral-head">行为型</a> 
+*  <a name="behavioral-head" href="#behavioral">行为型</a> 
 
-  *   <a name="template-method" href="#template-method-head">模板方法模式</a> 
+  *   <a name="template-method-head" href="#template-method">模板方法模式</a> 
 *   <a name="iterator-head" href="#iterator">迭代器模式</a> 
   
   
