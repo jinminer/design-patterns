@@ -48,7 +48,7 @@
 *  <a name="behavioral" href="#behavioral-head">行为型</a> 
 
   *   <a name="template-method" href="#template-method-head">模板方法模式</a> 
-*   <a name="iterator" href="#iterator-head">迭代器模式</a> 
+*   <a name="iterator-head" href="#iterator">迭代器模式</a> 
   
   
 
