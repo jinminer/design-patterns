@@ -47,8 +47,9 @@
   
 *  <a name="behavioral" href="#behavioral-head">行为型</a> 
 
-  *  <a name="template-method" href="#template-method-head">模板方法模式</a> 
-
+  *   <a name="template-method" href="#template-method-head">模板方法模式</a> 
+*   <a name="iterator" href="#iterator-head">迭代器模式</a> 
+  
   
 
 ## <a name="creational" href="#creational-head">创建型</a> 
@@ -2644,6 +2645,7 @@ public class LazySingletonDoubleCheck {
   * 定义了一个算法的骨架，并允许子类为一个或多个步骤提供实现
   * 模板方法使子类可以在不改变算法结构的情况下，重新定义算法的某些步骤
 * 类型
+  
   * 行为型
 * 适用场景
   * 一次性实现一个算法的不变部分，并将可变的行为留给子类来实现
@@ -2842,13 +2844,52 @@ public class LazySingletonDoubleCheck {
 
 
 
+### <a name="iterator" href="#iterator-head">迭代器模式</a>
+
+* 定义
+
+  * 提供一种方法，顺序访问一个集合对象中的各个元素，而又不暴露该对象的内部表示
+
+* 类型
+
+  * 行为型
+
+* 适用场景
+
+  * 访问一个集合对象的内容而无需暴露它的内部表示
+  * 为遍历不同的集合结构提供一个统一的接口
+
+* 优点
+
+  * 分离了集合对象的遍历行为
+    * 抽象出了一个迭代器，来负责这个集合对象的遍历，这样就可以让外部代码，透明的访问集合内部的数据
+
+* 缺点
+
+  * 类的个数成对增加
+    * 因为迭代器模式是将存储数据和遍历数据这两个职责进行分离，所以新增加一个集合类，就同时得增加一个新的迭代器类，这样类的个数是成对增加的
+
+* 相关设计模式
+
+  * 迭代器模式和访问者模式
+    * 共同点
+      * 两者都是通过迭代的方式，访问集合中的各个元素
+    * 不同点
+      * 在访问者模式中扩展开放的部分，是在作用于对象的操作上
+      * 在迭代器模式中扩展开放的部分，是在集合对象的种类上
+
+* 代码示例
+
+  * 课程集合和对应的迭代器实现
+
+    ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/iterator/code-1.png)
 
 
 
-
-
-
-
+* 源码实践
+  * `java.util.ArrayList.Itr` 
+  * `java.util.LinkedList.ListItr` 
+  * `org.apache.ibatis.cursor.defaults.DefaultCursor#iterator()`  
 
 
 
