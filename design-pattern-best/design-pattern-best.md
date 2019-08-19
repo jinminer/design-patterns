@@ -49,7 +49,7 @@
 
   *   <a name="template-method-head" href="#template-method">模板方法模式</a> 
 *   <a name="iterator-head" href="#iterator">迭代器模式</a> 
-  
+
   
 
 ## <a name="creational" href="#creational-head">创建型</a> 
@@ -2893,9 +2893,222 @@ public class LazySingletonDoubleCheck {
 
 
 
+### <a name="strategy" href="#strategy-head">策略模式</a> 
 
+* 定义
+  * 定义了算法家族，分别封装起来，让它们之间可以互相转换，此模式让算法的变化不会影响使用算法的用户
+  * 消除 `if...else...` 逻辑
+* 类型
+  * 行为型
+* 适用场景
+  * 系统有很多类，而且它们的区别仅仅在于各自的行为不同
+    * 在这种情况下，使用策略模式就可以让一个对象动态的从若干行为中选择一个行为
+    * 即，我们把一个对象不同的行为抽离到不同的类中，这个对象会衍生出很多行为类，而不同的行为类对应不同的策略
+  * 一个系统需要动态地在几种算法中选择一种
+    * 这里所说地算法就是策略，因为策略里面封装的就是一系列的业务逻辑以及计算方式
+* 优点
+  * 开闭原则
+    * 策略模式提供了对开闭原则的完美支持，我们可以在不修改原有类的基础上选择不同的行为，并且这种行为是可扩展的
+  * 避免使用多重条件转移语句
+    * 大量 `if...else...`  
+    * 大量 `switch...case...` 
+    * 把具体的策略行为分离成一个个单独的类，来替换原来的条件判断转移逻辑，这样的设计也会降低代码的耦合度
+  * 提高算法的保密性和安全性
+    * 在使用某一个策略类时，我们只需要知道这个策略的功能是什么(入参、名称、返回值)就可以，不需要知道其内部的具体实现
+    * 比如在系统中封装了一个促销的服务，对外提供的是不同的策略(不同的促销方式)，假设采用 `dubbo` 框架，客户端在调用促销服务时，只需要使用 `dubbo` 所提供的促销接口即可，而具体的策略实现是放在 `dubbo` 的 `provider` 中，策略内部具体的实现过程对客户端时封闭的
+    * 即，在具体的策略类中，封装了不同的行为和算法以及相关的数据结构，对于客户端来说，它并不需要知道策略内部的实现过程
+* 缺点
+  * 客户端必须知道所有的策略类，并自行决定使用哪一个策略类
+  * 产生很多策略类
+    * 原来是一个类中不同的 `if...else...` 处理不同的逻辑行为，而策略模式中，则要将每一个行为逻辑都要封装到一个具体的策略类中
+* 相关设计模式
+  * 策略模式和工厂模式(抽象工厂、工厂方法)
+    * 共同点
+      * 从逻辑角度来讲都是不同的类对应不同的行为逻辑
+    * 不同点
+      * 工厂模式：创建型。工厂模式接收客户端指令，创建符合要求的具体对象
+      * 策略模式：行为型。接收已经创建好的对象从而实现不同行为
+  * 策略模式和状态模式
+    * 相关性
+      * 在策略模式中，客户端调用者，知道它到底要选择哪个策略
+      * 在状态模式中，客户端不需要关心具体的状态，并且这些状态会自动转换
+    * 场景区别
+      * 如果系统中某个类的对象存在多种状态，并且在不同状态下该对象的行为又具有差异性，同时这些不同的状态可以发生转换时，就可以使用状态模式
+      * 如果系统中某个类的某一行为存在多种实现方式，
 
+* 代码示例
 
+  * 场景：某网上商城不同类型的促销活动
+
+    * `v1` 版本：应用层每执行一次促销都要 `new` 一个促销活动和促销策略，并且要显示指定活动场景，比如京东618和淘宝1111
+
+      ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/strategy/code-1.png)
+
+  * 代码
+
+    ```java
+    /**
+     *  促销策略抽象规则
+     */
+    public interface PromotionStrategy {
+        void doPromotion();
+    }
+    
+    public class ManJianPromotionStrategy implements PromotionStrategy{
+        /**
+         *  满减促销
+         */
+        @Override
+        public void doPromotion() {
+            System.out.println("满减促销，满900-300元");
+        }
+    }
+    
+    public class LiJianPromotionStrategy implements PromotionStrategy {
+        /**
+         *  立减促销
+         */
+        @Override
+        public void doPromotion() {
+            System.out.println("立减促销，商品的价格直接减去系统配置的价格");
+        }
+    }
+    
+    public class FanXianPromotionStrategy implements PromotionStrategy {
+        /**
+         *  返现促销
+         */
+        @Override
+        public void doPromotion() {
+            System.out.println("返现促销，返现的金额存放到用户的账户余额中");
+        }
+    
+    }
+    
+    public class EmptyPromotionStrategy implements PromotionStrategy {
+        /**
+         *  空处理：无促销活动
+         */
+        @Override
+        public void doPromotion() {
+            System.out.println("无促销活动");
+        }
+    }
+    
+    public class PromotionStrategyActivity {
+    
+        /**
+         *  业务侧促销活动
+         *  场景：
+         *      某网上商城不同类型的促销活动
+         */
+    
+        private PromotionStrategy promotionStrategy;
+    
+        public PromotionStrategyActivity(PromotionStrategy promotionStrategy) {
+            this.promotionStrategy = promotionStrategy;
+        }
+    
+        public void executePromotion(){
+            promotionStrategy.doPromotion();
+        }
+    
+    }
+    
+    public class PromotionStrategyFactory {
+    
+        /**
+         *  策略模式和工厂模式结合使用降低业务层代码量
+         */
+    
+        private static Map<String, PromotionStrategy> PROMOTION_STRATEGY_MAP = new HashMap<>();
+    
+        static {
+            PROMOTION_STRATEGY_MAP.put(PromotionKey.LI_JIAN, new ManJianPromotionStrategy());
+            PROMOTION_STRATEGY_MAP.put(PromotionKey.MAN_JIAN, new LiJianPromotionStrategy());
+            PROMOTION_STRATEGY_MAP.put(PromotionKey.FAN_XIAN, new FanXianPromotionStrategy());
+        }
+    
+        private static final PromotionStrategy non_promotion = new EmptyPromotionStrategy();
+    
+        private PromotionStrategyFactory() {
+    
+        }
+    
+        public static PromotionStrategy getPromotionStrategy(String promotionKey){
+            PromotionStrategy promotionStrategy = PROMOTION_STRATEGY_MAP.get(promotionKey);
+            return promotionStrategy == null ? non_promotion : promotionStrategy;
+        }
+    
+        private interface PromotionKey{
+    
+            /**
+             *  声明常量，起到逻辑分组的作用
+             */
+            String LI_JIAN = "LI_JIAN";
+            String MAN_JIAN = "MAN_JIAN";
+            String FAN_XIAN = "FAN_XIAN";
+        }
+    
+    }
+    
+    public class Test {
+    
+        public static void main(String[] args) {
+    
+    //        /**
+    //         *  策略模式实现：应用层选择哪个策略，哪个策略内部的促销逻辑就被执行，而应用层并不知道具体的实现内容
+    //         *  传统的if-else实现：应用层要将各个促销策略中的实现逻辑都通过if-else逻辑串联在一起，代码耦合度高，并且会使方法过于臃肿，不利于以后的维护扩展
+    //         */
+    //        PromotionStrategyActivity activity618 = new PromotionStrategyActivity(new FanXianPromotionStrategy());
+    //        activity618.executePromotion();
+    //        PromotionStrategyActivity activity1111 = new PromotionStrategyActivity(new ManJianPromotionStrategy());
+    //        activity1111.executePromotion();
+    //        PromotionStrategyActivity activity0000 = new PromotionStrategyActivity(new LiJianPromotionStrategy());
+    //        activity1111.executePromotion();
+    
+    //        /**
+    //         *  缺点：
+    //         *      对于业务层来讲这种简版的策略模式，每调用一个促销活动都要new 一个活动和相应的策略；
+    //         *      并且没有完全消除if-else逻辑
+    //         */
+    //        PromotionStrategyActivity activity = null;
+    //        String promotionKey = "LI_JIAN";
+    //        if (StringUtils.equals(promotionKey, "LI_JIAN")){
+    //            activity = new PromotionStrategyActivity(new LiJianPromotionStrategy());
+    //        }else if (StringUtils.equals(promotionKey, "MAN_JIAN")){
+    //            activity = new PromotionStrategyActivity(new ManJianPromotionStrategy());
+    //        }//......
+    //
+    //        activity.executePromotion();
+    
+            /**
+             *  工厂模式-策略模式结合使用：减少业务层代码量
+             */
+            String promotionKey = "LI_JIAN";
+            PromotionStrategyActivity activity = new PromotionStrategyActivity(PromotionStrategyFactory.getPromotionStrategy(promotionKey));
+            activity.executePromotion();
+    
+        }
+    
+    }
+    ```
+
+* 源码实践
+
+  * `java.util.Arrays#sort(T[], int, int, java.util.Comparator<? super T>)` 
+
+  * `java.util.Comparator` 
+
+    ![source-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/strategy/source-1.png)
+
+  * `java.util.TreeMap#compare` 
+
+    ![source-2](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/strategy/source-2.png)
+
+  * `org.springframework.beans.factory.support.InstantiationStrategy` 
+
+    ![source-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/strategy/source-3.png)
 
 
 
