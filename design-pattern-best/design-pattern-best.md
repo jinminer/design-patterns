@@ -6,48 +6,47 @@
 
 ## 概述
 
-*  <a name="creational-head" name="#creational">创建型</a> 
-  *  <a href="#simple-factory">简单工厂模式</a> 
-  *  <a href="#factory-method">工厂方法模式</a> 
-  *  <a href="#product-race-level">产品族-产品等级</a> 
-  *  <a href="#abstract-factory">抽象工厂模式</a> 
-  *  <a href="#builder">建造者模式</a> 
-  *  <a href="#singleton">单例模式</a> 
-    *  <a name="multithreading-safe-head" href="#multithreading-safe">单例模式线程安全</a> 
-    *  <a name="double-check-synchronized-head" href="#double-check-synchronized">双重检查锁</a> 
-    *  <a name="command-sort-head" href="#command-sort">程序指令重排</a> 
-    *  <a name="volatile-head" href="#volatile">`volatile`</a> 
-    *  <a name="static-inner-class-head" href="#static-inner-class">静态内部类</a> 
-    *  <a name="lazy-hungry-compare-head" href="#lazy-hungry-compare">懒汉模式vs饿汉模式</a> 
-    *  <a name="serializable-break-head" href="#serializable-break">序列化破坏单例</a> 
-    *  <a name="reflection-break-head" href="#reflection-break">反射破坏单例</a> 
-    *  <a name="signleton-enum-head" href="#signleton-enum">枚举类型单例</a> 
-    *  <a name="container-head" href="#container">容器单例</a> 
-    *  <a name="thread-local-head" href="#thread-local">线程单例`ThreadLocal`</a> 
-    *  <a name="singleton-in-sources-head" href="#singleton-in-sources">源码实践</a> 
-  *  <a name="prototype-head" href="#prototype">原型模式</a> 
-    *  <a name="clone-shallow-head" href="#clone-shallow">浅克隆</a> 
-    *  <a name="clone-deep-head" href="#clone-deep">深克隆</a> 
-    *  <a name="clone-singleton-break-head" href="#clone-singleton-break">克隆破坏单例</a> 
-*  <a name="structural-head" href="#structural">结构型</a> 
-  *  <a name="facade-head" href="#facade">外观模式</a> 
-  *  <a name="decorator-head" href="#decorator">装饰器模式</a> 
-  *  <a name="adapter-head" href="#adapter">适配器模式</a> 
-    *  <a name="spring-mvc-head" href="#spring-mvc">源码实践`springmvc` </a> 
-  *  <a name="flyweight-head" href="#flyweight">享元模式</a> 
-  *  <a name="composite-head" href="#composite">组合模式</a> 
-  *  <a name="bridge-head" href="#bridge">桥接模式</a> 
-  *  <a name="proxy-head" href="#proxy">代理模式</a> 
-    *  <a name="proxy-static-head" href="#proxy-static">静态代理</a> 
-    *  <a name="proxy-dynamic-head" href="#proxy-dynamic">动态代理</a> 
-    *  <a name="proxy-cglib-head" href="#proxy-cglib">CGLib</a> 
-    *  <a name="proxy-spring-head" href="#proxy-spring">代理之`spring`</a> 
-    *  <a name="proxy-performance-vs-head" href="#proxy-performance-vs">代理性能对比</a> 
-*  <a name="behavioral-head" href="#behavioral">行为型</a> 
-
-  *   <a name="template-method-head" href="#template-method">模板方法模式</a> 
-*   <a name="iterator-head" href="#iterator">迭代器模式</a> 
-*   <a name="strategy-head" href="#strategy">策略模式</a> 
+*  <a name="creational-head" name="#creational">创建型</a>
+  *  <a href="#simple-factory">简单工厂模式</a>
+  *  <a href="#factory-method">工厂方法模式</a>
+  *  <a href="#product-race-level">产品族-产品等级</a>
+  *  <a href="#abstract-factory">抽象工厂模式</a>
+  *  <a href="#builder">建造者模式</a>
+  *  <a href="#singleton">单例模式</a>
+    *  <a name="multithreading-safe-head" href="#multithreading-safe">单例模式线程安全</a>
+    *  <a name="double-check-synchronized-head" href="#double-check-synchronized">双重检查锁</a>
+    *  <a name="command-sort-head" href="#command-sort">程序指令重排</a>
+    *  <a name="volatile-head" href="#volatile">volatile</a>
+    *  <a name="static-inner-class-head" href="#static-inner-class">静态内部类</a>
+    *  <a name="lazy-hungry-compare-head" href="#lazy-hungry-compare">懒汉模式vs饿汉模式</a>
+    *  <a name="serializable-break-head" href="#serializable-break">序列化破坏单例</a>
+    *  <a name="reflection-break-head" href="#reflection-break">反射破坏单例</a>
+    *  <a name="signleton-enum-head" href="#signleton-enum">枚举类型单例</a>
+    *  <a name="container-head" href="#container">容器单例</a>
+    *  <a name="thread-local-head" href="#thread-local">线程单例 `ThreadLocal`</a>
+    *  <a name="singleton-in-sources-head" href="#singleton-in-sources">源码实践</a>
+  *  <a name="prototype-head" href="#prototype">原型模式</a>
+    *  <a name="clone-shallow-head" href="#clone-shallow">浅克隆</a>
+    *  <a name="clone-deep-head" href="#clone-deep">深克隆</a>
+    *  <a name="clone-singleton-break-head" href="#clone-singleton-break">克隆破坏单例</a>
+*  <a name="structural-head" href="#structural">结构型</a>
+  *  <a name="facade-head" href="#facade">外观模式</a>
+  *  <a name="decorator-head" href="#decorator">装饰器模式</a>
+  *  <a name="adapter-head" href="#adapter">适配器模式</a>
+    *  <a name="spring-mvc-head" href="#spring-mvc">源码实践`springmvc`</a>
+  *  <a name="flyweight-head" href="#flyweight">享元模式</a>
+  *  <a name="composite-head" href="#composite">组合模式</a>
+  *  <a name="bridge-head" href="#bridge">桥接模式</a>
+  *  <a name="proxy-head" href="#proxy">代理模式</a>
+    *  <a name="proxy-static-head" href="#proxy-static">静态代理</a>
+    *  <a name="proxy-dynamic-head" href="#proxy-dynamic">动态代理</a>
+    *  <a name="proxy-cglib-head" href="#proxy-cglib">CGLib</a>
+    *  <a name="proxy-spring-head" href="#proxy-spring">代理之`spring`</a>
+    *  <a name="proxy-performance-vs-head" href="#proxy-performance-vs">代理性能对比</a>
+*  <a name="behavioral-head" href="#behavioral">行为型</a>
+*   <a name="template-method-head" href="#template-method">模板方法模式</a>
+*   <a name="iterator-head" href="#iterator">迭代器模式</a>
+*   <a name="strategy-head" href="#strategy">策略模式</a>
 
   
 
