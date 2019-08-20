@@ -52,6 +52,7 @@
 *   <a name="template-method-head" href="#template-method">模板方法模式</a>
 *   <a name="iterator-head" href="#iterator">迭代器模式</a>
 *   <a name="strategy-head" href="#strategy">策略模式</a>
+*   <a name="interpretor-head" href="#interpretor">解释器模式</a>
 
   
 
@@ -2902,6 +2903,7 @@ public class LazySingletonDoubleCheck {
   * 定义了算法家族，分别封装起来，让它们之间可以互相转换，此模式让算法的变化不会影响使用算法的用户
   * 消除 `if...else...` 逻辑
 * 类型
+  
   * 行为型
 * 适用场景
   * 系统有很多类，而且它们的区别仅仅在于各自的行为不同
@@ -3113,9 +3115,33 @@ public class LazySingletonDoubleCheck {
 
     ![source-3](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/strategy/source-3.png)
 
+### <a name="interpretor" href="#interpretor-head">解释器模式</a>
 
+* 定义
+  * 给定一个语言，定义它的文法的一种表示，并定义一个解释器，这个解释器使用该表示来解释语言中的句子
+  * 为了解释一种语言，而为语言创建的解释器
+* 类型
+  * 行为型
+* 适用场景
+  * 某个特定类型问题发生频率足够高
+    * 例如，在日常开发过程中，我们用脚本语言或者编程语言来处理日志的时候，系统包含很多服务，每个服务都会产生大量的日志，当我们对日志进行解析时，会生成一些报表，而各个服务的日志格式可能不同，但是日志中的数据要素是相同的，这种情况下，可以通过程序来解决该问题，这个程序就可以理解为一个解释器，只不过它的作用是解析不同的日志格式。如类似功能的开源包：`express4j` 、`jep` 、`mdsp` 等等。
+* 优点
+  * 语法由很多类表示，容易改变及扩展此"语言"
+* 缺点
+  * 当语法规则数目太多时，会增加系统的复杂度
+* 相关设计模式
+  * 解释器模式和适配器模式
+    * 区别
+      * 适配器模式不需要预先知道需要适配的规则
+      * 解释器模式中需要把规则提前写好，再根据规则进行解析
 
-
+* 源码实践
+  * `java` 正则解释器
+    * `java.util.regex.Pattern` 
+  * `spring` 表达式解释器
+    * `org.springframework.expression.ExpressionParser` 
+    * `org.springframework.expression.spel.standard.SpelExpressionParser` 
+    * `org.springframework.expression.common.TemplateAwareExpressionParser` 
 
 
 
