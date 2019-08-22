@@ -3237,11 +3237,37 @@ public class LazySingletonDoubleCheck {
 
 ### <a name="memento" href="#memento-head">备忘录模式</a>
 
+* 定义
+  * 保存一个对象的某个状态，以便在适当的时候恢复对象
+  * “后悔药”
+    * 例如游戏存档，开发工具eclipse、idea中的撤销动作，浏览器中的后退操作等
+* 类型
+  * 行为型
+* 适用场景
+  * 保存及恢复数据相关业务场景
+  * 后悔的时候，即想恢复到之前的状态
+* 优点
+  * 为用户提供一种可恢复机制
+  * 存档信息的封装 
+    * 将存档信息封装之后，才能更好的为用户提供恢复的机制
+    * 对象状态：对象内部各个属性的存档，是一个快照
+* 缺点
+  * 资源占用
+* 相关设计模式
+  * 备忘录模式和状态模式
+    * 备忘录模式中，适用实例来保存状态的，即存档内容是一个对象的实例
+    * 状态模式中，只是用类来表示状态
 
+* 代码示例
 
+  * 撰写笔记，并实现  `ctrl + z` 版本回退效果
 
+    ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/memento/code-1.png)
 
-
+* 源码实践
+  * `org.springframework.binding.message.StateManageableMessageContext` ---> `spring` 工作流
+    * `org.springframework.binding.message.StateManageableMessageContext#createMessagesMemento()`  ---> 日志记录、归档
+    * `org.springframework.binding.message.StateManageableMessageContext#restoreMessages()`  ---> 版本回退
 
 
 
