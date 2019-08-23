@@ -94,7 +94,7 @@
 
 #### <a name="memento-head" href="#memento">备忘录模式</a>
 
-  
+#### <a name="command-head" href="#command">命令模式</a>
 
 ## <a name="creational" href="#creational-head">创建型</a> 
 
@@ -106,7 +106,7 @@
   
 * 类型
   
-  * 创建型，不属于GOF23中的设计模式
+  * 创建型，不属于`GOF23`中的设计模式
   
 * 适用场景
   * 工厂类负责创建的对象比较少
@@ -3242,6 +3242,7 @@ public class LazySingletonDoubleCheck {
   * “后悔药”
     * 例如游戏存档，开发工具eclipse、idea中的撤销动作，浏览器中的后退操作等
 * 类型
+  
   * 行为型
 * 适用场景
   * 保存及恢复数据相关业务场景
@@ -3252,6 +3253,7 @@ public class LazySingletonDoubleCheck {
     * 将存档信息封装之后，才能更好的为用户提供恢复的机制
     * 对象状态：对象内部各个属性的存档，是一个快照
 * 缺点
+  
   * 资源占用
 * 相关设计模式
   * 备忘录模式和状态模式
@@ -3268,6 +3270,71 @@ public class LazySingletonDoubleCheck {
   * `org.springframework.binding.message.StateManageableMessageContext` ---> `spring` 工作流
     * `org.springframework.binding.message.StateManageableMessageContext#createMessagesMemento()`  ---> 日志记录、归档
     * `org.springframework.binding.message.StateManageableMessageContext#restoreMessages()`  ---> 版本回退
+
+### <a name="command" href="#command-head">命令模式</a>
+
+* 定义
+
+  * 将"请求"封装成对象，以便使用不同的请求
+    * 将不同的请求封装成不同的请求对象，对于接收者来说，这些类型它都能识别，然后根据请求对象的不同，执行不同的行为
+  * 命令模式解决了应用程序中对象的职责以及它们之间的通信方式的问题
+    * 命令模式可以使发送者和接收者完全解耦，发送者和接收者之间并没有直接的引用关系，发送请求的对象(下命令的对象)只知道如何发送请求，而不需要如何完成请求
+
+* 类型
+
+  * 行为型
+
+* 适用场景
+
+  * 请求调用者和请求接收者需要解耦，使得调用者和接收者不直接交互
+  * 需要抽象出等待执行的行为
+
+* 优点
+
+  * 降低耦合
+  * 容易扩展新命令或一组命令
+
+* 缺点
+
+  * 命令的无限扩展会增加类的数量，提高系统实现复杂度
+    * 对于每一个命令都要设计开发一个相应的命令类，所以对一个系统来说需要大量的命令类
+
+* 相关设计模式
+
+  * 命令模式和备忘录模式
+    * 二者经常结合起来使用
+
+* 代码示例
+
+  * 场景：网络教育平台的运营总监向课程运营人员下达课程视频开放命令，运营人员接收命令，并进行相应的处理
+
+    ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/command/code-1.png)
+
+* 源码实践
+
+  * `junit.framework.Test` 
+
+  * `junit.framework.TestCase` 
+
+    ![source-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/command/source-1.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
