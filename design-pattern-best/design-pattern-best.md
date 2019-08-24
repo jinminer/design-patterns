@@ -98,7 +98,7 @@
 
 #### <a name="mediator-head" href="#mediator">中介者模式</a>
 
-#### <a name="chain-of-responsibility-head" href="chain-of-responsibility">责任链模式</a>
+#### <a name="chain-of-responsibility-head" href="#chain-of-responsibility">责任链模式</a>
 
 
 
@@ -3372,7 +3372,7 @@ public class LazySingletonDoubleCheck {
 
 
 
-### <a name="chain-of-responsibility" href="chain-of-responsibility-head">责任链模式</a>
+### <a name="chain-of-responsibility" href="#chain-of-responsibility-head">责任链模式</a>
 
 * 定义
   * 为请求创建一个接收此次请求对象的链
