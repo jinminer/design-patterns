@@ -4,7 +4,7 @@
 
 # 设计模式
 
-## 概述
+## 目录
 
 ### <a name="creational-head" name="#creational">创建型</a>
 
@@ -98,7 +98,7 @@
 
 #### <a name="mediator-head" href="#mediator">中介者模式</a>
 
-
+#### <a name="chain-of-responsibility-head" href="chain-of-responsibility">责任链模式</a>
 
 
 
@@ -3372,13 +3372,40 @@ public class LazySingletonDoubleCheck {
 
 
 
+### <a name="chain-of-responsibility" href="chain-of-responsibility-head">责任链模式</a>
 
+* 定义
+  * 为请求创建一个接收此次请求对象的链
+* 类型
+  * 行为型
+* 适用场景
+  * 一个请求的处理需要多个对象当中的一个或几个协作处理
+* 优点
+  * 请求的发送者和接收者(请求处理者)解耦
+  * 责任链中的不同环节(请求处理对象)可以动态组合
+    * 比如将责任链中各个环节的顺序以及是否需要该环节进行可配置化，增加或减少处理流程，以及调整处理顺序都非常方便
+* 缺点
+  * 责任链太长或者处理时间过长，会影响性能
+  * 责任链有可能过多，这与实际的业务场景有关，需要一个平衡
+* 责任链模式和状态模式
+  * 责任链模式
+    * 链条的每一个环节并不具体指定下一个处理环节是谁，只有在客户端设定了链条中各个环节的处理顺序以及每个环节的具体处理对象，直到请求被某个环节处理，或者整个链条结束
+  * 状态模式
+    * 每个状态对象必须知道请求的下一个处理对象是谁，即在代码编译时就设定好了
 
+* 代码示例
 
+  * 场景：某教育网站，发布课程的流程，需要对课程信息进行校验
 
+    ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/chainofresponsibility/code-1.png)
 
+  * 再如下单过程中权限校验、数据校验、请求编码等一系列流程组成的责任链路
 
+* 源码实践
 
+  * `FilterChain` 中有很多的 `Filter` ，这些 `Filter` 按照一定的顺序、逻辑组装成一个过滤链路，其中的每个 `Filter` 就是链路中具体的链条元素
+  * `javax.servlet.Filter#doFilter()` 
+  * `javax.servlet.FilterChain` 
 
 
 
