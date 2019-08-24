@@ -100,6 +100,8 @@
 
 #### <a name="chain-of-responsibility-head" href="#chain-of-responsibility">责任链模式</a>
 
+#### <a name="visitor-head" href="#visitor">访问者模式</a>
+
 
 
 ## <a name="creational" href="#creational-head">创建型</a> 
@@ -3375,10 +3377,13 @@ public class LazySingletonDoubleCheck {
 ### <a name="chain-of-responsibility" href="#chain-of-responsibility-head">责任链模式</a>
 
 * 定义
+  
   * 为请求创建一个接收此次请求对象的链
 * 类型
+  
   * 行为型
 * 适用场景
+  
   * 一个请求的处理需要多个对象当中的一个或几个协作处理
 * 优点
   * 请求的发送者和接收者(请求处理者)解耦
@@ -3406,6 +3411,60 @@ public class LazySingletonDoubleCheck {
   * `FilterChain` 中有很多的 `Filter` ，这些 `Filter` 按照一定的顺序、逻辑组装成一个过滤链路，其中的每个 `Filter` 就是链路中具体的链条元素
   * `javax.servlet.Filter#doFilter()` 
   * `javax.servlet.FilterChain` 
+
+
+
+### <a name="visitor" href="#visitor-head">访问者模式</a>
+
+* 定义
+  * 封装作用于某数据结构(如 `List/Set/Map` 等)中的各元素的操作
+    * 关键词：封装、操作
+    * 比如一个 `List` 中包含各种元素，通过访问者模式封装元素的操作行为
+  * 可以在不改变各元素的类的前提下，定义作用于这些元素的操作
+* 类型
+  * 行为型
+* 适用场景
+  * 一个数据结构如( `List/Set/Map` 等)包含很多类型对象
+  * 数据结构与数据操作分离
+* 优点
+  * 增加新的操作很容易，即增加一个新的访问者
+* 缺点
+  * 增加新的数据结构比较困难
+    * 需要修改相关的访问者类
+  * 具体元素的变更比较麻烦
+    * 如增加元素属性和删除元素属性等，相关的访问者类都要修改
+* 相关设计模式
+  * 访问者模式和迭代器模式
+    * 共性
+      * 都是对某种数据结构中的数据进行处理
+    * 区别
+      * 访问者模式主要是对保存在数据结构中的数据元素进行某种特定的处理，重点是数据元素的操作处理
+      * 迭代器模式主要是用来逐个遍历数据结构中的元素，重点是数据元素的遍历
+
+* 代码示例
+
+  * 场景：某教育网站中的免费课程和收费课程，用不同的 `visitor` 来进行处理数据元素处理
+
+    ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/visitor/code-1.png)
+
+* 源码实践
+
+  * `jdk-nio` 中的处理文件的访问者，提供了遍历文件树、按时间查找某一天创建的文件等便捷的文件操作
+
+    * `java.nio.file.FileVisitor` 
+    * `java.nio.file.SimpleFileVisitor` 
+
+  * `spring-beans` 中处理 `bean` 对象元素的类，分析 `bean` 中的各种属性，然后将这些属性进行分解，可以遍历 `bean` 的各种属性，并使用 `properties` 进行填充
+
+    * `org.springframework.beans.factory.config.BeanDefinitionVisitor` 
+
+    ![](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/visitor/source-1.png)
+
+
+
+
+
+
 
 
 
