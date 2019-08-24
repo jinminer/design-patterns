@@ -102,6 +102,8 @@
 
 #### <a name="visitor-head" href="#visitor">访问者模式</a>
 
+#### <a name="state-head" href="#state">状态模式</a>
+
 
 
 ## <a name="creational" href="#creational-head">创建型</a> 
@@ -3422,11 +3424,13 @@ public class LazySingletonDoubleCheck {
     * 比如一个 `List` 中包含各种元素，通过访问者模式封装元素的操作行为
   * 可以在不改变各元素的类的前提下，定义作用于这些元素的操作
 * 类型
+  
   * 行为型
 * 适用场景
   * 一个数据结构如( `List/Set/Map` 等)包含很多类型对象
   * 数据结构与数据操作分离
 * 优点
+  
   * 增加新的操作很容易，即增加一个新的访问者
 * 缺点
   * 增加新的数据结构比较困难
@@ -3459,6 +3463,328 @@ public class LazySingletonDoubleCheck {
     * `org.springframework.beans.factory.config.BeanDefinitionVisitor` 
 
     ![](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/visitor/source-1.png)
+
+
+
+### <a name="state" href="#state-head">状态模式</a>
+
+* 定义
+  * 允许一个对象在其内部状态改变时，改变它的行为
+    * 当控制一个对象状态转换的过程比较复杂时，可以将状态的判断逻辑转移到表示状态的一系列类中
+    * 把状态复杂的判断逻辑简化，剥离到不同的状态类当中，这样在进行状态扩展时也相对容易
+* 类型
+  * 行为型
+* 适用场景
+  * 一个对象存在多个状态(不同状态下行为不同)，且状态可相互转换
+    * 如下单过程中，如果是刚下完单，处于未支付状态，在订单超时时间内是可以付款的，如果隔了几天超出付款时间，再去付款，此时订单已经被系统置为订单关闭状态，不能进行付款
+    * 再如写字楼中的电梯，当电梯处于运行状态即上升或下降时，电梯的门是不能打开的，只有处于停止状态时才能打开
+* 优点
+  * 将不同的状态隔离
+    * 每个状态都对应一个状态类
+  * 把各种状态的转换逻辑，发布到 `State` 的子类中，减少相互间的依赖
+  * 增加新的状态非常容易
+    * 只需要新增一个状态类，并且在应用层设置上下文的地方加上就可以
+* 缺点
+  * 状态多的业务场景中会导致类数目增加，系统变复杂
+* 相关设计模式
+  * 状态模式和享元模式
+    * 状态模式和享元模式有时可以配合适用，如果状态对象中没有对应的属性，那么可以通过享元模式，在多个上下文对象中共享状态实例
+
+* 代码示例
+
+  * 业务场景：某教育网站上的视频课程，有播放、暂停、快进、停止等状态，在视频停止状态时是无法快进的，如果是停止状态，在进行快捷操作时，就要进行相应的校验；正常的代码设计中需要根据不同的状态进行大量的 `if-else` 判断，而使用状态模式实现则较为简单
+
+  * 代码
+
+    ```java
+    //课程视频状态抽象类
+    public abstract class CourseVideoState {
+    
+        /**
+         *  课程视频状态
+         */
+    
+        /**
+         *  课程视频上下文：
+         *      protected修饰，子类可以获取访问
+         */
+        protected CourseVideoContext context;
+    
+        public void setContext(CourseVideoContext context) {
+            this.context = context;
+        }
+    
+        //播放
+        public abstract void play();
+    
+        //快进
+        public abstract void speed();
+    
+        //暂停
+        public abstract void pause();
+    
+        //停止
+        public abstract void stop();
+    
+    }
+    
+    //课程视频状态上下文
+    public class CourseVideoContext {
+    
+        /**
+         *  课程视频上下文
+         */
+    
+        //组合课程视频状态
+        private CourseVideoState state;
+    
+        /**
+         *  声明状态:
+         *      这里由于各个状态对象并没有属性，所以可以使用享元模式
+         */
+        public static final PlayState PLAY_STATE = new PlayState();
+        public static final SpeedState SPEED_STATE = new SpeedState();
+        public static final PauseState PAUSE_STATE = new PauseState();
+        public static final StopState STOP_STATE = new StopState();
+    
+        public CourseVideoState getState() {
+            return state;
+        }
+    
+        public void setState(CourseVideoState state) {
+    
+            /**
+             *  设置课程视频状态：状态转换
+             */
+            this.state = state;
+    
+            /**
+             *  设置课程视频上下文，即设置它自己;
+             *  把当前的上下文(环境)通知到各个状态类
+             */
+            this.state.setContext(this);
+    
+        }
+    
+        public void play(){
+            this.state.play();
+        }
+    
+        public void speed(){
+            this.state.speed();
+        }
+    
+        public void pause(){
+            this.state.pause();
+        }
+    
+        public void stop(){
+            this.state.stop();
+        }
+    
+    }
+    
+    //播放状态处理类
+    public class PlayState extends CourseVideoState {
+    
+        /**
+         *  当前状态
+         */
+        @Override
+        public void play() {
+            System.out.println("正常播放视频课程状态");
+        }
+    
+        /**
+         *  切换到快进，播放状态可以切换到快进状态
+         */
+        @Override
+        public void speed() {
+            super.context.setState(CourseVideoContext.SPEED_STATE);
+        }
+    
+        /**
+         *  切换到暂停，播放状态可以切换到暂停状态
+         */
+        @Override
+        public void pause() {
+            super.context.setState(CourseVideoContext.PAUSE_STATE);
+        }
+    
+        /**
+         *  切换到停止，播放状态可以切换到停止状态
+         */
+        @Override
+        public void stop() {
+            super.context.setState(CourseVideoContext.STOP_STATE);
+        }
+    
+    }
+    
+    //暂停状态处理类
+    public class PauseState extends CourseVideoState{
+    
+        /**
+         *  切换到播放，暂停状态可以切换到播放状态
+         */
+        @Override
+        public void play() {
+            super.context.setState(CourseVideoContext.PLAY_STATE);
+        }
+    
+        /**
+         *  切换到快进，暂停状态可以切换到快进状态
+         */
+        @Override
+        public void speed() {
+            super.context.setState(CourseVideoContext.SPEED_STATE);
+        }
+    
+        /**
+         *  当前状态
+         */
+        @Override
+        public void pause() {
+            System.out.println("暂停播放视频课程状态");
+        }
+    
+        /**
+         *  切换到停止，暂停状态可以切换到停止状态
+         */
+        @Override
+        public void stop() {
+            super.context.setState(CourseVideoContext.STOP_STATE);
+        }
+    
+    }
+    
+    //快进状态处理类
+    public class SpeedState extends CourseVideoState{
+    
+        /**
+         *  切换到播放，快进状态可以切换到正常播放状态
+         */
+        @Override
+        public void play() {
+            super.context.setState(CourseVideoContext.PLAY_STATE);
+        }
+    
+        /**
+         *  当前状态
+         */
+        @Override
+        public void speed() {
+            System.out.println("快进播放视频课程状态");
+        }
+    
+        /**
+         *  切换到暂停，快进状态可以切换到暂停状态
+         */
+        @Override
+        public void pause() {
+            super.context.setState(CourseVideoContext.PAUSE_STATE);
+        }
+    
+        /**
+         *  切换到停止，快进状态可以切换到停止状态
+         */
+        @Override
+        public void stop() {
+            super.context.setState(CourseVideoContext.STOP_STATE);
+        }
+    
+    }
+    
+    //停止状态处理类
+    public class StopState extends CourseVideoState{
+    
+        /**
+         *  切换到播放，暂停状态可以切换到播放状态
+         */
+        @Override
+        public void play() {
+            super.context.setState(CourseVideoContext.PLAY_STATE);
+        }
+    
+        /**
+         *  切换到快进，暂停状态不可以切换到快进状态；
+         *      实际开发中可以：抛出异常、不和db交互、向客户端友好提示
+         */
+        @Override
+        public void speed() {
+            System.out.println("ERROR：停止状态不能快进！！！");
+        }
+    
+        /**
+         *  切换到暂停，暂停状态不可以切换到暂停状态
+         */
+        @Override
+        public void pause() {
+            System.out.println("ERROR：停止状态不能暂停！！！");
+        }
+    
+        /**
+         *  当前状态
+         */
+        @Override
+        public void stop() {
+            System.out.println("停止播放视频课程状态");
+        }
+    
+    }
+    
+    //测试类：应用层客户端
+    public class Test {
+    
+        public static void main(String[] args) {
+    
+            //声明上下文
+            CourseVideoContext context = new CourseVideoContext();
+    
+            //初始化课程视频状态：首次打开课程视频网页时为播放状态
+            context.setState(CourseVideoContext.PLAY_STATE);
+    
+            System.out.println("当前课程视频状态：" + context.getState().getClass().getSimpleName());
+    
+            //暂停
+            context.pause();
+    
+            System.out.println("当前课程视频状态：" + context.getState().getClass().getSimpleName());
+    
+            //快进
+            context.speed();
+            System.out.println("当前课程视频状态：" + context.getState().getClass().getSimpleName());
+    
+            //停止
+            context.stop();
+            System.out.println("当前课程视频状态：" + context.getState().getClass().getSimpleName());
+    
+            //在停止状态下进行快进，报错
+            context.speed();
+        }
+    
+    }
+    
+    ```
+
+  * 类图 `uml` 
+
+    ![code-1](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/state/code-1.png)
+
+* 源码实践
+  * `jsf` ---> 整个生命周期中不同状态对应不同的状态类，有不同的处理逻辑，通过上下文来控制状态流转
+  * `javax.faces.lifecycle.Lifecycle` 
+  * `javax.faces.webapp.FacesServlet` 
+
+
+
+
+
+
+
+
+
+
 
 
 
