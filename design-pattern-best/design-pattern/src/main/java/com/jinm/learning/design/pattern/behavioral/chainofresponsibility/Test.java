@@ -23,7 +23,7 @@ public class Test {
         videoApprover.approver = articleApprover;
         //这里注意不要进行循环调用，会造成  stack over flow
         //articleApprover.approver = videoApprover;
-        articleApprover.deploy(course);
+        videoApprover.deploy(course);
 
     }
 
