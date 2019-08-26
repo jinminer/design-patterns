@@ -3845,9 +3845,32 @@ public class LazySingletonDoubleCheck {
 
 
 
+### `spring` 中的设计模式
 
+* `spring` 中常用的设计模式
 
+  | 设计模式               | 概述                                       |                             举例                             |
+  | ---------------------- | ------------------------------------------ | :----------------------------------------------------------: |
+  | 工厂模式 `factory`     | 只对结果负责，封装创建过程                 |                `BeanFactory`、<br>`Calender`                 |
+  | 单例模式 `singleton`   | 保证独一无二                               |            `ApplicationContext`、<br/>`Calender`             |
+  | 原型模式 `prototype`   | 拔一根猴毛，吹出千万个                     |              `ArrayList`、<br/>`PrototypeBean`               |
+  | 代理模式 `proxy`       | 找人办事，增强职责                         | `ProxyFactoryBean`、<br/>`JdkDynamicAopProxy`、<br/>`CglibAopProxy` |
+  | 委派模式 `delegate`    | 干活算你的(普通员工)，功劳算我的(项目经理) |    `DispatchServlet`、<br/>`BeanDefinitionParserDelegate`    |
+  | 策略模式 `strategy`    | 用户选择，结果统一                         |                   `InstantiationStrategy`                    |
+  | 模板模式 `template`    | 流程标准化，自己实现定制                   |              `JdbcTemplate`、<br/>`HttpServlet`              |
+  | 适配器模式 `adapter`   | 兼容转换头                                 |           `AdvisorAdapter`、<br/>`HandlerAdapter`            |
+  | 装饰者模式 `decorator` | 包装，同宗同源                             | `BufferedReader`、<br/>`InputStream`、<br/>`OutputStream`、<br/>`HttpHeadResponseDecorator` |
+  | 观察者模式 `observer`  | 任务完成时通知                             |                   `ContextLoaderListener`                    |
 
+* `spring` 编程思想
+
+  | `spring` 设计思想 | 解析                                                         | 概述                   |
+  | ----------------- | ------------------------------------------------------------ | ---------------------- |
+  | `OOP`             | `Object Oriented Programming` 面向对象编程，<br/>用程序归纳总结生活中一切事物 | 继承、封装、多态       |
+  | `BOP`             | `Bean Oriented Programming` 面向 `Bean` 编程，<br/>普通的 `java` 类设计程序 | 一切从 `Bean` 开始     |
+  | `AOP`             | `Aspect Oriented Programming` 面向切面编程，<br/>找出多个类中有一定规律的代码，开发时拆开，运行时再合并，<br/>面向切面编程即面向规则编程 | 解耦，专人做专事       |
+  | `IOC`             | `Inversion Of Control` 控制反转，<br/>将 `new` 对象的动作交给 `Spring` 管理，<br/>并由 `spring` 保存已创建的对象(`IOC`容器) | 转交控制权(即控制反转) |
+  | `DI/DL`           | `Dependency Injection` 依赖注入，<br/>或者 `Dependency Lookup` 依赖查找，<br/> `spring` 不仅保存自己创建的对象，<br/>而且保存对象与对象之间的关系。<br/>注入即赋值：构造方法注入、`set` 方法注入、直接赋值 | 赋值                   |
 
 
 
