@@ -3791,6 +3791,12 @@ public class LazySingletonDoubleCheck {
 
 ### 设计模式之间的关系
 
+
+
+![relation-in-patterns](https://raw.githubusercontent.com/jinminer/docs/master/design-patterns/design-pattern-best/relation-in-patterns.png)
+
+
+
 在实际开发过程中，各种设计模式通常结合使用，并且有些模式之间难以区分，容易混淆
 
 * 单例和工厂模式
@@ -3843,8 +3849,6 @@ public class LazySingletonDoubleCheck {
 * 适配器模式和策略模式
   * 在适配业务复杂的情况下，利用策略模式优化动态适配逻辑
 
-
-
 ### `spring` 中的设计模式
 
 * `spring` 中常用的设计模式
@@ -3867,10 +3871,75 @@ public class LazySingletonDoubleCheck {
   | `spring` 设计思想 | 解析                                                         | 概述                   |
   | ----------------- | ------------------------------------------------------------ | ---------------------- |
   | `OOP`             | `Object Oriented Programming` 面向对象编程，<br/>用程序归纳总结生活中一切事物 | 继承、封装、多态       |
-  | `BOP`             | `Bean Oriented Programming` 面向 `Bean` 编程，<br/>普通的 `java` 类设计程序 | 一切从 `Bean` 开始     |
-  | `AOP`             | `Aspect Oriented Programming` 面向切面编程，<br/>找出多个类中有一定规律的代码，开发时拆开，运行时再合并，<br/>面向切面编程即面向规则编程 | 解耦，专人做专事       |
+  | `BOP`             | `Bean Oriented Programming` 面向 `Bean` 编程，<br/>普通的 `java` 类设计程序。<br/>不需要 `new Bean()` ，声明即可，<br/>只需关注 `Bean` 与 `Bean`之间的关系 | 一切从 `Bean` 开始     |
+  | `AOP`             | `Aspect Oriented Programming` 面向切面编程，<br/>找出多个类中有一定规律的代码，<br/>开发时拆开，运行时再合并，<br/>面向切面编程即面向规则编程。<br/>如日志打印监控、事物开启/关闭、权限等 | 解耦，专人做专事       |
   | `IOC`             | `Inversion Of Control` 控制反转，<br/>将 `new` 对象的动作交给 `Spring` 管理，<br/>并由 `spring` 保存已创建的对象(`IOC`容器) | 转交控制权(即控制反转) |
-  | `DI/DL`           | `Dependency Injection` 依赖注入，<br/>或者 `Dependency Lookup` 依赖查找，<br/> `spring` 不仅保存自己创建的对象，<br/>而且保存对象与对象之间的关系。<br/>注入即赋值：构造方法注入、`set` 方法注入、直接赋值 | 赋值                   |
+  | `DI/DL`           | `Dependency Injection` 依赖注入，<br/>或者 `Dependency Lookup` 依赖查找，<br/> `spring` 不仅保存自己创建的对象，<br/>而且保存对象与对象之间的关系。<br/>注入：构造方法注入、`set` 方法注入、直接赋值(反射) | 赋值                   |
+
+
+
+* `Spring AOP` 应用场景
+  * `Authentication` ---> 权限认证
+  * `Auto caching` ---> 自动缓存
+  * `Error Handling` ---> 统一错误处理
+  * `Debugging` ---> 调试信息输出
+  * `Logging` ---> 日志记录
+  * `Transactions` ---> 事物处理
+
+
+
+* `Spring AOP` 相关概念
+  * `Aspect` 切面：通常是一个类，里面可以定义切入点和通知
+  * `JoinPoint` 连接点：程序执行过程中明确的点，一般是方法的调用
+  * `Advice` 通知：`AOP` 在特定的切入点上执行的增强处理，有 `before` 、`after` 、`afterRetuning` 、`afterThrowing` 、`around` 
+  * `Pointcut` 切入点：就是带有通知的连接点，在程序中主要体现为书写切入点表达式
+
+* `Spring AOP` 之 `Execution` 表达式
+
+  用来描述切面规律的特定“语言”，定义规则，找到一个规律，多个类中的多个方法形成一个切面
+
+  ```java
+  execution(modifiers-pattern ? ret-type-pattern declaring-type-pattern ? name-pattern(param-pattern) throws-pattern ? )
+  ```
+
+  *  `modifiers-pattern` ---> 方法的操作权限
+  * `ref-type-pattern` ---> 返回值(必填)
+  * `declaring-type-pattern` ---> 方法所在的包
+  * `name-pattern` ---> 方法名(必填)
+  * `param-pattern` ---> 参数名
+  * `throws-pattern` ---> 异常
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
