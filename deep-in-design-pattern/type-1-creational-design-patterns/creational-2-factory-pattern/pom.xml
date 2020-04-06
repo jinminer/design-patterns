@@ -7,9 +7,10 @@
         <groupId>com.jinm</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <artifactId>creational-2-factory-pattern</artifactId>
 
+    <name>类别一：创建型二：：工厂模式</name>
 
 </project>

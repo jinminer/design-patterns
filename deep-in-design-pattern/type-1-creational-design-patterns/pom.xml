@@ -12,7 +12,7 @@
     <artifactId>type-1-creational-design-patterns</artifactId>
     <packaging>pom</packaging>
 
-    <name>类型一：创建型模式</name>
+    <name>类别一：创建型模式</name>
     <modules>
         <module>creational-1-singleton-pattern</module>
         <module>creational-2-factory-pattern</module>

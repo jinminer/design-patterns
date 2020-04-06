@@ -3,15 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>type-1-creational-design-patterns</artifactId>
+        <artifactId>type-3-behavioral-design-patterns</artifactId>
         <groupId>com.jinm</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>creational-1-singleton-pattern</artifactId>
+    <artifactId>behavioral-10-iterator-pattern</artifactId>
 
-    <name>类别一：创建型一：：单例模式</name>
-
+    <name>类别三：行为型十：：迭代器模式</name>
 
 </project>

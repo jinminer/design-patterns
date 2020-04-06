@@ -8,9 +8,10 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <artifactId>behavioral-1-template-method-pattern</artifactId>
 
+    <name>类别三：行为型一：：模板方法模式</name>
 
 </project>

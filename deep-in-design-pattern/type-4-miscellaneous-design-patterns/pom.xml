@@ -12,6 +12,12 @@
     <artifactId>type-4-miscellaneous-design-patterns</artifactId>
     <packaging>pom</packaging>
 
-    <name>类型四：其他类型模式</name>
+    <name>类别四：其他类型模式</name>
+
+    <modules>
+        <module>miscellaneous-1-dao-pattern</module>
+        <module>miscellaneous-2-dependency-injection-pattern</module>
+        <module>miscellaneous-3-mvc-pattern</module>
+    </modules>
 
 </project>

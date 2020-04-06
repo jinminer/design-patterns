@@ -12,7 +12,7 @@
     <artifactId>type-3-behavioral-design-patterns</artifactId>
     <packaging>pom</packaging>
 
-    <name>类型一：行为型模式</name>
+    <name>类别三：行为型模式</name>
 
     <modules>
         <module>behavioral-1-template-method-pattern</module>
@@ -20,6 +20,12 @@
         <module>behavioral-3-chain-of-responsibility-pattern</module>
         <module>behavioral-4-observer-pattern</module>
         <module>behavioral-5-strategy-pattern</module>
+        <module>behavioral-6-command-pattern</module>
+        <module>behavioral-7-state-pattern</module>
+        <module>behavioral-8-visitor-pattern</module>
+        <module>behavioral-9-interpreter-pattern</module>
+        <module>behavioral-10-iterator-pattern</module>
+        <module>behavioral-11-memento-pattern</module>
     </modules>
 
 </project>

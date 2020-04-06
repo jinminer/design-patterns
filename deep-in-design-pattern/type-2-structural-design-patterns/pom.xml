@@ -12,7 +12,7 @@
     <artifactId>type-2-structural-design-patterns</artifactId>
     <packaging>pom</packaging>
 
-    <name>类型二：结构型模式</name>
+    <name>类别二：结构型模式</name>
     <modules>
         <module>structural-1-adapter-pattern</module>
         <module>structural-2-composite-pattern</module>
