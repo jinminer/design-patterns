@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>deep-in-design-pattern</artifactId>
+        <groupId>com.jinm</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>type-2-structural-design-patterns</artifactId>
+    <packaging>pom</packaging>
+
+    <name>类型二：结构型模式</name>
+    <modules>
+        <module>structural-1-adapter-pattern</module>
+        <module>structural-2-composite-pattern</module>
+        <module>structural-3-proxy-pattern</module>
+        <module>structural-4-flyweight-pattern</module>
+        <module>structural-5-facade-pattern</module>
+        <module>structural-6-bridge-pattern</module>
+        <module>structural-7-decorator-pattern</module>
+    </modules>
+
+</project>

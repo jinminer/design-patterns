@@ -1,6 +1,8 @@
 # 深入理解设计模式
 Design Patterns are very popular among software developers. A design pattern is a well-described solution to a common software problem. 
 
+
+
 ## Java Design Patterns
 
 Some of the benefits of using design patterns are:
