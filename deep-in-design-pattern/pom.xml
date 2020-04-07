@@ -32,10 +32,10 @@
     </developers>
 
     <modules>
-        <module>type-1-creational-design-patterns</module>
-        <module>type-2-structural-design-patterns</module>
-        <module>type-3-behavioral-design-patterns</module>
-        <module>type-4-miscellaneous-design-patterns</module>
+        <module>category-1-creational-design-patterns</module>
+        <module>category-2-structural-design-patterns</module>
+        <module>category-3-behavioral-design-patterns</module>
+        <module>category-4-miscellaneous-design-patterns</module>
     </modules>
 
     <build>
